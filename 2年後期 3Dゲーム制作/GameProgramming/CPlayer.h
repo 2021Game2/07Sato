@@ -13,11 +13,13 @@
 　キャラクタクラスを継承*/
 class CPlayer : public CCharacter{
 private:
-	bool mJump;
-	int mJumpTimer;
-	int mStep;
+	bool mJump;		//ジャンプができるかの判定
+	int mJumpTimer;	//ジャンプのクールタイム
 
-	int mReloadTime;
+	int mStep;	//瞬間移動に掛けるフレーム数
+	int mStepRecharge; //瞬間移動のクールタイム
+
+	int mReloadTime;	//銃のリロード時間
 
 	float mSpeedX;	//左右加速度
 	float mSpeedY;	//上下加速度

@@ -18,6 +18,15 @@ CVector CVector::operator*(const CMatrix &m){
 		);
 }
 
+//CVector CVector::operator/(const CMatrix& m) {
+//	//Š|‚¯ŽZ‚ÌŒ‹‰Ê‚ðCVectorŒ^‚Ì’l‚Å•Ô‚·
+//	return CVector(
+//		m.mM[3][0] + mZ / m.mM[2][0] + mY / m.mM[1][0] + mX / m.mM[0][0],
+//		m.mM[3][1] + mZ / m.mM[2][1] + mY / m.mM[1][1] + mX / m.mM[0][1],
+//		m.mM[3][2] + mZ / m.mM[2][2] + mY / m.mM[1][2] + mX / m.mM[0][2]
+//	);
+//}
+
 void CVector::Set(float x, float y, float z){
 	mX = x; mY = y; mZ = z;
 }

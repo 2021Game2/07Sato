@@ -8,7 +8,6 @@
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
 #include"CColliderTriangle.h"
-#include"CColliderMesh.h"
 
 #include"CPlayer.h"
 #include"CBillBoard.h"
@@ -24,16 +23,13 @@
 CVector mEye;
 
 //CSound Bgm;
+//CSound Se;
 
 CModel mBackGround; //背景
 
 CModel mPillar;
 CModel mBarricade;
 
-//モデルからコライダを生成
-CColliderMesh mColliderMesh;
-
-CMatrix mBackGroundMatrix;
 
 void CSceneGame::Init() {
 
@@ -41,7 +37,6 @@ void CSceneGame::Init() {
 	mModel.Load("Character.obj", "Character.mtl");
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
-	mBackGround.Load("sky.obj", "sky.mtl");
 
 	//wav読み込み
 	//Bgm.Load(".wav");
@@ -49,24 +44,19 @@ void CSceneGame::Init() {
 	CMatrix matrix;
 	matrix.Print();
 
-	mBackGroundMatrix.Translate(0.0f, -2.0f, 500.0f);
-
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.7f, 0.7f, 0.7f);
-	mPlayer.mPosition = CVector(0.0f, 5.0f, -60.0f) * mBackGroundMatrix;
+	mPlayer.mPosition = CVector(0.0f, 5.0f, 0.0f);
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
-
-	//背景モデルから三角コライダを生成
-	//親インスタンスと親行列は無し
-	mColliderMesh.Set(NULL, &mBackGroundMatrix, &mBackGround);
 
 	//カメラ位置
 	mCamX = 0.0f;
 	mCamY = 15.0f;
 	mCamZ = -20.0f;
+	
 	mFcamX = 0.0f;
-	mFcamY = 5.0f;
+	mFcamY = 10.0f;
 	mFcamZ = 50.0f;
 
 }
@@ -103,12 +93,12 @@ void CSceneGame::Update() {
 	Camera.Set(e, c, u);
 	Camera.Render();
 
-	mBackGround.Render(mBackGroundMatrix);
+	mBackGround.Render();
 
 	//タスクリストの削除
 	CTaskManager::Get()->Delete();
 	//描画
 	CTaskManager::Get()->Render();
 
-	//CCollisionManager::Get()->Render();
+	CCollisionManager::Get()->Render();
 }

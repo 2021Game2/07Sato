@@ -2,15 +2,19 @@
 #define CSCENEGAME_H
 #include"CScene.h"
 #include"CModel.h"
+#include"CMap.h"
 #include"CCharacter.h"
 #include"CPlayer.h"
 #include"CColliderTriangle.h"
+
 
 /*
 ゲームのシーン
 */
 class CSceneGame : public CScene {
 private:
+	CMap mMap;
+
 	float mCamX;
 	float mCamY;
 	float mCamZ;
@@ -18,8 +22,6 @@ private:
 	float mFcamX;
 	float mFcamY;
 	float mFcamZ;
-
-	bool mThurdPerson;
 
 public:
 	//モデルクラスのインスタンス作成

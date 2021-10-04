@@ -12,11 +12,12 @@
 #define JUMPPOWER 0.7f	//ジャンプ力
 #define JUMPRECHARGE 70	//次ジャンプまでの待ち時間
 
-#define STEPSPEED 2
+#define STEPSPEED 20
+#define STEPMOVE 5
 #define STEPRECHARGE 120
 
 #define VELOCITY 0.065f	//移動力
-#define SPEEDREMIT 0.6	//速度制限
+#define SPEEDREMIT 0.8	//速度制限
 #define MOUSESPEEDX 1.2f	//マウス横感度
 #define MOUSESPEEDY 1.2f	//マウス縦感度
 #define SUBERI 2	//滑り易さ
@@ -45,7 +46,9 @@ CPlayer::CPlayer()
 	mSpeedZ = NULL;
 	mJumpTimer = 0;
 	mJump = true;
-	mStep = 0;
+
+	mStep = -1;
+	mStepRecharge = 0;
 
 	mBeforMouseX = 0;
 	mBeforMouseY = 0;
@@ -69,29 +72,28 @@ void CPlayer::Update(){
 	mMousePosX -= 400;
 	mMousePosY = 300 - mMousePosY;
 
+	//重力
 	mSpeedY += GLAVITY;
 	mPosition.mY += mSpeedY;
 
-	if (mPlayerHp >= 0){
-		//スペースキーでジャンプ
-		if (CKey::Once(VK_SPACE) && mJump == true){
-			mSpeedY = JUMPPOWER;
-			mJumpTimer = JUMPRECHARGE;
-			mJump = false;
-		}
-
-		//shiftキーでダッシュ
-		//if (CKey::Once(VK_SHIFT)){
-		//	if (CKey::Push('W')){
-		//		//Z軸の+移動
-		//		mSpeedZ = STEPSPEED;
-		//	}
-
+	if (mPlayerHp >= 0) {
 
 		//CTransformの更新
 		CTransform::Update();
 
 		//移動
+		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.5f) {
+			//shiftキーでダッシュ
+			if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 1.0f) {
+				mSpeedZ += VELOCITY + 0.6f;
+			}
+			//Z軸の+移動
+			mSpeedZ += VELOCITY + 0.3f;
+		}
+		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT) {
+			//Z軸の-移動
+			mSpeedZ -= VELOCITY;
+		}
 		if (CKey::Push('A') && mSpeedX < SPEEDREMIT){
 			//X軸の+移動
 			mSpeedX += VELOCITY;
@@ -100,19 +102,18 @@ void CPlayer::Update(){
 			//X軸の-移動
 			mSpeedX -= VELOCITY;
 		}
-		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT){
-			//Z軸の-移動
-			mSpeedZ -= VELOCITY;
-		}
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.3f){
-			//Z軸の+移動
-			mSpeedZ += VELOCITY;
+
+		//スペースキーでジャンプ
+		if (CKey::Once(VK_SPACE) && mJump == true) {
+			mSpeedY = JUMPPOWER;
+			mJumpTimer = JUMPRECHARGE;
+			mJump = false;
 		}
 
 
 
 		//ここからマウスによる操作
-		//移動量
+		//マウスの移動量
 		mMouseMoveX = mMousePosX - mBeforMouseX;
 		mMouseMoveY = mMousePosY - mBeforMouseY;
 
@@ -143,16 +144,19 @@ void CPlayer::Update(){
 			mReloadTime--;
 		}
 
-		if (CKey::Once(VK_RBUTTON)){
-			mStep = 5;
+		//瞬間移動
+		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0){
+			mStep = STEPMOVE;
 		}
 		if (mStep > 0){
-			mSpeedZ += 12;
+			mSpeedZ += STEPSPEED;
 		}
 		else if (mStep == 0) {
-			mSpeedZ = 0;
+			mSpeedZ = 1;
+			mStepRecharge = 60;
 		}
 		mStep--;
+		mStepRecharge--;
 
 
 		//ここまでマウスの操作
