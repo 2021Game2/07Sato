@@ -49,6 +49,15 @@
     <Filter Include="ソース ファイル\Setting\Transform">
       <UniqueIdentifier>{61416d37-d638-490e-8818-716745643106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\出現物\Targets">
+      <UniqueIdentifier>{1e81c82d-d95a-4377-b824-fd53e10c3d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\出現物\障害物\ダメージブロック">
+      <UniqueIdentifier>{59a6d9d9-bde2-424c-9201-d79ac91153aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\出現物\障害物\ブロック">
+      <UniqueIdentifier>{c1b08bec-2ca5-470b-90d8-70643c9cdcda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Update.cpp">
@@ -148,7 +157,28 @@
       <Filter>ソース ファイル\Setting</Filter>
     </ClCompile>
     <ClCompile Include="CTarget.cpp">
-      <Filter>ソース ファイル\出現物</Filter>
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="CTargetUD.cpp">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="CTargetRL.cpp">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageBlock.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageBlockUD.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageBlockRL.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClCompile>
+    <ClCompile Include="CTargetTouch.cpp">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlock.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,7 +282,28 @@
       <Filter>ソース ファイル\Setting</Filter>
     </ClInclude>
     <ClInclude Include="CTarget.h">
-      <Filter>ソース ファイル\出現物</Filter>
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetUD.h">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetRL.h">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageBlockUD.h">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageBlock.h">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageBlockRL.h">
+      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetTouch.h">
+      <Filter>ソース ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlock.h">
+      <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

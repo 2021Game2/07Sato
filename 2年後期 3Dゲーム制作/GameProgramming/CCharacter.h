@@ -14,10 +14,11 @@ public:
 	enum ETag{
 		EZERO,
 		EPLAYER,
-		EENEMY,
 		EBULLETPLAYER,
-		EBULLETENEMY,
+		ESCOREBLOCK1,	//ìIå^
+		ESCOREBLOCK2,	//ê⁄êGå^
 		EBLOCK,
+		EDAMAGEBLOCK,
 	};
 	ETag mTag;
 

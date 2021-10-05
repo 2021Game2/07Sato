@@ -85,6 +85,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CBarricade.cpp" />
+    <ClCompile Include="CBlock.cpp" />
+    <ClCompile Include="CDamageBlock.cpp" />
+    <ClCompile Include="CDamageBlockRL.cpp" />
+    <ClCompile Include="CDamageBlockUD.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CPillar.cpp" />
@@ -108,6 +112,9 @@
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CTarget.cpp" />
+    <ClCompile Include="CTargetRL.cpp" />
+    <ClCompile Include="CTargetTouch.cpp" />
+    <ClCompile Include="CTargetUD.cpp" />
     <ClCompile Include="CTaskManager.cpp" />
     <ClCompile Include="CText.cpp" />
     <ClCompile Include="CTexture.cpp" />
@@ -120,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBarricade.h" />
+    <ClInclude Include="CBlock.h" />
+    <ClInclude Include="CDamageBlock.h" />
+    <ClInclude Include="CDamageBlockRL.h" />
+    <ClInclude Include="CDamageBlockUD.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CMap.h" />
     <ClInclude Include="CPillar.h" />
@@ -144,6 +155,9 @@
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CTarget.h" />
+    <ClInclude Include="CTargetRL.h" />
+    <ClInclude Include="CTargetTouch.h" />
+    <ClInclude Include="CTargetUD.h" />
     <ClInclude Include="CTask.h" />
     <ClInclude Include="CTaskManager.h" />
     <ClInclude Include="CText.h" />

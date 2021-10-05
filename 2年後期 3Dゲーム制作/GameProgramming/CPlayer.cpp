@@ -12,7 +12,7 @@
 #define JUMPPOWER 0.7f	//ジャンプ力
 #define JUMPRECHARGE 70	//次ジャンプまでの待ち時間
 
-#define STEPSPEED 20
+#define STEPSPEED 17
 #define STEPMOVE 5
 #define STEPRECHARGE 120
 
@@ -24,7 +24,7 @@
 
 #define RELOAD 120
 
-#define PHP 150	//HP
+#define PHP 5	//HP
 
 int CPlayer::mPlayerHp = PHP;
 
@@ -216,7 +216,7 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 
 	case CCollider::ESPHERE:
 		if (CCollider::Collision(m, o)){
-			if (o->mpParent->mTag == EBULLETENEMY){
+			if (o->mpParent->mTag == EDAMAGEBLOCK){
 				mPlayerHp--;
 				new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 				break;

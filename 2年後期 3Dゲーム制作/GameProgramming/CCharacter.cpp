@@ -4,6 +4,7 @@
 CCharacter::CCharacter()
 : mTag(EZERO)
 {
+	mpModel = NULL;
 	//タスクリストに追加
 	CTaskManager::Get()->Add(this);
 }

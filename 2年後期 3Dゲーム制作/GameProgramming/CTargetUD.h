@@ -1,20 +1,17 @@
-#ifndef CTARGET_H
-#define CTARGET_H
+#ifndef CTARGETUD_H
+#define CTARGETUD_H
 
 #include"CCharacter.h"
-#include"CBullet.h"
-#include"CTaskManager.h"
-#include"CColliderTriangle.h"
-#include"CEffect.h"
 
 //的,射撃で破壊され、スコアを加算する
-class CTarget : public CCharacter{
+//上下移動
+class CTargetUD : public CCharacter {
 private:
 
 
 public:
 
-	CTarget();
+	CTargetUD();
 
 	void Update();
 
