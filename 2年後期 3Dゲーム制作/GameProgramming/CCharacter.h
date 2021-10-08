@@ -15,6 +15,7 @@ public:
 		EZERO,
 		EPLAYER,
 		EBULLETPLAYER,
+		EMAP,
 		ESCOREBLOCK1,	//ìIå^
 		ESCOREBLOCK2,	//ê⁄êGå^
 		EBLOCK,

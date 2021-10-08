@@ -45,8 +45,8 @@ void CSceneGame::Init() {
 	matrix.Print();
 
 	mPlayer.mpModel = &mModel;
-	mPlayer.mScale = CVector(1.0f, 1.0f, 1.0f);
-	mPlayer.mPosition = CVector(0.0f, 5.0f, 6.0f);
+	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
+	mPlayer.mPosition = CVector(0.0f, 15.0f, 6.0f);
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 

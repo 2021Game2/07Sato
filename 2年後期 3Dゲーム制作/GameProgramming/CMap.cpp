@@ -7,7 +7,7 @@ CMap::CMap()
 	mScale = CVector(1.0f, 1.0f, 1.0f);
 	CTransform::Update();
 
-	mStage.Load("sky.obj", "sky.mtl");
+	mStage.Load("stage.obj", "stage.mtl");
 	mpModel = &mStage;
 
 	//背景モデルから三角コライダを生成

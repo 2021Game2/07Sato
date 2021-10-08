@@ -8,8 +8,8 @@
 #include"CInput.h"
 #include"CSound.h"
 
-#define GLAVITY -0.02f //重力
-#define JUMPPOWER 0.7f	//ジャンプ力
+#define GLAVITY -0.05f //重力
+#define JUMPPOWER 2.0f	//ジャンプ力
 #define JUMPRECHARGE 70	//次ジャンプまでの待ち時間
 
 #define STEPSPEED 17
@@ -72,23 +72,17 @@ void CPlayer::Update(){
 	mMousePosX -= 400;
 	mMousePosY = 300 - mMousePosY;
 
-	//重力
-	mSpeedY += GLAVITY;
-	mPosition.mY += mSpeedY;
-
 	if (mPlayerHp >= 0) {
 
-		//CTransformの更新
-		CTransform::Update();
+		//shiftキーでダッシュ
+		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 5.0f) {
+			mSpeedZ += VELOCITY + 0.4f;
+		}
 
 		//移動
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.5f) {
-			//shiftキーでダッシュ
-			if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 1.0f) {
-				mSpeedZ += VELOCITY + 0.6f;
-			}
+		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.4f) {
 			//Z軸の+移動
-			mSpeedZ += VELOCITY + 0.3f;
+			mSpeedZ += VELOCITY + 0.2f;
 		}
 		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT) {
 			//Z軸の-移動
@@ -102,6 +96,7 @@ void CPlayer::Update(){
 			//X軸の-移動
 			mSpeedX -= VELOCITY;
 		}
+
 
 		//スペースキーでジャンプ
 		if (CKey::Once(VK_SPACE) && mJump == true) {
@@ -164,6 +159,9 @@ void CPlayer::Update(){
 
 	//位置の移動
 	mPosition = CVector(mSpeedX,0.0f,mSpeedZ) * mMatrix;
+	//重力
+	mSpeedY += GLAVITY;
+	mPosition.mY += mSpeedY;
 
 	//慣性擬き
 	if (mPosition.mY < 5){
@@ -189,6 +187,9 @@ void CPlayer::Update(){
 	if (mJumpTimer >= 0)
 	mJumpTimer--;
 
+	//CTransformの更新
+	CTransform::Update();
+
 }
 
 //接触判定
@@ -199,19 +200,20 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE){
-			CVector adjust; //	調整用ベクトル
-			//三角形と線分の衝突判定
-			CCollider::CollisionTriangleLine(o, m, &adjust);
-			//位置の更新(mPosition + adjust)
-			mPosition = mPosition - adjust * -1;
-			//疑似着地
-			if (mPosition.mY < 1.6f && mJumpTimer < 0){
-				mJump = true;
-				if (mPosition.mY < 0.5f)
-					mSpeedY += 0.002f;
-			}
-			CTransform::Update();
-			break;
+				CVector adjust; //	調整用ベクトル
+				//三角形と線分の衝突判定
+				CCollider::CollisionTriangleLine(o, m, &adjust);
+				//位置の更新(mPosition + adjust)
+				mPosition = mPosition - adjust * -1;
+
+				//疑似着地
+				if (mPosition.mY < 1.6f && mJumpTimer < 0) {
+					mJump = true;
+					if (mPosition.mY < 1)
+						mSpeedY += 0.01f;
+				}
+				CTransform::Update();
+				break;
 		}
 
 	case CCollider::ESPHERE:
@@ -238,27 +240,27 @@ void CPlayer::Render(){
 	//文字列編集エリアの作成
 	char buf[64];
 
-	////速度表示
-	////文字列の設定
-	//sprintf(buf, "PY:%5f", mPosition.mY);
-	////文字列の描画
-	//mText.DrawString(buf, -300, 200, 8, 16);
+	//速度表示
+	//文字列の設定
+	sprintf(buf, "PY:%5f", mPosition.mY);
+	//文字列の描画
+	mText.DrawString(buf, -300, 200, 8, 16);
 
-	////速度表示
-	////文字列の設定
+	//速度表示
+	//文字列の設定
 	//sprintf(buf, "VX:%f", mSpeedX);
-	////文字列の描画
+	//文字列の描画
 	//mText.DrawString(buf, -300, 200, 8, 16);
 
-	////文字列の設定
-	//sprintf(buf, "VY:%f", mSpeedY);
-	////文字列の描画
-	//mText.DrawString(buf, -300, 150, 8, 16);
+	//文字列の設定
+	sprintf(buf, "VY:%f", mSpeedY);
+	//文字列の描画
+	mText.DrawString(buf, -300, 150, 8, 16);
 
-	////文字列の設定
-	//sprintf(buf, "VZ:%f", mSpeedZ);
-	////文字列の描画
-	//mText.DrawString(buf, -300, 100, 8, 16);
+	//文字列の設定
+	sprintf(buf, "VZ:%f", mSpeedZ);
+	//文字列の描画
+	mText.DrawString(buf, -300, 100, 8, 16);
 
 
 	//文字列の設定
