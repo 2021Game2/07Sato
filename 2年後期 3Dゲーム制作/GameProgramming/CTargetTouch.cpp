@@ -1,6 +1,6 @@
 #include "CTargetTouch.h"
 
-CTargetTouch::CTargetTouch() {
+CTargetTouch::CTargetTouch(const CVector& position, const CVector& rotation, const CVector& scale) {
 
 }
 

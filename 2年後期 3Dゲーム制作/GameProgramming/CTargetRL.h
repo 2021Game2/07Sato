@@ -11,7 +11,7 @@ private:
 
 public:
 
-	CTargetRL();
+	CTargetRL(const CVector& position, const CVector& rotation, const CVector& scale);
 
 	void Update();
 

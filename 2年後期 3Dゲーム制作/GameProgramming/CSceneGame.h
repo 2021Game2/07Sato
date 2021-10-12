@@ -27,6 +27,13 @@ public:
 	//モデルクラスのインスタンス作成
 	CModel mModel;
 
+	CModel mBackGround; //背景
+
+	CModel mTarget;
+
+	CModel mPillar;
+	CModel mBarricade;
+
 	CPlayer mPlayer;
 
 	//初期化処理のオーバーライド

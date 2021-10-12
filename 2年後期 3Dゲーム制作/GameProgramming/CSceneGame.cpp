@@ -10,6 +10,10 @@
 #include"CColliderTriangle.h"
 
 #include"CPlayer.h"
+#include"CTarget.h"
+#include"CTargetRL.h"
+#include"CTargetUD.h"
+#include"CBlock.h"
 #include"CBillBoard.h"
 #include"CSphere.h"
 #include"CBarricade.h"
@@ -25,11 +29,6 @@ CVector mEye;
 //CSound Bgm;
 //CSound Se;
 
-CModel mBackGround; //îwåi
-
-CModel mPillar;
-CModel mBarricade;
-
 
 void CSceneGame::Init() {
 
@@ -37,6 +36,8 @@ void CSceneGame::Init() {
 	mModel.Load("Character.obj", "Character.mtl");
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
+	mTarget.Load("Target.obj", "Target.mtl");
+
 
 	//wavì«Ç›çûÇ›
 	//Bgm.Load(".wav");
@@ -49,6 +50,10 @@ void CSceneGame::Init() {
 	mPlayer.mPosition = CVector(0.0f, 15.0f, 6.0f);
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
+	new CTarget(&mTarget,
+		CVector(5.0f, 1.0f, 50.0f),
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
 
 	//ÉJÉÅÉâà íu
 	mCamX = 0.0f;

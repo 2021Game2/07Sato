@@ -11,7 +11,7 @@ private:
 
 public:
 
-	CTargetUD();
+	CTargetUD(const CVector& position, const CVector& rotation, const CVector& scale);
 
 	void Update();
 

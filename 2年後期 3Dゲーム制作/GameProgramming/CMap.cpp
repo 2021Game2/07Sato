@@ -3,11 +3,11 @@
 
 CMap::CMap()
 {
-	mPosition = CVector(0.0f, 0.0f, 0.0f);
+	mPosition = CVector(0.0f, -1.0f, 0.0f);
 	mScale = CVector(1.0f, 1.0f, 1.0f);
 	CTransform::Update();
 
-	mStage.Load("stage.obj", "stage.mtl");
+	mStage.Load("Load Base.obj", "Load Base.mtl");
 	mpModel = &mStage;
 
 	//背景モデルから三角コライダを生成

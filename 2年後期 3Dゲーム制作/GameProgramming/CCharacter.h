@@ -13,13 +13,14 @@ class CCharacter : public CTransform,public CTask{
 public:
 	enum ETag{
 		EZERO,
-		EPLAYER,
-		EBULLETPLAYER,
-		EMAP,
+		EPLAYER,		//プレイヤー本体
+		EBULLETPLAYER,	//プレイヤーの弾
+		EMAP,			//地面
 		ESCOREBLOCK1,	//的型
 		ESCOREBLOCK2,	//接触型
-		EBLOCK,
-		EDAMAGEBLOCK,
+		EBLOCK,			//障害物
+		EDAMAGEBLOCK,	//ダメージ有の障害物
+		EGOAL,			//ゴール
 	};
 	ETag mTag;
 

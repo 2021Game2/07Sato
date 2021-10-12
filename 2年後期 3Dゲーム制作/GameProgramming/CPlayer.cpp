@@ -209,9 +209,14 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				//‹^Ž—’…’n
 				if (mPosition.mY < 1.6f && mJumpTimer < 0) {
 					mJump = true;
+					if (mStep > 0) {
+						mSpeedZ = 0;
+						mPosition.mY += 0.001f;
+					}
 					if (mPosition.mY < 1)
 						mSpeedY += 0.01f;
 				}
+
 				CTransform::Update();
 				break;
 		}
@@ -274,9 +279,6 @@ void CPlayer::Render(){
 	sprintf(buf, "[+]");
 	//•¶Žš—ñ‚Ì•`‰æ
 	mText.DrawString(buf, -30, 20, 15, 15);
-
-	//I—¹”»’è
-	
 
 	//2D•`‰æI—¹
 	CUtil::End2D();

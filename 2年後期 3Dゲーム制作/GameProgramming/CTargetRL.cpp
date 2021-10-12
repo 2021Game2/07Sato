@@ -1,6 +1,8 @@
 #include "CTargetRL.h"
 
-CTargetRL::CTargetRL() {
+
+CTargetRL::CTargetRL(const CVector& position, const CVector& rotation, const CVector& scale) {
+
 
 }
 

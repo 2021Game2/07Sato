@@ -4,6 +4,7 @@
 #include"CCharacter.h"
 #include"CBullet.h"
 #include"CTaskManager.h"
+#include"CCollider.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
 
@@ -14,7 +15,11 @@ private:
 
 public:
 
-	CTarget();
+	static CModel mTarget;
+	//ƒRƒ‰ƒCƒ_
+	CCollider mCollider;
+
+	CTarget(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();
 

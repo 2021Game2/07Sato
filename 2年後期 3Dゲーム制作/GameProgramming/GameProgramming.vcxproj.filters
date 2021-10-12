@@ -58,6 +58,12 @@
     <Filter Include="ソース ファイル\出現物\障害物\ブロック">
       <UniqueIdentifier>{c1b08bec-2ca5-470b-90d8-70643c9cdcda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\出現物\Player系">
+      <UniqueIdentifier>{6ea70ae6-57dc-4c8d-b7d1-f24b07108403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\出現物\Stage">
+      <UniqueIdentifier>{d3cb4aca-0a0a-40af-a7ff-04c967ca2b17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Update.cpp">
@@ -87,9 +93,6 @@
     <ClCompile Include="CBillBoard.cpp">
       <Filter>ソース ファイル\出現物</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
-      <Filter>ソース ファイル\出現物</Filter>
-    </ClCompile>
     <ClCompile Include="CSound.cpp">
       <Filter>ソース ファイル\エフェクト類</Filter>
     </ClCompile>
@@ -110,12 +113,6 @@
     </ClCompile>
     <ClCompile Include="CBarricade.cpp">
       <Filter>ソース ファイル\出現物\障害物</Filter>
-    </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
-      <Filter>ソース ファイル\出現物</Filter>
-    </ClCompile>
-    <ClCompile Include="CMap.cpp">
-      <Filter>ソース ファイル\シーン</Filter>
     </ClCompile>
     <ClCompile Include="CVector.cpp">
       <Filter>ソース ファイル\Setting\Vector</Filter>
@@ -180,6 +177,18 @@
     <ClCompile Include="CBlock.cpp">
       <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>ソース ファイル\出現物\Player系</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>ソース ファイル\出現物\Player系</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>ソース ファイル\出現物\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CGoal.cpp">
+      <Filter>ソース ファイル\出現物\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Update.h">
@@ -212,9 +221,6 @@
     <ClInclude Include="CBillBoard.h">
       <Filter>ソース ファイル\出現物</Filter>
     </ClInclude>
-    <ClInclude Include="CBullet.h">
-      <Filter>ソース ファイル\出現物</Filter>
-    </ClInclude>
     <ClInclude Include="CSound.h">
       <Filter>ソース ファイル\エフェクト類</Filter>
     </ClInclude>
@@ -232,12 +238,6 @@
     </ClInclude>
     <ClInclude Include="CBarricade.h">
       <Filter>ソース ファイル\出現物\障害物</Filter>
-    </ClInclude>
-    <ClInclude Include="CPlayer.h">
-      <Filter>ソース ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CMap.h">
-      <Filter>ソース ファイル\シーン</Filter>
     </ClInclude>
     <ClInclude Include="CVector.h">
       <Filter>ソース ファイル\Setting\Vector</Filter>
@@ -304,6 +304,18 @@
     </ClInclude>
     <ClInclude Include="CBlock.h">
       <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>ソース ファイル\出現物\Player系</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>ソース ファイル\出現物\Player系</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>ソース ファイル\出現物\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="CGoal.h">
+      <Filter>ソース ファイル\出現物\Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

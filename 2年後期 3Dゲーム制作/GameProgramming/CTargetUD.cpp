@@ -1,6 +1,7 @@
 #include "CTargetUD.h"
 
-CTargetUD::CTargetUD() {
+
+CTargetUD::CTargetUD(const CVector& position, const CVector& rotation, const CVector& scale) {
 
 }
 

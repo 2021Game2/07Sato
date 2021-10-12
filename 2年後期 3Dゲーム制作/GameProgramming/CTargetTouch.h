@@ -10,7 +10,7 @@ private:
 
 public:
 
-	CTargetTouch();
+	CTargetTouch(const CVector& position, const CVector& rotation, const CVector& scale);
 
 	void Update();
 
