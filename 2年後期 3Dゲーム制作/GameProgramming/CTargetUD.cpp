@@ -1,8 +1,20 @@
 #include "CTargetUD.h"
+#include"CSound.h"
+#include"CTaskManager.h"
+#include"CEffect.h"
+#include"CCollisionManager.h"
 
+CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale) {
+	//ƒ‚ƒfƒ‹,ˆÊ’u,‰ñ“],Šgk‚ðÝ’è
+	mpModel = model;		//ƒ‚ƒfƒ‹‚ÌÝ’è
+	mPosition = position;	//ˆÊ’u‚ÌÝ’è
+	mRotation = rotation;	//‰ñ“]‚ÌÝ’è
+	mScale = scale;			//Šgk‚ÌÝ’è
+	mTag = ESCOREBLOCK1;
 
-CTargetUD::CTargetUD(const CVector& position, const CVector& rotation, const CVector& scale) {
-
+	mPriority = 1; //—Dæ“x1
+	CTaskManager::Get()->Remove(this);
+	CTaskManager::Get()->Add(this);
 }
 
 void CTargetUD::Update() {
@@ -15,5 +27,6 @@ void CTargetUD::Collision(CCollider* m, CCollider* o) {
 }
 
 void CTargetUD::TaskCollision() {
-
+	mCollider.ChangePriority();
+	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
 }

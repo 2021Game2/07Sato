@@ -3,7 +3,6 @@
 
 #include"CCharacter.h"
 #include"CBullet.h"
-#include"CTaskManager.h"
 #include"CCollider.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
@@ -15,7 +14,6 @@ private:
 
 public:
 
-	static CModel mTarget;
 	//ƒRƒ‰ƒCƒ_
 	CCollider mCollider;
 

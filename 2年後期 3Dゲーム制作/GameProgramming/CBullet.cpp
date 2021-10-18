@@ -37,7 +37,7 @@ void CBullet::Update(){
 	if (mLife-- > 0){
 		CTransform::Update();
 		//ˆÊ’uXV
-		mPosition = CVector(0.0f, 0.0f, 6.5f) * mMatrix;
+		mPosition = CVector(0.0f, 0.0f, 12.0f) * mMatrix;
 	}
 	else{
 		//–³Œø‚É‚·‚é

@@ -7,6 +7,7 @@
 #include"CUtil.h"
 #include"CInput.h"
 #include"CSound.h"
+#include"CAim.h"
 
 #define GLAVITY -0.05f //重力
 #define JUMPPOWER 2.0f	//ジャンプ力
@@ -18,8 +19,6 @@
 
 #define VELOCITY 0.065f	//移動力
 #define SPEEDREMIT 0.8	//速度制限
-#define MOUSESPEEDX 1.2f	//マウス横感度
-#define MOUSESPEEDY 1.2f	//マウス縦感度
 #define SUBERI 2	//滑り易さ
 
 #define RELOAD 120
@@ -50,32 +49,17 @@ CPlayer::CPlayer()
 	mStep = -1;
 	mStepRecharge = 0;
 
-	mBeforMouseX = 0;
-	mBeforMouseY = 0;
-	mMouseMoveX = 0;
-	mMouseMoveY = 0;
-
 	mReloadTime = 0;
-
-	mMouseSpeedX = MOUSESPEEDX;
-	mMouseSpeedY = MOUSESPEEDY;
 }
 
 //更新処理
 void CPlayer::Update(){
-  //マウス設定
-	float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
-	//マウスカーソル座標の取得
-	CInput::GetMousePos(&mMousePosX, &mMousePosY);
-
-	//ゲーム画面中心からの座標へ変換
-	mMousePosX -= 400;
-	mMousePosY = 300 - mMousePosY;
-
+  
 	if (mPlayerHp >= 0) {
 
 		//shiftキーでダッシュ
 		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 5.0f) {
+			if(CKey::Push('W'))
 			mSpeedZ += VELOCITY + 0.4f;
 		}
 
@@ -108,19 +92,7 @@ void CPlayer::Update(){
 
 
 		//ここからマウスによる操作
-		//マウスの移動量
-		mMouseMoveX = mMousePosX - mBeforMouseX;
-		mMouseMoveY = mMousePosY - mBeforMouseY;
 
-		//視点操作
-		mRotation.mX -= mMouseMoveY / mMouseSpeedX;
-		mRotation.mY -= mMouseMoveX / mMouseSpeedY;
-
-		if (mRotation.mX < -90)
-			mRotation.mX = -89;
-
-		if (mRotation.mX > 85)
-			mRotation.mX = 84;
 
 
 
@@ -181,8 +153,7 @@ void CPlayer::Update(){
 		}
 	}
 
-	mBeforMouseX = mMousePosX;
-	mBeforMouseY = mMousePosY;
+	mRotation.mY += CAim::mRotateCamY;
 
 	if (mJumpTimer >= 0)
 	mJumpTimer--;
@@ -196,13 +167,13 @@ void CPlayer::Update(){
 void CPlayer::Collision(CCollider *m, CCollider *o){
 	//自身のコライダタイプで判定
 	switch (m->mType){
-	case CCollider::ELINE: //線分コライダ
+	case CCollider::ESPHERE:
 
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE){
 				CVector adjust; //	調整用ベクトル
 				//三角形と線分の衝突判定
-				CCollider::CollisionTriangleLine(o, m, &adjust);
+				CCollider::CollisionTriangleSphere(o, m, &adjust);
 				//位置の更新(mPosition + adjust)
 				mPosition = mPosition - adjust * -1;
 
@@ -221,7 +192,7 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				break;
 		}
 
-	case CCollider::ESPHERE:
+	case CCollider::ELINE:
 		if (CCollider::Collision(m, o)){
 			if (o->mpParent->mTag == EDAMAGEBLOCK){
 				mPlayerHp--;

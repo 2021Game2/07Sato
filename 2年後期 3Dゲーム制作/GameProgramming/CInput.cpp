@@ -14,14 +14,3 @@ void CInput::GetMousePos(float *px, float *py){
 	return;
 }
 
-//bool CInput::SetMousePos(float *setX,float *setY) {
-//	double xp, yp;
-//	glfwSetCursorPos(mpWindow, &xp, &yp);
-//	
-//	return;
-//}
-//
-//int CInput::ShowCursor(bool bShow) {
-//
-//	return;
-//}

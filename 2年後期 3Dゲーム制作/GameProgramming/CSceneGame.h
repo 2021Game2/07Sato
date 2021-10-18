@@ -2,18 +2,16 @@
 #define CSCENEGAME_H
 #include"CScene.h"
 #include"CModel.h"
-#include"CMap.h"
 #include"CCharacter.h"
 #include"CPlayer.h"
 #include"CColliderTriangle.h"
-
+#include"CColliderMesh.h"
 
 /*
 ゲームのシーン
 */
 class CSceneGame : public CScene {
 private:
-	CMap mMap;
 
 	float mCamX;
 	float mCamY;
@@ -27,12 +25,17 @@ public:
 	//モデルクラスのインスタンス作成
 	CModel mModel;
 
+	CMatrix mBackGroundMatrix;
+	//モデルからコライダを生成
+	CColliderMesh mColliderMesh;
+
+
 	CModel mBackGround; //背景
-
-	CModel mTarget;
-
 	CModel mPillar;
 	CModel mBarricade;
+	CModel mTarget;
+	CModel mTargetTouch;
+	CModel mGoal;
 
 	CPlayer mPlayer;
 

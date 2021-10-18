@@ -8,6 +8,7 @@
 #include"CColliderLine.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
+#include"CAim.h"
 
 /*プレイヤークラス
 　キャラクタクラスを継承*/
@@ -24,13 +25,6 @@ private:
 	float mSpeedX;	//左右加速度
 	float mSpeedY;	//上下加速度
 	float mSpeedZ;	//前後加速度
-
-	float mBeforMouseX;	//直前マウス位置
-	float mBeforMouseY;
-	float mMouseMoveX;	//マウス移動量
-	float mMouseMoveY;
-	float mMouseSpeedX;	//マウス感度
-	float mMouseSpeedY;
 
 public:
 

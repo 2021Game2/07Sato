@@ -2,6 +2,11 @@
 #define CTARGETUD_H
 
 #include"CCharacter.h"
+#include"CBullet.h"
+#include"CCollider.h"
+#include"CColliderTriangle.h"
+#include"CEffect.h"
+
 
 //的,射撃で破壊され、スコアを加算する
 //上下移動
@@ -11,7 +16,10 @@ private:
 
 public:
 
-	CTargetUD(const CVector& position, const CVector& rotation, const CVector& scale);
+	//コライダ
+	CCollider mCollider;
+
+	CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();
 

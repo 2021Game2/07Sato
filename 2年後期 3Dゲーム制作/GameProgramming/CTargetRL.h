@@ -2,6 +2,10 @@
 #define CTARGETRL_H
 
 #include"CCharacter.h"
+#include"CBullet.h"
+#include"CCollider.h"
+#include"CColliderTriangle.h"
+#include"CEffect.h"
 
 //的,射撃で破壊され、スコアを加算する
 //左右移動
@@ -11,7 +15,10 @@ private:
 
 public:
 
-	CTargetRL(const CVector& position, const CVector& rotation, const CVector& scale);
+	//コライダ
+	CCollider mCollider;
+
+	CTargetRL(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();
 

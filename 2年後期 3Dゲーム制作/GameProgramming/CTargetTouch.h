@@ -2,6 +2,11 @@
 #define CTARGETTOUCH_H
 
 #include"CCharacter.h"
+#include"CBullet.h"
+#include"CCollider.h"
+#include"CColliderTriangle.h"
+#include"CEffect.h"
+
 
 //プレイヤーの接触で破壊され、スコアを加算する
 class CTargetTouch : public CCharacter {
@@ -10,7 +15,10 @@ private:
 
 public:
 
-	CTargetTouch(const CVector& position, const CVector& rotation, const CVector& scale);
+	//コライダ
+	CCollider mCollider;
+
+	CTargetTouch(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();
 

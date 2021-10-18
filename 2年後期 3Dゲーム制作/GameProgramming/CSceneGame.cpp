@@ -13,6 +13,8 @@
 #include"CTarget.h"
 #include"CTargetRL.h"
 #include"CTargetUD.h"
+#include"CTargetTouch.h"
+#include"CGoal.h"
 #include"CBlock.h"
 #include"CBillBoard.h"
 #include"CSphere.h"
@@ -29,15 +31,18 @@ CVector mEye;
 //CSound Bgm;
 //CSound Se;
 
-
 void CSceneGame::Init() {
 
 	//モデルファイルの入力
+
+	mBackGround.Load("Load Base.obj", "Load Base.mtl");
+
 	mModel.Load("Character.obj", "Character.mtl");
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
 	mTarget.Load("Target.obj", "Target.mtl");
-
+	mGoal.Load("Goal.obj", "Goal.mtl");
+	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
 
 	//wav読み込み
 	//Bgm.Load(".wav");
@@ -45,15 +50,31 @@ void CSceneGame::Init() {
 	CMatrix matrix;
 	matrix.Print();
 
+	mBackGroundMatrix.Translate(0.0f, -1.5f, 0.0f);
+
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
-	mPlayer.mPosition = CVector(0.0f, 15.0f, 6.0f);
+	mPlayer.mPosition = CVector(0.0f, 15.0f, 6.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 	new CTarget(&mTarget,
-		CVector(5.0f, 1.0f, 50.0f),
-		CVector(0.0f, 0.0f, 0.0f),
+		CVector(5.0f, 10.0f, -50.0f) * mBackGroundMatrix,
+		CVector(),
 		CVector(1.0f, 1.0f, 1.0f));
+
+	new CGoal(&mGoal,
+		CVector(0.0f, 1.0f, 50.0f) * mBackGroundMatrix,
+		CVector(),
+		CVector(1.0f, 1.0f, 1.0f));
+
+
+	new CTargetTouch(&mTargetTouch,
+		CVector(0.0f, 1.0f, 50.0f) * mBackGroundMatrix,
+		CVector(),
+		CVector(1.0f, 1.0f, 1.0f));
+
+	mColliderMesh.Set(NULL, &mBackGroundMatrix, &mBackGround);
+
 
 	//カメラ位置
 	mCamX = 0.0f;
