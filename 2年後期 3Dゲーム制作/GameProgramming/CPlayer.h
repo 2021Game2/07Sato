@@ -12,7 +12,7 @@
 
 /*プレイヤークラス
 　キャラクタクラスを継承*/
-class CPlayer : public CCharacter{
+class CPlayer : public CCharacter,CAim{
 private:
 	bool mJump;		//ジャンプができるかの判定
 	int mJumpTimer;	//ジャンプのクールタイム

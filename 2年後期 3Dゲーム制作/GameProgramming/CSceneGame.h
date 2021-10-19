@@ -36,8 +36,10 @@ public:
 	CModel mTarget;
 	CModel mTargetTouch;
 	CModel mGoal;
+	//CModel mGun;
 
 	CPlayer mPlayer;
+	CAim mAim;
 
 	//初期化処理のオーバーライド
 	void Init();

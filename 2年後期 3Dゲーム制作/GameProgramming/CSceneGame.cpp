@@ -43,6 +43,7 @@ void CSceneGame::Init() {
 	mTarget.Load("Target.obj", "Target.mtl");
 	mGoal.Load("Goal.obj", "Goal.mtl");
 	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
+	//mGun.Load("Gun.obj", "Gun.mtl");
 
 	//wavì«Ç›çûÇ›
 	//Bgm.Load(".wav");
@@ -54,24 +55,25 @@ void CSceneGame::Init() {
 
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
-	mPlayer.mPosition = CVector(0.0f, 15.0f, 6.0f) * mBackGroundMatrix;
+	mPlayer.mPosition = CVector(0.0f, 5.0f, -200.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
+
 	new CTarget(&mTarget,
-		CVector(5.0f, 10.0f, -50.0f) * mBackGroundMatrix,
+		CVector(5.0f, 5.0f, -50.0f) * mBackGroundMatrix,
 		CVector(),
 		CVector(1.0f, 1.0f, 1.0f));
-
-	new CGoal(&mGoal,
-		CVector(0.0f, 1.0f, 50.0f) * mBackGroundMatrix,
-		CVector(),
-		CVector(1.0f, 1.0f, 1.0f));
-
 
 	new CTargetTouch(&mTargetTouch,
-		CVector(0.0f, 1.0f, 50.0f) * mBackGroundMatrix,
+		CVector(0.0f, 9.0f, 50.0f) * mBackGroundMatrix,
 		CVector(),
-		CVector(1.0f, 1.0f, 1.0f));
+		CVector(5.0f, 5.0f, 5.0f));
+
+	new CGoal(&mGoal,
+		CVector(0.0f, 1.0f, 200.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(10.0f, 10.0f, 10.0f));
+
 
 	mColliderMesh.Set(NULL, &mBackGroundMatrix, &mBackGround);
 

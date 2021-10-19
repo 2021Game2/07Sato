@@ -28,8 +28,6 @@ void CAim::Update() {
 	mMousePosX -= 400;
 	mMousePosY = 300 - mMousePosY;
 
-
-
 	//ƒ}ƒEƒX‚ÌˆÚ“®—Ê
 	mMouseMoveX = mMousePosX - mBeforMouseX;
 	mMouseMoveY = mMousePosY - mBeforMouseY;
@@ -38,13 +36,12 @@ void CAim::Update() {
 	mRotateCamX -= mMouseMoveY / mMouseSpeedX;
 	mRotateCamY -= mMouseMoveX / mMouseSpeedY;
 
-	if (mRotateCamX < -90)
-		mRotateCamX = -89;
+	if (mRotateCamX < -80)
+		mRotateCamX = -79;
 
-	if (mRotateCamX > 85)
-		mRotateCamX = 84;
+	if (mRotateCamX > 75)
+		mRotateCamX = 74;
 
 	mBeforMouseX = mMousePosX;
 	mBeforMouseY = mMousePosY;
-
 }

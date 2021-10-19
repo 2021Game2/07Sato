@@ -21,7 +21,7 @@
 #define SPEEDREMIT 0.8	//速度制限
 #define SUBERI 2	//滑り易さ
 
-#define RELOAD 120
+#define RELOAD 80
 
 #define PHP 5	//HP
 
@@ -32,7 +32,7 @@ CText mText;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -6.0f, 0.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 10.0f, 0.0f), CVector(0.0f, -10.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mLine4(this, &mMatrix, CVector(0.0f, 4.0f, 4.0f), CVector(0.0f, -4.0f, -4.0f))
 , mLine5(this, &mMatrix, CVector(0.0f, -4.0f, 4.0f), CVector(0.0f, 4.0f, -4.0f))
@@ -54,17 +54,20 @@ CPlayer::CPlayer()
 
 //更新処理
 void CPlayer::Update(){
+
+	//CTransformの更新
+	CTransform::Update();
   
 	if (mPlayerHp >= 0) {
 
 		//shiftキーでダッシュ
-		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 5.0f) {
+		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
 			if(CKey::Push('W'))
 			mSpeedZ += VELOCITY + 0.4f;
 		}
 
 		//移動
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.4f) {
+		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.3f) {
 			//Z軸の+移動
 			mSpeedZ += VELOCITY + 0.2f;
 		}
@@ -92,13 +95,8 @@ void CPlayer::Update(){
 
 
 		//ここからマウスによる操作
-
-
-
-
-
 		//左クリックで弾を発射
-		if (CKey::Push(VK_LBUTTON) && mReloadTime < 0) {
+		if (CKey::Once(VK_LBUTTON) && mReloadTime < 0) {
 			CBullet* bullet = new CBullet();
 			bullet->mTag = CCharacter::EBULLETPLAYER;
 			bullet->Set(0.5f, 4.0f);
@@ -156,11 +154,7 @@ void CPlayer::Update(){
 	mRotation.mY += CAim::mRotateCamY;
 
 	if (mJumpTimer >= 0)
-	mJumpTimer--;
-
-	//CTransformの更新
-	CTransform::Update();
-
+		mJumpTimer--;
 }
 
 //接触判定

@@ -4,7 +4,9 @@
 #include"CEffect.h"
 #include"CCollisionManager.h"
 
-CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale) {
+CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale)
+:mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f) 
+{
 	//モデル,位置,回転,拡縮を設定
 	mpModel = model;		//モデルの設定
 	mPosition = position;	//位置の設定
@@ -18,7 +20,7 @@ CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector 
 }
 
 void CTargetUD::Update() {
-
+	CTransform::Update();
 
 }
 

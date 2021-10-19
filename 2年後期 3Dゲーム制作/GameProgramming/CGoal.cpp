@@ -5,7 +5,8 @@
 
 bool CGoal::mTouchGoal;
 
-CGoal::CGoal(CModel* model, CVector position, CVector rotation, CVector scale) {
+CGoal::CGoal(CModel* model, CVector position, CVector rotation, CVector scale)
+:mCollider(this, &mMatrix, CVector(0.0f, 2.0f, 0.0f), 30.0f) {
 	//ƒ‚ƒfƒ‹,ˆÊ’u,‰ñ“],Šgk‚ðÝ’è
 	mpModel = model;		//ƒ‚ƒfƒ‹‚ÌÝ’è
 	mPosition = position;	//ˆÊ’u‚ÌÝ’è
@@ -21,12 +22,12 @@ CGoal::CGoal(CModel* model, CVector position, CVector rotation, CVector scale) {
 }
 
 void CGoal::Update() {
-
+	CTransform::Update();
 }
 
 //Õ“Ëˆ—
 void CGoal::Collision(CCollider* m, CCollider* o) {
-	if (o->mTag == CCharacter::EPLAYER) {
+	if (o->mTag == EPLAYER) {
 		mTouchGoal == true;
 	}
 }

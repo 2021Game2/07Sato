@@ -88,8 +88,6 @@
     <ClCompile Include="CBarricade.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CDamageBlock.cpp" />
-    <ClCompile Include="CDamageBlockRL.cpp" />
-    <ClCompile Include="CDamageBlockUD.cpp" />
     <ClCompile Include="CGoal.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CPillar.cpp" />
@@ -131,8 +129,6 @@
     <ClInclude Include="CBarricade.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CDamageBlock.h" />
-    <ClInclude Include="CDamageBlockRL.h" />
-    <ClInclude Include="CDamageBlockUD.h" />
     <ClInclude Include="CGoal.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CPillar.h" />

@@ -19,9 +19,6 @@
     <Filter Include="ソース ファイル\出現物\障害物">
       <UniqueIdentifier>{14a2b017-e231-4655-b7d6-c2c23d11a35f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\出現物\障害物\ダメージブロック">
-      <UniqueIdentifier>{59a6d9d9-bde2-424c-9201-d79ac91153aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\出現物\障害物\ブロック">
       <UniqueIdentifier>{c1b08bec-2ca5-470b-90d8-70643c9cdcda}</UniqueIdentifier>
     </Filter>
@@ -73,8 +70,44 @@
     <Filter Include="ヘッダー ファイル\出現物\障害物">
       <UniqueIdentifier>{8af496c1-0252-41f7-a65d-589b56cf7994}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\出現物\Player">
+    <Filter Include="ヘッダー ファイル\Setting">
+      <UniqueIdentifier>{0c83d4e8-b514-4b87-9a36-5af2b8a67ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\エフェクト類">
+      <UniqueIdentifier>{0330321b-9440-4cbb-aad7-47f6d49459e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\シーン">
+      <UniqueIdentifier>{2562027b-fd74-455d-a22d-e0706c94c2e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\Material">
+      <UniqueIdentifier>{4e437732-c23c-483b-8d9c-94294a17acea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\Matrix">
+      <UniqueIdentifier>{6d7193c2-47a0-4464-8cb1-dffa89802e5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\Task">
+      <UniqueIdentifier>{2e1c9431-367b-4ede-a823-ba07a9f59c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\Transform">
+      <UniqueIdentifier>{8e2b826c-aef3-4b88-bed2-336dddd0cc3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\Vector">
+      <UniqueIdentifier>{29fab2f3-bb07-409f-84e7-9baa3a0c2b30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Setting\表示系">
+      <UniqueIdentifier>{8f372417-6706-4ffe-9970-0eea18181c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\出現物\stage">
+      <UniqueIdentifier>{2cc35be4-a65b-448c-87f4-260bf840034b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\出現物\Targets">
+      <UniqueIdentifier>{d9d6bde0-cbd4-4b4b-a414-eee0c329fff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\出現物\Player系">
       <UniqueIdentifier>{312202a6-ca0d-4fc9-846d-93851ccf570e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\出現物\障害物\ブロック">
+      <UniqueIdentifier>{df42740d-c200-49a6-a770-9b84dba53578}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +171,6 @@
     <ClCompile Include="CMaterial.cpp">
       <Filter>ソース ファイル\Setting\Material</Filter>
     </ClCompile>
-    <ClCompile Include="CKey.cpp">
-      <Filter>ソース ファイル\Setting\表示系</Filter>
-    </ClCompile>
     <ClCompile Include="CModel.cpp">
       <Filter>ソース ファイル\Setting\表示系</Filter>
     </ClCompile>
@@ -174,15 +204,6 @@
     <ClCompile Include="CTargetRL.cpp">
       <Filter>ソース ファイル\出現物\Targets</Filter>
     </ClCompile>
-    <ClCompile Include="CDamageBlock.cpp">
-      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
-    </ClCompile>
-    <ClCompile Include="CDamageBlockUD.cpp">
-      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
-    </ClCompile>
-    <ClCompile Include="CDamageBlockRL.cpp">
-      <Filter>ソース ファイル\出現物\障害物\ダメージブロック</Filter>
-    </ClCompile>
     <ClCompile Include="CTargetTouch.cpp">
       <Filter>ソース ファイル\出現物\Targets</Filter>
     </ClCompile>
@@ -201,90 +222,15 @@
     <ClCompile Include="CAim.cpp">
       <Filter>ソース ファイル\出現物\Player系</Filter>
     </ClCompile>
+    <ClCompile Include="CKey.cpp">
+      <Filter>ソース ファイル\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="CDamageBlock.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CKey.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CText.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CTexture.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CTriangle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CTransform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CTaskManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CTask.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CMatrix.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaterial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Update.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CBillBoard.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CSound.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CSceneGame.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CSceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CUtil.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CInput.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="CCharacter.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CGoal.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CPillar.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CTarget.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CTargetRL.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CTargetTouch.h">
-      <Filter>ヘッダー ファイル\出現物</Filter>
-    </ClInclude>
-    <ClInclude Include="CTargetUD.h">
       <Filter>ヘッダー ファイル\出現物</Filter>
     </ClInclude>
     <ClInclude Include="CCollider.h">
@@ -302,32 +248,107 @@
     <ClInclude Include="CCollisionManager.h">
       <Filter>ヘッダー ファイル\接触判定</Filter>
     </ClInclude>
-    <ClInclude Include="CDamageBlock.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
-    </ClInclude>
-    <ClInclude Include="CDamageBlockRL.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
-    </ClInclude>
-    <ClInclude Include="CDamageBlockUD.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
-    </ClInclude>
     <ClInclude Include="CSphere.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
-    </ClInclude>
-    <ClInclude Include="CBlock.h">
       <Filter>ヘッダー ファイル\出現物\障害物</Filter>
     </ClInclude>
     <ClInclude Include="CBarricade.h">
       <Filter>ヘッダー ファイル\出現物\障害物</Filter>
     </ClInclude>
     <ClInclude Include="CBullet.h">
-      <Filter>ヘッダー ファイル\出現物\Player</Filter>
+      <Filter>ヘッダー ファイル\出現物\Player系</Filter>
     </ClInclude>
     <ClInclude Include="CPlayer.h">
-      <Filter>ヘッダー ファイル\出現物\Player</Filter>
+      <Filter>ヘッダー ファイル\出現物\Player系</Filter>
     </ClInclude>
     <ClInclude Include="CAim.h">
-      <Filter>ヘッダー ファイル\出現物\Player</Filter>
+      <Filter>ヘッダー ファイル\出現物\Player系</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>ヘッダー ファイル\エフェクト類</Filter>
+    </ClInclude>
+    <ClInclude Include="CSound.h">
+      <Filter>ヘッダー ファイル\エフェクト類</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneGame.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="CInput.h">
+      <Filter>ヘッダー ファイル\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="CUtil.h">
+      <Filter>ヘッダー ファイル\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>ヘッダー ファイル\Setting\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="CMatrix.h">
+      <Filter>ヘッダー ファイル\Setting\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="CKey.h">
+      <Filter>ヘッダー ファイル\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>ヘッダー ファイル\Setting\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Update.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>ヘッダー ファイル\Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="CModel.h">
+      <Filter>ヘッダー ファイル\Setting\表示系</Filter>
+    </ClInclude>
+    <ClInclude Include="CText.h">
+      <Filter>ヘッダー ファイル\Setting\表示系</Filter>
+    </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>ヘッダー ファイル\Setting\表示系</Filter>
+    </ClInclude>
+    <ClInclude Include="CTriangle.h">
+      <Filter>ヘッダー ファイル\Setting\表示系</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector.h">
+      <Filter>ヘッダー ファイル\Setting\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="CTask.h">
+      <Filter>ヘッダー ファイル\Setting\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskManager.h">
+      <Filter>ヘッダー ファイル\Setting\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="CBillBoard.h">
+      <Filter>ヘッダー ファイル\出現物</Filter>
+    </ClInclude>
+    <ClInclude Include="CGoal.h">
+      <Filter>ヘッダー ファイル\出現物\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="CTarget.h">
+      <Filter>ヘッダー ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetRL.h">
+      <Filter>ヘッダー ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetTouch.h">
+      <Filter>ヘッダー ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CTargetUD.h">
+      <Filter>ヘッダー ファイル\出現物\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="CPillar.h">
+      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlock.h">
+      <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CDamageBlock.h">
+      <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

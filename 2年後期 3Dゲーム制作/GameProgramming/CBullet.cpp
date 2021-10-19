@@ -58,10 +58,12 @@ void CBullet::Render(){
 //衝突処理
 //Collision(コライダ1,コライダ2)
 void CBullet::Collision(CCollider *m, CCollider *o){
-	//相手がサーチの時は戻る
-	if (o->mTag == CCollider::ESEARCH){
-		return;
-	}
+	////相手がゴールの時は戻る
+	//if (o->mType == CCollider::ESPHERE) {
+	//	if (o->mTag == EGOAL) {
+	//		return;
+	//	}
+	//}
 
 	//コライダのmとoが衝突しているか判定
 	if (CCollider::Collision(m, o)){

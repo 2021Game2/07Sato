@@ -2,7 +2,6 @@
 #define CAIM_H
 
 #include"CInput.h"
-#include"CPlayer.h"
 
 class CAim{
 private:
