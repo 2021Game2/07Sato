@@ -18,7 +18,7 @@
 #define STEPRECHARGE 120
 
 #define VELOCITY 0.065f	//移動力
-#define SPEEDREMIT 0.8	//速度制限
+#define SPEEDREMIT 0.9	//速度制限
 #define SUBERI 2	//滑り易さ
 
 #define RELOAD 80
@@ -32,14 +32,12 @@ CText mText;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 10.0f, 0.0f), CVector(0.0f, -10.0f, 0.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 10.0f, 0.0f), CVector(0.0f, -5.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
-, mLine4(this, &mMatrix, CVector(0.0f, 4.0f, 4.0f), CVector(0.0f, -4.0f, -4.0f))
-, mLine5(this, &mMatrix, CVector(0.0f, -4.0f, 4.0f), CVector(0.0f, 4.0f, -4.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
-	mTag = EPLAYER; //タグの設定
+	CCharacter::mTag = EPLAYER; //タグの設定
 	mSpeedX = NULL;
 	mSpeedY = NULL;
 	mSpeedZ = NULL;
@@ -61,7 +59,7 @@ void CPlayer::Update(){
 	if (mPlayerHp >= 0) {
 
 		//shiftキーでダッシュ
-		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
+		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 2.8f) {
 			if(CKey::Push('W'))
 			mSpeedZ += VELOCITY + 0.4f;
 		}
@@ -71,7 +69,7 @@ void CPlayer::Update(){
 			//Z軸の+移動
 			mSpeedZ += VELOCITY + 0.2f;
 		}
-		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT) {
+		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.18f) {
 			//Z軸の-移動
 			mSpeedZ -= VELOCITY;
 		}
@@ -92,13 +90,32 @@ void CPlayer::Update(){
 			mJump = false;
 		}
 
+		//一時的旋回キー
+		if (CKey::Push(VK_RIGHT)) {
+			mRotation.mY -= 1;
+		}
+		if (CKey::Push(VK_LEFT)) {
+			mRotation.mY += 1;
+		}
 
+		if (CKey::Push(VK_UP)) {
+			mRotation.mX -= 1;
+		}
+		if (CKey::Push(VK_DOWN)) {
+			mRotation.mX += 1;
+		}
+
+		if (mRotation.mX < -80)
+			mRotation.mX = -79;
+
+		if (mRotation.mX > 75)
+			mRotation.mX = 74;
 
 		//ここからマウスによる操作
 		//左クリックで弾を発射
 		if (CKey::Once(VK_LBUTTON) && mReloadTime < 0) {
 			CBullet* bullet = new CBullet();
-			bullet->mTag = CCharacter::EBULLETPLAYER;
+			bullet->mTag = CCharacter::EBULLET;
 			bullet->Set(0.5f, 4.0f);
 			bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
 			bullet->mRotation = mRotation;
@@ -151,8 +168,6 @@ void CPlayer::Update(){
 		}
 	}
 
-	mRotation.mY += CAim::mRotateCamY;
-
 	if (mJumpTimer >= 0)
 		mJumpTimer--;
 }
@@ -160,41 +175,44 @@ void CPlayer::Update(){
 //接触判定
 void CPlayer::Collision(CCollider *m, CCollider *o){
 	//自身のコライダタイプで判定
-	switch (m->mType){
-	case CCollider::ESPHERE:
+	switch (m->CCollider::mType){
+	case CCollider::ELINE:
 
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE){
 				CVector adjust; //	調整用ベクトル
 				//三角形と線分の衝突判定
-				CCollider::CollisionTriangleSphere(o, m, &adjust);
+				CCollider::CollisionTriangleLine(o, m, &adjust);
 				//位置の更新(mPosition + adjust)
 				mPosition = mPosition - adjust * -1;
 
-				//疑似着地
-				if (mPosition.mY < 1.6f && mJumpTimer < 0) {
-					mJump = true;
+				if (mPosition.mY < 1.6f){
+					//ジャンプ再使用条件
+					if (mJumpTimer < 0) {
+						mJump = true;
+					}
+					//瞬間移動終了時の減速
 					if (mStep > 0) {
 						mSpeedZ = 0;
 						mPosition.mY += 0.001f;
 					}
+					//着地
 					if (mPosition.mY < 1)
-						mSpeedY += 0.01f;
+						mSpeedY += 0.001f;
 				}
 
 				CTransform::Update();
 				break;
 		}
 
-	case CCollider::ELINE:
+	case CCollider::ESPHERE:
 		if (CCollider::Collision(m, o)){
-			if (o->mpParent->mTag == EDAMAGEBLOCK){
-				mPlayerHp--;
-				new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+			//if (o->mpParent->mTag == EDAMAGEBLOCK){
+			//	mPlayerHp--;
+			//	new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 				break;
 			}
-		}
-		
+		//}
 	}
 }
 
@@ -255,14 +273,10 @@ void CPlayer::TaskCollision(){
 	mLine.ChangePriority();
 	mLine2.ChangePriority();
 	mLine3.ChangePriority();
-	mLine4.ChangePriority();
-	mLine5.ChangePriority();
 	mCollider.ChangePriority();
 	//衝突処理 実行
 	CCollisionManager::Get()->Collision(&mLine, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine3, COLLISIONRANGE);
-	CCollisionManager::Get()->Collision(&mLine4, COLLISIONRANGE);
-	CCollisionManager::Get()->Collision(&mLine5, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
 }

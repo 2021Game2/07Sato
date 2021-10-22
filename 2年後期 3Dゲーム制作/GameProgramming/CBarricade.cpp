@@ -54,7 +54,7 @@ void CBarricade::Collision(CCollider *m, CCollider *o){
 
 
 	if (o->mEnabled == CCollider::ESPHERE){ //球コライダ
-		if (o->mTag == CCharacter::EBULLETPLAYER){
+		if (o->mTag == CCharacter::EBULLET){
 			//コライダのmとoが衝突しているか判定
 			if (CCollider::Collision(m, o)){
 				//エフェクト生成

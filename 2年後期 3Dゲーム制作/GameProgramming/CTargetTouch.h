@@ -15,8 +15,8 @@ private:
 
 public:
 
-	//コライダ
-	CCollider mCollider;
+	//三角コライダ
+	CCollider mSphere;
 
 	CTargetTouch(CModel* model, CVector position, CVector rotation, CVector scale);
 

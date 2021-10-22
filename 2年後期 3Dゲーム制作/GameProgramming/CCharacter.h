@@ -14,8 +14,7 @@ public:
 	enum ETag{
 		EZERO,
 		EPLAYER,		//プレイヤー本体
-		EBULLETPLAYER,	//プレイヤーの弾
-		EMAP,			//地面
+		EBULLET,	//プレイヤーの弾
 		ESCOREBLOCK1,	//的型
 		ESCOREBLOCK2,	//接触型
 		EBLOCK,			//障害物

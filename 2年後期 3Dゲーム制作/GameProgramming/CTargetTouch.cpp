@@ -4,11 +4,11 @@
 #include"CEffect.h"
 #include"CCollisionManager.h"
 
-#define TOUCHSCORE 300
+#define TOUCHSCORE 200
 
 
 CTargetTouch::CTargetTouch(CModel* model, CVector position, CVector rotation, CVector scale)
-:mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
+:mSphere(this,&mMatrix,CVector(0.0f,0.0f,0.0f),5.0f)
 {
 	//ƒ‚ƒfƒ‹,ˆÊ’u,‰ñ“],Šgk‚ðÝ’è
 	mpModel = model;		//ƒ‚ƒfƒ‹‚ÌÝ’è
@@ -28,22 +28,23 @@ CTargetTouch::CTargetTouch(CModel* model, CVector position, CVector rotation, CV
 void CTargetTouch::Update() {
 	CTransform::Update();
 
-	mRotation.mX += 2;
-	mRotation.mZ -= 2;
+	mRotation.mX += 3;
+	mRotation.mZ -= 3;
 }
 
 void CTargetTouch::Collision(CCollider* m, CCollider* o) {
 	if(CCollider::Collision(m, o)){
-		if (m->mType == CCollider::ESPHERE && o->mType == CCollider::ELINE) {
-			if (o->mpParent->mTag == EPLAYER) {
-				//mScore += TOUCHSCORE
-				mEnabled == false;
-			}
+		if (o->mpParent->mTag == EBULLET) {
+			return;
 		}
+		//mScore(‰¼) += TOUCHSCORE;
+		new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+		mEnabled = false;
+		CTransform::Update();
 	}
 }
 
 void CTargetTouch::TaskCollision() {
-	mCollider.ChangePriority();
-	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
+	mSphere.ChangePriority();
+	CCollisionManager::Get()->Collision(&mSphere, COLLISIONRANGE);
 }

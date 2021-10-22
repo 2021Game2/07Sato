@@ -33,8 +33,6 @@ public:
 	CColliderLine mLine; //線分コライダ
 	CColliderLine mLine2; //線分コライダ
 	CColliderLine mLine3; //線分コライダ
-	CColliderLine mLine4; //線分コライダ
-	CColliderLine mLine5; //線分コライダ
 	CCollider mCollider; //本体用コライダ
 
 	CPlayer();

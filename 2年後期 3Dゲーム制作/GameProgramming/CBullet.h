@@ -13,9 +13,6 @@ class CBullet : public CCharacter{
 public:
 	//三角形
 	CTriangle mT;
-	CTriangle mT2;
-	CTriangle mT3;
-	CTriangle mT4;
 
 	//生存時間
 	int mLife;
@@ -23,6 +20,7 @@ public:
 	CBullet();
 
 	CCollider mCollider;
+	CColliderLine mLine;
 
 	//幅と奥行きの設定
 	//Set(幅,奥行き)

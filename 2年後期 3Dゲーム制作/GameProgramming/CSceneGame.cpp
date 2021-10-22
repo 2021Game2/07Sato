@@ -16,6 +16,7 @@
 #include"CTargetTouch.h"
 #include"CGoal.h"
 #include"CBlock.h"
+#include"CDamageBlock.h"
 #include"CBillBoard.h"
 #include"CSphere.h"
 #include"CBarricade.h"
@@ -51,7 +52,7 @@ void CSceneGame::Init() {
 	CMatrix matrix;
 	matrix.Print();
 
-	mBackGroundMatrix.Translate(0.0f, -1.5f, 0.0f);
+	mBackGroundMatrix.Translate(0.0f, 0.0f, 0.0f);
 
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
@@ -61,11 +62,11 @@ void CSceneGame::Init() {
 
 	new CTarget(&mTarget,
 		CVector(5.0f, 5.0f, -50.0f) * mBackGroundMatrix,
-		CVector(),
+		CVector(0.0f,90.0f,0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
 	new CTargetTouch(&mTargetTouch,
-		CVector(0.0f, 9.0f, 50.0f) * mBackGroundMatrix,
+		CVector(0.0f, 7.0f, 50.0f) * mBackGroundMatrix,
 		CVector(),
 		CVector(5.0f, 5.0f, 5.0f));
 
@@ -125,8 +126,8 @@ void CSceneGame::Update() {
 
 	//タスクリストの削除
 	CTaskManager::Get()->Delete();
+
 	//描画
 	CTaskManager::Get()->Render();
-
 	CCollisionManager::Get()->Render();
 }

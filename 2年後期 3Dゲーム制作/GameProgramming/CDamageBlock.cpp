@@ -1,7 +1,7 @@
 #include "CDamageBlock.h"
 
 CDamageBlock::CDamageBlock() {
-	CCharacter::mTag = EDAMAGEBLOCK;
+	mTag = EDAMAGEBLOCK;
 }
 
 void CDamageBlock::Update() {

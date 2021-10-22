@@ -16,6 +16,8 @@ public:
 
 	//ƒRƒ‰ƒCƒ_
 	CCollider mCollider;
+	CColliderTriangle mTri1;
+	CColliderTriangle mTri2;
 
 	CTarget(CModel* model, CVector position, CVector rotation, CVector scale);
 
