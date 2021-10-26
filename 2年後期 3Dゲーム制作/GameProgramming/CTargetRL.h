@@ -11,12 +11,14 @@
 //左右移動
 class CTargetRL : public CCharacter {
 private:
-
+	int mMoveCount;
 
 public:
 
 	//コライダ
 	CCollider mCollider;
+	CColliderTriangle mTri1;
+	CColliderTriangle mTri2;
 
 	CTargetRL(CModel* model, CVector position, CVector rotation, CVector scale);
 

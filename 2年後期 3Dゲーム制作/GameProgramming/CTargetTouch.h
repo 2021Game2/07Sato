@@ -10,9 +10,6 @@
 
 //プレイヤーの接触で破壊され、スコアを加算する
 class CTargetTouch : public CCharacter {
-private:
-
-
 public:
 
 	//三角コライダ

@@ -9,9 +9,6 @@
 
 //的,射撃で破壊され、スコアを加算する
 class CTarget : public CCharacter{
-private:
-
-
 public:
 
 	//コライダ

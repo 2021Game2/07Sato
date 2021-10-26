@@ -7,7 +7,6 @@
 #include"CUtil.h"
 #include"CInput.h"
 #include"CSound.h"
-#include"CAim.h"
 
 #define GLAVITY -0.05f //d—Í
 #define JUMPPOWER 2.0f	//ƒWƒƒƒ“ƒv—Í
@@ -211,8 +210,8 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 			//	mPlayerHp--;
 			//	new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 				break;
-			}
-		//}
+			//}
+		}
 	}
 }
 

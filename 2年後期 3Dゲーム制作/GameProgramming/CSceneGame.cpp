@@ -32,6 +32,8 @@ CVector mEye;
 //CSound Bgm;
 //CSound Se;
 
+int CSceneGame::mScore;
+
 void CSceneGame::Init() {
 
 	//モデルファイルの入力
@@ -70,8 +72,18 @@ void CSceneGame::Init() {
 		CVector(),
 		CVector(5.0f, 5.0f, 5.0f));
 
+	new CTargetRL(&mTarget,
+		CVector(-20.0f, 50.0f, 30.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+
+	new CTargetUD(&mTarget,
+		CVector(-30.0f, 50.0f, -90.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+
 	new CGoal(&mGoal,
-		CVector(0.0f, 1.0f, 200.0f) * mBackGroundMatrix,
+		CVector(0.0f, 1.0f, 350.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
 		CVector(10.0f, 10.0f, 10.0f));
 

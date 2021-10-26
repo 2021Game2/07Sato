@@ -4,7 +4,7 @@
 #include"CEffect.h"
 #include"CCollisionManager.h"
 
-#define PLUSSCORE 150
+#define SCORE 150
 
 CTarget::CTarget(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
@@ -37,8 +37,9 @@ void CTarget::Update() {
 void CTarget::Collision(CCollider* m, CCollider* o){
 	if (o->mType == CCollider::ESPHERE) {
 		if (o->mpParent->mTag == EBULLET) {
-			//mScore(‰¼) += TOUCHSCORE;
+			//mScore(‰¼) += SCORE;
 			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+
 			mEnabled = false;
 		}
 	}

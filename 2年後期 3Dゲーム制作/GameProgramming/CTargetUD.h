@@ -12,12 +12,14 @@
 //ã‰ºˆÚ“®
 class CTargetUD : public CCharacter {
 private:
-
+	int mMoveCount;
 
 public:
 
 	//ƒRƒ‰ƒCƒ_
 	CCollider mCollider;
+	CColliderTriangle mTri1;
+	CColliderTriangle mTri2;
 
 	CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale);
 

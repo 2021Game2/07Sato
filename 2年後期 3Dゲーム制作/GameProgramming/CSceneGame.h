@@ -29,6 +29,8 @@ public:
 	//モデルからコライダを生成
 	CColliderMesh mColliderMesh;
 
+	static int mScore;
+
 
 	CModel mBackGround; //背景
 	CModel mPillar;
