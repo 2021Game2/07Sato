@@ -5,7 +5,7 @@
 #include"CCollisionManager.h"
 
 #define RLSCORE 300
-#define MOVE 30
+#define MOVE 60
 
 CTargetRL::CTargetRL(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f) 
@@ -41,19 +41,20 @@ void CTargetRL::Update() {
 	}
 
 	if (mMoveCount > 0) {
-		mPosition.mX++;
+		mPosition.mX += 0.5f;
 	}
 	if (mMoveCount < 0) {
-		mPosition.mX--;
+		mPosition.mX -= 0.5f;
 	}
 }
 
 void CTargetRL::Collision(CCollider* m, CCollider* o) {
-	if (o->mType == CCollider::ESPHERE) {
-		if (o->mpParent->mTag == EBULLET) {
-			//mScore += RLSCORE;
-			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-			mEnabled = false;
+	if (m->mType == CCollider::ESPHERE) {
+		if (o->mType == CCollider::ELINE) {
+			if (o->mpParent->mTag == EBULLET) {
+				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				mEnabled = false;
+			}
 		}
 	}
 }

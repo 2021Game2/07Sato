@@ -13,8 +13,8 @@ public:
 
 	//コライダ
 	CCollider mCollider;
-	CColliderTriangle mTri1;
-	CColliderTriangle mTri2;
+	CColliderTriangle mTri1;	//プレイヤー移動阻害用
+	CColliderTriangle mTri2;	//プレイヤー移動阻害用
 
 	CTarget(CModel* model, CVector position, CVector rotation, CVector scale);
 

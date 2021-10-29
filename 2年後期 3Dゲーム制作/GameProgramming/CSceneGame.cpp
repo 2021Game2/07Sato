@@ -32,8 +32,6 @@ CVector mEye;
 //CSound Bgm;
 //CSound Se;
 
-int CSceneGame::mScore;
-
 void CSceneGame::Init() {
 
 	//モデルファイルの入力
@@ -56,32 +54,39 @@ void CSceneGame::Init() {
 
 	mBackGroundMatrix.Translate(0.0f, 0.0f, 0.0f);
 
+	//プレイヤー
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
 	mPlayer.mPosition = CVector(0.0f, 5.0f, -200.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 
+
+	//的
 	new CTarget(&mTarget,
 		CVector(5.0f, 5.0f, -50.0f) * mBackGroundMatrix,
 		CVector(0.0f,90.0f,0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
-	new CTargetTouch(&mTargetTouch,
-		CVector(0.0f, 7.0f, 50.0f) * mBackGroundMatrix,
-		CVector(),
-		CVector(5.0f, 5.0f, 5.0f));
-
+	//左右に動く的
 	new CTargetRL(&mTarget,
 		CVector(-20.0f, 50.0f, 30.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
+	//上下に動く的
 	new CTargetUD(&mTarget,
 		CVector(-30.0f, 50.0f, -90.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
+	//接触型
+	new CTargetTouch(&mTargetTouch,
+		CVector(0.0f, 7.0f, 50.0f) * mBackGroundMatrix,
+		CVector(0.0f,0.0f,0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+
+	//ゴール
 	new CGoal(&mGoal,
 		CVector(0.0f, 1.0f, 350.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),

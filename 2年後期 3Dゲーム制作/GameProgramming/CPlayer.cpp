@@ -28,6 +28,7 @@ int CPlayer::mPlayerHp = PHP;
 
 CText mText;
 
+float CPlayer::mTime;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
@@ -42,6 +43,8 @@ CPlayer::CPlayer()
 	mSpeedZ = NULL;
 	mJumpTimer = 0;
 	mJump = true;
+
+	mTimeCount = true;
 
 	mStep = -1;
 	mStepRecharge = 0;
@@ -115,7 +118,7 @@ void CPlayer::Update(){
 		if (CKey::Once(VK_LBUTTON) && mReloadTime < 0) {
 			CBullet* bullet = new CBullet();
 			bullet->mTag = CCharacter::EBULLET;
-			bullet->Set(0.5f, 4.0f);
+			bullet->Set(1.5f, 14.0f);
 			bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
 			bullet->mRotation = mRotation;
 			bullet->Update();
@@ -206,11 +209,11 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 
 	case CCollider::ESPHERE:
 		if (CCollider::Collision(m, o)){
-			//if (o->mpParent->mTag == EDAMAGEBLOCK){
-			//	mPlayerHp--;
-			//	new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+			if (o->mpParent->mTag == EDAMAGEBLOCK){
+				mPlayerHp--;
+				new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 				break;
-			//}
+			}
 		}
 	}
 }

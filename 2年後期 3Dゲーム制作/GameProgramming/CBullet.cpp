@@ -4,7 +4,6 @@
 //デフォルトコンストラクタ
 CBullet::CBullet()
 :mLife(50)
-,mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 1.1f)
 ,mLine(this, &mMatrix, CVector(0.0f, 0.0f, -1.0f), CVector(0.0f, 0.0f, 1.0f))
 {}
 
@@ -25,8 +24,8 @@ void CBullet::Update(){
 	if (mLife-- > 0){
 		CTransform::Update();
 		//位置更新
-		mPosition = CVector(0.0f, 0.0f, 13.0f) * mMatrix;
-		mRotation.mZ += 40;
+		mPosition = CVector(0.0f, 0.0f, 6.0f) * mMatrix;
+		mRotation.mZ += 240;
 	}
 	else{
 		//無効にする
@@ -46,32 +45,29 @@ void CBullet::Render(){
 //衝突処理
 //Collision(コライダ1,コライダ2)
 void CBullet::Collision(CCollider* m, CCollider* o) {
-
-	switch (m->CCollider::mType) {
-	case CCollider::ESPHERE:
-		//相手がゴールの時は戻る
+	//コライダのmとoが衝突しているか判定
+	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
+			//相手がゴールの時は戻る
 			if (o->mpParent->mTag == EGOAL) {
-				break;
+				return;
 			}
 		}
-	case CCollider::ELINE:
-		//コライダのmとoが衝突しているか判定
-		if (CCollider::Collision(m, o)) {
-			//衝突したら無効
-			mEnabled = false;
+		mEnabled = false;
+		if (m->mType == CCollider::ESPHERE && o->mType == CCollider::ETRIANGLE) {
+			CVector dummy;
+			if (CCollider::CollisionTriangleSphere(o, m, &dummy)) {
+				//衝突したら無効
+				mEnabled = false;
+			}
 		}
-		break;
-
 	}
 }
 
 //衝突処理
 void CBullet::TaskCollision(){
 	//コライダの優先度変更
-	mCollider.ChangePriority();
 	mLine.ChangePriority();
 	//衝突処理 実行
-	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine, COLLISIONRANGE);
 }

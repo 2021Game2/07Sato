@@ -35,12 +35,14 @@ void CTarget::Update() {
 }
 
 void CTarget::Collision(CCollider* m, CCollider* o){
-	if (o->mType == CCollider::ESPHERE) {
-		if (o->mpParent->mTag == EBULLET) {
-			//mScore(‰¼) += SCORE;
-			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+	if (m->mType == CCollider::ESPHERE) {
+		if (o->mType == CCollider::ELINE) {
+			if (o->mpParent->mTag == EBULLET) {
 
-			mEnabled = false;
+				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				o->mpParent->mEnabled = false;
+				mEnabled = false;
+			}
 		}
 	}
 }

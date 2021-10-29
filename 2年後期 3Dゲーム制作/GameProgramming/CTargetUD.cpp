@@ -5,7 +5,7 @@
 #include"CCollisionManager.h"
 
 #define UDSCORE 300
-#define MOVE 50
+#define MOVE 80
 
 CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
@@ -40,19 +40,21 @@ void CTargetUD::Update() {
 	}
 
 	if (mMoveCount > 0) {
-		mPosition.mY++;
+		mPosition.mY += 0.3f;
 	}
 	if (mMoveCount < 0) {
-		mPosition.mY--;
+		mPosition.mY -= 0.3f;
 	}
 }
 
 void CTargetUD::Collision(CCollider* m, CCollider* o) {
-	if (o->mType == CCollider::ESPHERE) {
-		if (o->mpParent->mTag == EBULLET) {
-			//mScore(‰¼) += UDSCORE;
-			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-			mEnabled = false;
+	if (m->mType == CCollider::ESPHERE) {
+		if (o->mType == CCollider::ELINE) {
+			if (o->mpParent->mTag == EBULLET) {
+				//mScore(‰¼) += UDSCORE;
+				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				mEnabled = false;
+			}
 		}
 	}
 }

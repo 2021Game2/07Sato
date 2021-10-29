@@ -19,7 +19,6 @@ public:
 
 	CBullet();
 
-	CCollider mCollider;
 	CColliderLine mLine;
 
 	//•‚Æ‰œs‚«‚Ìİ’è

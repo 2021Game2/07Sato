@@ -8,11 +8,10 @@
 #include"CColliderLine.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
-#include"CAim.h"
 
 /*プレイヤークラス
 　キャラクタクラスを継承*/
-class CPlayer : public CCharacter,CAim{
+class CPlayer : public CCharacter{
 private:
 	bool mJump;		//ジャンプができるかの判定
 	int mJumpTimer;	//ジャンプのクールタイム
@@ -29,6 +28,8 @@ private:
 public:
 
 	static int mPlayerHp;	//体力
+	static float mTime;
+	bool mTimeCount;
 
 	CColliderLine mLine; //線分コライダ
 	CColliderLine mLine2; //線分コライダ
