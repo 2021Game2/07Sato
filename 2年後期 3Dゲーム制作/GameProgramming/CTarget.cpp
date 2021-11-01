@@ -37,7 +37,7 @@ void CTarget::Update() {
 
 void CTarget::Collision(CCollider* m, CCollider* o){
 	if (CCollider::Collision(m, o)) {
-		if (o->mType == CCollider::ELINE) {
+		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 				CPlayer::mScore += SCORE;

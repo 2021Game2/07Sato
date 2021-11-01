@@ -118,6 +118,8 @@ void CPlayer::Update(){
 		if (mRotation.mX > 75)
 			mRotation.mX = 74;
 
+
+
 		//ここからマウスによる操作
 		//左クリックで弾を発射
 		if (CKey::Once(VK_LBUTTON) && mReloadTime < 0) {
@@ -271,9 +273,9 @@ void CPlayer::Render(){
 	mText.DrawString(buf, 150, 250, 13, 13);
 
 	//文字列の設定
-	sprintf(buf, "TIME:%f", mTime/60);
+	sprintf(buf, "TIME:%5.1f", mTime/60);
 	//文字列の描画
-	mText.DrawString(buf, 150, 210, 13, 13);
+	mText.DrawString(buf, 100, 210, 13, 13);
 
 
 	//照準(仮)
