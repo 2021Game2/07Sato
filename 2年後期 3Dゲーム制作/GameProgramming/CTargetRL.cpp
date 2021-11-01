@@ -3,6 +3,7 @@
 #include"CTaskManager.h"
 #include"CEffect.h"
 #include"CCollisionManager.h"
+#include"CPlayer.h"
 
 #define RLSCORE 300
 #define MOVE 60
@@ -49,10 +50,11 @@ void CTargetRL::Update() {
 }
 
 void CTargetRL::Collision(CCollider* m, CCollider* o) {
-	if (m->mType == CCollider::ESPHERE) {
-		if (o->mType == CCollider::ELINE) {
+	if (CCollider::Collision(m, o)) {
+		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				CPlayer::mScore += RLSCORE;
 				mEnabled = false;
 			}
 		}

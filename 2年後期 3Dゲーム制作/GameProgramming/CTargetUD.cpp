@@ -3,6 +3,7 @@
 #include"CTaskManager.h"
 #include"CEffect.h"
 #include"CCollisionManager.h"
+#include"CPlayer.h"
 
 #define UDSCORE 300
 #define MOVE 80
@@ -48,11 +49,11 @@ void CTargetUD::Update() {
 }
 
 void CTargetUD::Collision(CCollider* m, CCollider* o) {
-	if (m->mType == CCollider::ESPHERE) {
-		if (o->mType == CCollider::ELINE) {
+	if (CCollider::Collision(m, o)) {
+		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
-				//mScore(‰¼) += UDSCORE;
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				CPlayer::mScore += UDSCORE;
 				mEnabled = false;
 			}
 		}

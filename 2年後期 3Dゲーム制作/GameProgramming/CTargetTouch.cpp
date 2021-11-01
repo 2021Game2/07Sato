@@ -3,6 +3,7 @@
 #include"CTaskManager.h"
 #include"CEffect.h"
 #include"CCollisionManager.h"
+#include"CPlayer.h"
 
 #define TOUCHSCORE 200
 
@@ -37,7 +38,7 @@ void CTargetTouch::Collision(CCollider* m, CCollider* o) {
 		if (o->mpParent->mTag == EBULLET) {
 			return;
 		}
-		//mScore(‰¼) += TOUCHSCORE;
+		CPlayer::mScore += TOUCHSCORE;
 		new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 		mEnabled = false;
 		CTransform::Update();

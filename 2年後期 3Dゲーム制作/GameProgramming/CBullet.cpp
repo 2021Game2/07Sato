@@ -5,6 +5,7 @@
 CBullet::CBullet()
 :mLife(50)
 ,mLine(this, &mMatrix, CVector(0.0f, 0.0f, -1.0f), CVector(0.0f, 0.0f, 1.0f))
+,mCollider(this,&mMatrix,CVector(0.0f,0.0f,0.0f),1.0f)
 {}
 
 //幅と奥行きの設定
@@ -53,7 +54,6 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 				return;
 			}
 		}
-		mEnabled = false;
 		if (m->mType == CCollider::ESPHERE && o->mType == CCollider::ETRIANGLE) {
 			CVector dummy;
 			if (CCollider::CollisionTriangleSphere(o, m, &dummy)) {
@@ -68,6 +68,7 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 void CBullet::TaskCollision(){
 	//コライダの優先度変更
 	mLine.ChangePriority();
+	mCollider.ChangePriority();
 	//衝突処理 実行
 	CCollisionManager::Get()->Collision(&mLine, COLLISIONRANGE);
 }

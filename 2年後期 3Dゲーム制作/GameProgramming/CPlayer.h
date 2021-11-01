@@ -28,6 +28,9 @@ private:
 public:
 
 	static int mPlayerHp;	//‘Ì—Í
+
+	static int mScore;
+
 	static float mTime;
 	bool mTimeCount;
 

@@ -28,6 +28,8 @@ int CPlayer::mPlayerHp = PHP;
 
 CText mText;
 
+int CPlayer::mScore;
+
 float CPlayer::mTime;
 
 CPlayer::CPlayer()
@@ -50,6 +52,9 @@ CPlayer::CPlayer()
 	mStepRecharge = 0;
 
 	mReloadTime = 0;
+
+	mTime = 0;
+	mScore = 0;
 }
 
 //XVˆ—
@@ -172,6 +177,8 @@ void CPlayer::Update(){
 
 	if (mJumpTimer >= 0)
 		mJumpTimer--;
+
+	mTime++;
 }
 
 //ÚG”»’è
@@ -257,6 +264,16 @@ void CPlayer::Render(){
 	sprintf(buf, "HP:%d", mPlayerHp);
 	//•¶š—ñ‚Ì•`‰æ
 	mText.DrawString(buf, -100, 250, 20, 20);
+
+	//•¶š—ñ‚Ìİ’è
+	sprintf(buf, "SCORE:%d",mScore);
+	//•¶š—ñ‚Ì•`‰æ
+	mText.DrawString(buf, 150, 250, 13, 13);
+
+	//•¶š—ñ‚Ìİ’è
+	sprintf(buf, "TIME:%f", mTime/60);
+	//•¶š—ñ‚Ì•`‰æ
+	mText.DrawString(buf, 150, 210, 13, 13);
 
 
 	//Æ€(‰¼)

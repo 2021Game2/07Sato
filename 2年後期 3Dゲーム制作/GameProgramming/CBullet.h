@@ -20,6 +20,7 @@ public:
 	CBullet();
 
 	CColliderLine mLine;
+	CCollider mCollider;
 
 	//•‚Æ‰œs‚«‚Ìİ’è
 	//Set(•,‰œs‚«)

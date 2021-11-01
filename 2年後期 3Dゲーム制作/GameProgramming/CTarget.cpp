@@ -3,6 +3,7 @@
 #include"CTaskManager.h"
 #include"CEffect.h"
 #include"CCollisionManager.h"
+#include"CPlayer.h"
 
 #define SCORE 150
 
@@ -35,12 +36,11 @@ void CTarget::Update() {
 }
 
 void CTarget::Collision(CCollider* m, CCollider* o){
-	if (m->mType == CCollider::ESPHERE) {
+	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ELINE) {
 			if (o->mpParent->mTag == EBULLET) {
-
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-				o->mpParent->mEnabled = false;
+				CPlayer::mScore += SCORE;
 				mEnabled = false;
 			}
 		}
