@@ -1,8 +1,8 @@
-#include "CBlock.h"
+#include "CMoveBlock.h"
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
 
-CBlock::CBlock(CModel* model, CVector position, CVector rotation, CVector scale) 
+CMoveBlock::CMoveBlock(CModel* model, CVector position, CVector rotation, CVector scale) 
 :mColliderZ1(this, &mMatrix,
 	CVector(-4.0f, -4.0f, 4.0f),
 	CVector(4.0f, -4.0f, 4.0f),
@@ -67,15 +67,17 @@ CBlock::CBlock(CModel* model, CVector position, CVector rotation, CVector scale)
 	CTaskManager::Get()->Add(this);
 }
 
-void CBlock::Update() {
+void CMoveBlock::Update() {
 	CTransform::Update();
+
+	mPosition.mX += 0.1f;
 }
 
-void CBlock::Collision(CCollider* m, CCollider* o) {
+void CMoveBlock::Collision(CCollider* m, CCollider* o) {
 
 }
 
-void CBlock::TaskCollision() {
+void CMoveBlock::TaskCollision() {
 	//コライダの優先度変更
 	//Z軸の面
 	mColliderZ1.ChangePriority();

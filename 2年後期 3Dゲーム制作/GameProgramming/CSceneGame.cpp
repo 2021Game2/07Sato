@@ -16,6 +16,7 @@
 #include"CTargetTouch.h"
 #include"CGoal.h"
 #include"CBlock.h"
+#include"CMoveBlock.h"
 #include"CDamageBlock.h"
 #include"CBillBoard.h"
 #include"CSphere.h"
@@ -41,6 +42,8 @@ void CSceneGame::Init() {
 	mModel.Load("Character.obj", "Character.mtl");
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
+	mBlock.Load("Block.obj", "Block.mtl");
+	//mDamageBlock.Load("");
 	mTarget.Load("Target.obj", "Target.mtl");
 	mGoal.Load("Goal.obj", "Goal.mtl");
 	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
@@ -84,6 +87,17 @@ void CSceneGame::Init() {
 	new CTargetTouch(&mTargetTouch,
 		CVector(0.0f, 7.0f, 50.0f) * mBackGroundMatrix,
 		CVector(0.0f,0.0f,0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+
+	//ブロック
+	new CBlock(&mBlock, 
+		CVector(0.0f, 30.0f, 0.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+
+	new CMoveBlock(&mBlock,
+		CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
 		CVector(3.0f, 3.0f, 3.0f));
 
 	//ゴール

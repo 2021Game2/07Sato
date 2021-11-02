@@ -90,6 +90,7 @@
     <ClCompile Include="CDamageBlock.cpp" />
     <ClCompile Include="CGoal.cpp" />
     <ClCompile Include="CInput.cpp" />
+    <ClCompile Include="CMoveBlock.cpp" />
     <ClCompile Include="CPillar.cpp" />
     <ClCompile Include="CSphere.cpp" />
     <ClCompile Include="CBillBoard.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="CDamageBlock.h" />
     <ClInclude Include="CGoal.h" />
     <ClInclude Include="CInput.h" />
+    <ClInclude Include="CMoveBlock.h" />
     <ClInclude Include="CPillar.h" />
     <ClInclude Include="CSphere.h" />
     <ClInclude Include="CBillBoard.h" />

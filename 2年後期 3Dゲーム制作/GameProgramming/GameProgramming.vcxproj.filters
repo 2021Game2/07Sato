@@ -228,6 +228,9 @@
     <ClCompile Include="CDamageBlock.cpp">
       <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
     </ClCompile>
+    <ClCompile Include="CMoveBlock.cpp">
+      <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCharacter.h">
@@ -348,6 +351,9 @@
       <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
     </ClInclude>
     <ClInclude Include="CDamageBlock.h">
+      <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
+    </ClInclude>
+    <ClInclude Include="CMoveBlock.h">
       <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
     </ClInclude>
   </ItemGroup>

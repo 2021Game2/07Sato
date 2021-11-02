@@ -1,11 +1,11 @@
-#ifndef CBLOCK_H
-#define CBLOCK_H
+#ifndef CMOVEBLOCK_H
+#define CMOVEBLOCK_H
 
 #include "CCharacter.h"
 #include "CColliderTriangle.h"
 
 //接触するとダメージを受けるブロック
-class CBlock : public CCharacter {
+class CMoveBlock : public CCharacter {
 private:
 	//コライダ
 	//Z軸の面
@@ -25,7 +25,7 @@ private:
 	CColliderTriangle mColliderY4;
 
 public:
-	CBlock(CModel* model, CVector position, CVector rotation, CVector scale);
+	CMoveBlock(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();
 

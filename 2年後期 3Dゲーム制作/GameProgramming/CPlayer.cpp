@@ -8,8 +8,8 @@
 #include"CInput.h"
 #include"CSound.h"
 
-#define GLAVITY -0.05f //重力
-#define JUMPPOWER 2.0f	//ジャンプ力
+#define GLAVITY -0.07f //重力
+#define JUMPPOWER 3.0f	//ジャンプ力
 #define JUMPRECHARGE 70	//次ジャンプまでの待ち時間
 
 #define STEPSPEED 17
@@ -33,8 +33,8 @@ int CPlayer::mScore;
 float CPlayer::mTime;
 
 CPlayer::CPlayer()
-: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 10.0f, 0.0f), CVector(0.0f, -5.0f, 0.0f))
+: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -3.0f), CVector(0.0f, 0.0f, 3.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -5.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 {
@@ -186,43 +186,46 @@ void CPlayer::Update(){
 //接触判定
 void CPlayer::Collision(CCollider *m, CCollider *o){
 	//自身のコライダタイプで判定
-	switch (m->CCollider::mType){
+	switch (m->CCollider::mType) {
 	case CCollider::ELINE:
 
 		//相手のコライダが三角コライダの時
-		if (o->mType == CCollider::ETRIANGLE){
-				CVector adjust; //	調整用ベクトル
-				//三角形と線分の衝突判定
-				CCollider::CollisionTriangleLine(o, m, &adjust);
-				//位置の更新(mPosition + adjust)
-				mPosition = mPosition - adjust * -1;
+		if (o->mType == CCollider::ETRIANGLE) {
+			CVector adjust; //	調整用ベクトル
+			//三角形と線分の衝突判定
+			CCollider::CollisionTriangleLine(o, m, &adjust);
+			//位置の更新(mPosition + adjust)
+			mPosition = mPosition - adjust * -1;
 
-				if (mPosition.mY < 1.6f){
-					//ジャンプ再使用条件
-					if (mJumpTimer < 0) {
-						mJump = true;
-					}
-					//瞬間移動終了時の減速
-					if (mStep > 0) {
-						mSpeedZ = 0;
-						mPosition.mY += 0.001f;
-					}
-					//着地
-					if (mPosition.mY < 1)
-						mSpeedY += 0.001f;
+			if (mPosition.mY < 1.6f) {
+				//ジャンプ再使用条件
+				if (mJumpTimer < 0) {
+					mJump = true;
 				}
+				//瞬間移動終了時の減速
+				if (mStep > 0) {
+					mSpeedZ = 0;
+					mPosition.mY += 0.001f;
+				}
+				//着地
+				if (mPosition.mY < 1)
+					mSpeedY += 0.001f;
+			}
 
-				CTransform::Update();
-				break;
+			CTransform::Update();
+			break;
 		}
 
 	case CCollider::ESPHERE:
-		if (CCollider::Collision(m, o)){
-			if (o->mpParent->mTag == EDAMAGEBLOCK){
+		if (CCollider::Collision(m, o)) {
+
+			if (o->mpParent->mTag == EDAMAGEBLOCK) {
 				mPlayerHp--;
 				new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+				CTransform::Update();
 				break;
 			}
+
 		}
 	}
 }

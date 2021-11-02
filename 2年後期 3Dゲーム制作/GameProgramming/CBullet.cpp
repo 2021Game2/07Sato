@@ -1,5 +1,6 @@
 #include"CBullet.h"
 #include"CCollisionManager.h"
+#include"CEffect.h"
 
 //デフォルトコンストラクタ
 CBullet::CBullet()
@@ -52,6 +53,7 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 			if (o->mpParent->mTag == EGOAL) {
 				return;
 			}
+			new CEffect(m->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 			mEnabled = false;
 		}
 	}

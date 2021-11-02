@@ -35,6 +35,8 @@ public:
 	CModel mBackGround; //îwåi
 	CModel mPillar;
 	CModel mBarricade;
+	CModel mBlock;
+	CModel mDamageBlock;
 	CModel mTarget;
 	CModel mTargetTouch;
 	CModel mGoal;
