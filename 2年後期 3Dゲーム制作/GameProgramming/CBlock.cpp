@@ -72,7 +72,9 @@ void CBlock::Update() {
 }
 
 void CBlock::Collision(CCollider* m, CCollider* o) {
-
+	if (CCollider::Collision(m, o)) {
+		return;
+	}
 }
 
 void CBlock::TaskCollision() {

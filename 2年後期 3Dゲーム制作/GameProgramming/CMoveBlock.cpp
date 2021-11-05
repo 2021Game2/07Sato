@@ -2,6 +2,8 @@
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
 
+#define MOVE 140
+
 CMoveBlock::CMoveBlock(CModel* model, CVector position, CVector rotation, CVector scale) 
 :mColliderZ1(this, &mMatrix,
 	CVector(-4.0f, -4.0f, 4.0f),
@@ -62,6 +64,8 @@ CMoveBlock::CMoveBlock(CModel* model, CVector position, CVector rotation, CVecto
 
 	mTag = EBLOCK;
 
+	mMoveCount = 0;
+
 	mPriority = 1; //—Dæ“x1
 	CTaskManager::Get()->Remove(this);
 	CTaskManager::Get()->Add(this);
@@ -70,7 +74,17 @@ CMoveBlock::CMoveBlock(CModel* model, CVector position, CVector rotation, CVecto
 void CMoveBlock::Update() {
 	CTransform::Update();
 
-	mPosition.mX += 0.1f;
+	if (mMoveCount > MOVE) {
+		mMoveCount = -MOVE;
+	}
+
+	if (mMoveCount > 0) {
+		mPosition.mX += 1.0f;
+	}
+	else if (mMoveCount < 0) {
+		mPosition.mX -= 1.0f;
+	}
+	mMoveCount++;
 }
 
 void CMoveBlock::Collision(CCollider* m, CCollider* o) {

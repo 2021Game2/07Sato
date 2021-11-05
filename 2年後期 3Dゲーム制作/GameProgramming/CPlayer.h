@@ -20,6 +20,7 @@ private:
 	int mStepRecharge; //瞬間移動のクールタイム
 
 	int mReloadTime;	//銃のリロード時間
+	int mNotHit;	//ダメージ後無敵時間
 
 	float mSpeedX;	//左右加速度
 	float mSpeedY;	//上下加速度

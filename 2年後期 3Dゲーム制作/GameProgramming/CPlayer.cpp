@@ -34,7 +34,7 @@ float CPlayer::mTime;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -3.0f), CVector(0.0f, 0.0f, 3.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -5.0f, 0.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -9.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 {
@@ -52,6 +52,7 @@ CPlayer::CPlayer()
 	mStepRecharge = 0;
 
 	mReloadTime = 0;
+	mNotHit = 0;
 
 	mTime = 0;
 	mScore = 0;
@@ -59,6 +60,9 @@ CPlayer::CPlayer()
 
 //更新処理
 void CPlayer::Update(){
+	if (mPosition.mY < 0) {
+		mPosition.mY = 0.1f;
+	}
 
 	//CTransformの更新
 	CTransform::Update();
@@ -179,25 +183,32 @@ void CPlayer::Update(){
 
 	if (mJumpTimer >= 0)
 		mJumpTimer--;
-
+	//時間加算
 	mTime++;
+
+	//無敵時間減算
+	mNotHit--;
 }
 
 //接触判定
 void CPlayer::Collision(CCollider *m, CCollider *o){
 	//自身のコライダタイプで判定
 	switch (m->CCollider::mType) {
-	case CCollider::ELINE:
-
+	case CCollider::ESPHERE:
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE) {
 			CVector adjust; //	調整用ベクトル
 			//三角形と線分の衝突判定
-			CCollider::CollisionTriangleLine(o, m, &adjust);
+			CCollider::CollisionTriangleSphere(o, m, &adjust);
 			//位置の更新(mPosition + adjust)
 			mPosition = mPosition - adjust * -1;
+			CTransform::Update();
 
-			if (mPosition.mY < 1.6f) {
+			//ブロックの上に乗るように
+			//if (o->mpParent->mTag == EBLOCK) {
+			//	mSpeedY += 0.002f;
+			//}
+			if (mPosition.mY < 2.0f) {
 				//ジャンプ再使用条件
 				if (mJumpTimer < 0) {
 					mJump = true;
@@ -208,26 +219,24 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					mPosition.mY += 0.001f;
 				}
 				//着地
-				if (mPosition.mY < 1)
-					mSpeedY += 0.001f;
+				if (mPosition.mY < 1.0f && mSpeedY < 0) {
+					mSpeedY += 0.009f;
+				}
 			}
-
-			CTransform::Update();
-			break;
 		}
 
-	case CCollider::ESPHERE:
+	case CCollider::ELINE:
 		if (CCollider::Collision(m, o)) {
-
+			//ダメージブロック接触時
 			if (o->mpParent->mTag == EDAMAGEBLOCK) {
-				mPlayerHp--;
-				new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
-				CTransform::Update();
-				break;
+				if (mNotHit < 0) {
+					mPlayerHp--;
+					mNotHit = 5;
+				}
 			}
-
 		}
 	}
+
 }
 
 //画面上2D描画

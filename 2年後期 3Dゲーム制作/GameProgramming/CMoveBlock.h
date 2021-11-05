@@ -24,6 +24,8 @@ private:
 	CColliderTriangle mColliderY3;
 	CColliderTriangle mColliderY4;
 
+	int mMoveCount;
+
 public:
 	CMoveBlock(CModel* model, CVector position, CVector rotation, CVector scale);
 

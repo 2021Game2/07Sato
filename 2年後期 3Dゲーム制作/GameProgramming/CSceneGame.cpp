@@ -43,7 +43,7 @@ void CSceneGame::Init() {
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
 	mBlock.Load("Block.obj", "Block.mtl");
-	//mDamageBlock.Load("");
+	mDamageBlock.Load("DamageBlock.obj", "DamageBlock.mtl");
 	mTarget.Load("Target.obj", "Target.mtl");
 	mGoal.Load("Goal.obj", "Goal.mtl");
 	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
@@ -95,10 +95,23 @@ void CSceneGame::Init() {
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(3.0f, 3.0f, 3.0f));
 
+	//ブロック
+	new CBlock(&mBlock,
+		CVector(30.0f, 30.0f, 60.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 180.0f),
+		CVector(4.0f, 0.2f, 7.0f));
+
+	//動くブロック
 	new CMoveBlock(&mBlock,
 		CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(3.0f, 3.0f, 3.0f));
+
+	//ダメージを受けるブロック
+	new CDamageBlock(&mDamageBlock,
+		CVector(0.0f, 20.0f, -150.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
 
 	//ゴール
 	new CGoal(&mGoal,
@@ -113,7 +126,7 @@ void CSceneGame::Init() {
 	//カメラ位置
 	mCamX = 0.0f;
 	mCamY = 15.0f;
-	mCamZ = -20.0f;
+	mCamZ = -40.0f;
 	
 	mFcamX = 0.0f;
 	mFcamY = 10.0f;
