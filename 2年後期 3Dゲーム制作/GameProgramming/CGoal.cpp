@@ -27,8 +27,12 @@ void CGoal::Update() {
 
 //Õ“Ëˆ—
 void CGoal::Collision(CCollider* m, CCollider* o) {
-	if (o->mTag == EPLAYER) {
-		mTouchGoal == true;
+	if (CCollider::Collision(m, o)) {
+		if (m->mpParent->mTag == EGOAL) {
+			if (o->mpParent->mTag == EPLAYER) {
+				mTouchGoal = true;
+			}
+		}
 	}
 }
 

@@ -126,10 +126,10 @@ void CSceneGame::Init() {
 	//ÉJÉÅÉâà íu
 	mCamX = 0.0f;
 	mCamY = 15.0f;
-	mCamZ = -40.0f;
+	mCamZ = -20.0f;
 	
 	mFcamX = 0.0f;
-	mFcamY = 10.0f;
+	mFcamY = 7.0f;
 	mFcamZ = 50.0f;
 
 }

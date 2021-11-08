@@ -1,5 +1,6 @@
 //プレイヤークラスのインクルード
 #include"CPlayer.h"
+#include"CGoal.h"
 #include"CKey.h"
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
@@ -24,6 +25,9 @@
 
 #define PHP 5	//HP
 
+#define MOUSESPEEDX 1.2f	//マウス横感度
+#define MOUSESPEEDY 1.2f	//マウス縦感度
+
 int CPlayer::mPlayerHp = PHP;
 
 CText mText;
@@ -34,8 +38,8 @@ float CPlayer::mTime;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -3.0f), CVector(0.0f, 0.0f, 3.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -9.0f, 0.0f))
-, mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 4.0f, 0.0f), CVector(0.0f, -4.0f, 0.0f))
+, mLine3(this, &mMatrix, CVector(3.0f, 0.0f, 0.0f), CVector(-3.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
@@ -56,6 +60,15 @@ CPlayer::CPlayer()
 
 	mTime = 0;
 	mScore = 0;
+
+
+	mBeforMouseX = 0;
+	mBeforMouseY = 0;
+	mMouseMoveX = 0;
+	mMouseMoveY = 0;
+
+	mMouseSpeedX = MOUSESPEEDX;
+	mMouseSpeedY = MOUSESPEEDY;
 }
 
 //更新処理
@@ -154,6 +167,28 @@ void CPlayer::Update(){
 		mStepRecharge--;
 
 
+		//マウス設定
+		float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
+		//マウスカーソル座標の取得
+		CInput::GetMousePos(&mMousePosX, &mMousePosY);
+
+		//ゲーム画面中心からの座標へ変換
+		mMousePosX -= 400;
+		mMousePosY = 300 - mMousePosY;
+
+		//マウスの移動量
+		mMouseMoveX = mMousePosX - mBeforMouseX;
+		mMouseMoveY = mMousePosY - mBeforMouseY;
+
+		//視点操作
+		mRotation.mX -= mMouseMoveY / mMouseSpeedX;
+		mRotation.mY -= mMouseMoveX / mMouseSpeedY;
+
+		mBeforMouseX = mMousePosX;
+		mBeforMouseY = mMousePosY;
+
+
+
 		//ここまでマウスの操作
 	}
 
@@ -202,18 +237,13 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 			CCollider::CollisionTriangleSphere(o, m, &adjust);
 			//位置の更新(mPosition + adjust)
 			mPosition = mPosition - adjust * -1;
-			CTransform::Update();
 
-			//ブロックの上に乗るように
-			//if (o->mpParent->mTag == EBLOCK) {
-			//	mSpeedY += 0.002f;
-			//}
 			if (mPosition.mY < 2.0f) {
-				//ジャンプ再使用条件
+				//ジャンプ再使用
 				if (mJumpTimer < 0) {
 					mJump = true;
 				}
-				//瞬間移動終了時の減速
+				//瞬間移動の減速
 				if (mStep > 0) {
 					mSpeedZ = 0;
 					mPosition.mY += 0.001f;
@@ -223,11 +253,11 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					mSpeedY += 0.009f;
 				}
 			}
+			CTransform::Update();
 		}
 
-	case CCollider::ELINE:
-		if (CCollider::Collision(m, o)) {
-			//ダメージブロック接触時
+		//ダメージブロック接触時
+		if(CCollider::Collision(m,o)){
 			if (o->mpParent->mTag == EDAMAGEBLOCK) {
 				if (mNotHit < 0) {
 					mPlayerHp--;
@@ -235,8 +265,23 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				}
 			}
 		}
-	}
 
+	case CCollider::ELINE:
+		if (o->mType == CCollider::ETRIANGLE) {
+			if (o->mpParent != nullptr) {
+				if (o->mpParent->mTag == EBLOCK) {
+					if (m->mpParent->mPosition.mY > o->mpParent->mPosition.mY) {
+						mSpeedY += 0.0004f;
+						if (mJumpTimer < 0) {
+							mJump = true;
+						}
+					}
+
+				}
+			}
+		}
+
+	}
 }
 
 //画面上2D描画
@@ -289,12 +334,19 @@ void CPlayer::Render(){
 	//文字列の描画
 	mText.DrawString(buf, 100, 210, 13, 13);
 
-
 	//照準(仮)
-	//文字列の設定
-	sprintf(buf, "[+]");
-	//文字列の描画
-	mText.DrawString(buf, -30, 20, 15, 15);
+	if (CGoal::mTouchGoal == false) {
+		//文字列の設定
+		sprintf(buf, "[+]");
+		//文字列の描画
+		mText.DrawString(buf, -30, 20, 15, 15);
+	}
+	//ゴール
+	else if (CGoal::mTouchGoal == true) {
+		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
+		sprintf(buf, "GOAL");
+		mText.DrawString(buf, -100, 0, 35, 35);
+	}
 
 	//2D描画終了
 	CUtil::End2D();
