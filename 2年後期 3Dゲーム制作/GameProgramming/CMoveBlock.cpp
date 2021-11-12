@@ -62,7 +62,7 @@ CMoveBlock::CMoveBlock(CModel* model, CVector position, CVector rotation, CVecto
 	mRotation = rotation;	//‰ñ“]‚Ìİ’è
 	mScale = scale;			//Šgk‚Ìİ’è
 
-	mTag = EBLOCK;
+	mTag = EMOVEBLOCK;
 
 	mMoveCount = 0;
 

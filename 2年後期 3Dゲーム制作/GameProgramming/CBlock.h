@@ -25,6 +25,7 @@ private:
 	CColliderTriangle mColliderY4;
 
 public:
+
 	CBlock(CModel* model, CVector position, CVector rotation, CVector scale);
 
 	void Update();

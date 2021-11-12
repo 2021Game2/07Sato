@@ -72,7 +72,10 @@ void CBlock::Update() {
 }
 
 void CBlock::Collision(CCollider* m, CCollider* o) {
-
+	if (o->mType == CCollider::ELINE) {
+		if (o->mpParent->mTag == EPLAYER) {
+		}
+	}
 }
 
 void CBlock::TaskCollision() {

@@ -97,15 +97,15 @@ void CSceneGame::Init() {
 
 	//ブロック
 	new CBlock(&mBlock,
-		CVector(30.0f, 30.0f, 60.0f) * mBackGroundMatrix,
-		CVector(0.0f, 0.0f, 180.0f),
-		CVector(4.0f, 0.2f, 7.0f));
+		CVector(40.0f, 0.0f, 60.0f) * mBackGroundMatrix,
+		CVector(-60.0f, 0.0f, 0.0f),
+		CVector(3.0f, 2.0f, 3.0f));
 
 	//動くブロック
-	new CMoveBlock(&mBlock,
-		CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
-		CVector(0.0f, 0.0f, 0.0f),
-		CVector(3.0f, 3.0f, 3.0f));
+	//new CMoveBlock(&mBlock,
+	//	CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
+	//	CVector(0.0f, 0.0f, 0.0f),
+	//	CVector(3.0f, 3.0f, 3.0f));
 
 	//ダメージを受けるブロック
 	new CDamageBlock(&mDamageBlock,

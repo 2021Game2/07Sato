@@ -18,6 +18,7 @@ public:
 		ESCOREBLOCK1,	//的型
 		ESCOREBLOCK2,	//接触型
 		EBLOCK,			//障害物
+		EMOVEBLOCK,		//移動する障害物
 		EDAMAGEBLOCK,	//ダメージ有の障害物
 		EGOAL,			//ゴール
 	};

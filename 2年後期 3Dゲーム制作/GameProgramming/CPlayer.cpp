@@ -1,6 +1,7 @@
 //プレイヤークラスのインクルード
 #include"CPlayer.h"
 #include"CGoal.h"
+#include"CBlock.h"
 #include"CKey.h"
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
@@ -37,9 +38,9 @@ int CPlayer::mScore;
 float CPlayer::mTime;
 
 CPlayer::CPlayer()
-: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -3.0f), CVector(0.0f, 0.0f, 3.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 4.0f, 0.0f), CVector(0.0f, -4.0f, 0.0f))
-, mLine3(this, &mMatrix, CVector(3.0f, 0.0f, 0.0f), CVector(-3.0f, 0.0f, 0.0f))
+: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -6.0f, 0.0f))
+, mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
@@ -72,20 +73,20 @@ CPlayer::CPlayer()
 }
 
 //更新処理
-void CPlayer::Update(){
+void CPlayer::Update() {
 	if (mPosition.mY < 0) {
 		mPosition.mY = 0.1f;
 	}
 
 	//CTransformの更新
 	CTransform::Update();
-  
+
 	if (mPlayerHp >= 0) {
 
 		//shiftキーでダッシュ
 		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 2.8f) {
-			if(CKey::Push('W'))
-			mSpeedZ += VELOCITY + 0.4f;
+			if (CKey::Push('W'))
+				mSpeedZ += VELOCITY + 0.4f;
 		}
 
 		//移動
@@ -97,11 +98,11 @@ void CPlayer::Update(){
 			//Z軸の-移動
 			mSpeedZ -= VELOCITY;
 		}
-		if (CKey::Push('A') && mSpeedX < SPEEDREMIT){
+		if (CKey::Push('A') && mSpeedX < SPEEDREMIT) {
 			//X軸の+移動
 			mSpeedX += VELOCITY;
 		}
-		if (CKey::Push('D') && mSpeedX > -SPEEDREMIT){
+		if (CKey::Push('D') && mSpeedX > -SPEEDREMIT) {
 			//X軸の-移動
 			mSpeedX -= VELOCITY;
 		}
@@ -153,10 +154,10 @@ void CPlayer::Update(){
 		}
 
 		//瞬間移動
-		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0){
+		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
 			mStep = STEPMOVE;
 		}
-		if (mStep > 0){
+		if (mStep > 0) {
 			mSpeedZ += STEPSPEED;
 		}
 		else if (mStep == 0) {
@@ -193,36 +194,37 @@ void CPlayer::Update(){
 	}
 
 	//位置の移動
-	mPosition = CVector(mSpeedX,0.0f,mSpeedZ) * mMatrix;
+	mPosition = CVector(mSpeedX, 0.0f, mSpeedZ) * mMatrix;
 	//重力
 	mSpeedY += GLAVITY;
 	mPosition.mY += mSpeedY;
 
 	//慣性擬き
-	if (mPosition.mY < 5){
 		//X
-		if (mSpeedX >= 0.01){
-			mSpeedX -= VELOCITY / SUBERI;
-		}
-		else if (mSpeedX <= -0.01){
-			mSpeedX += VELOCITY / SUBERI;
-		}
-		//Z
-		if (mSpeedZ >= 0.01){
-			mSpeedZ -= VELOCITY / SUBERI;
-		}
-		else if (mSpeedZ <= -0.01){
-			mSpeedZ += VELOCITY / SUBERI;
-		}
+	if (mSpeedX >= 0.01) {
+		mSpeedX -= VELOCITY / SUBERI;
 	}
+	else if (mSpeedX <= -0.01) {
+		mSpeedX += VELOCITY / SUBERI;
+	}
+	//Z
+	if (mSpeedZ >= 0.01) {
+		mSpeedZ -= VELOCITY / SUBERI;
+	}
+	else if (mSpeedZ <= -0.01) {
+		mSpeedZ += VELOCITY / SUBERI;
+	}
+
 
 	if (mJumpTimer >= 0)
 		mJumpTimer--;
+
 	//時間加算
 	mTime++;
 
 	//無敵時間減算
 	mNotHit--;
+
 }
 
 //接触判定
@@ -232,28 +234,33 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 	case CCollider::ESPHERE:
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE) {
-			CVector adjust; //	調整用ベクトル
-			//三角形と線分の衝突判定
-			CCollider::CollisionTriangleSphere(o, m, &adjust);
-			//位置の更新(mPosition + adjust)
-			mPosition = mPosition - adjust * -1;
-
-			if (mPosition.mY < 2.0f) {
-				//ジャンプ再使用
-				if (mJumpTimer < 0) {
-					mJump = true;
-				}
-				//瞬間移動の減速
-				if (mStep > 0) {
-					mSpeedZ = 0;
-					mPosition.mY += 0.001f;
-				}
-				//着地
-				if (mPosition.mY < 1.0f && mSpeedY < 0) {
-					mSpeedY += 0.009f;
+			if (o->mpParent != nullptr) {
+				if (o->mpParent->mTag == EBLOCK) {
+					return;
 				}
 			}
-			CTransform::Update();
+				CVector adjust; //	調整用ベクトル
+				//三角形と線分の衝突判定
+				CCollider::CollisionTriangleSphere(o, m, &adjust);
+				//位置の更新(mPosition + adjust)
+				mPosition = mPosition - adjust * -1;
+
+				if (mPosition.mY < 2.0f) {
+					//ジャンプ再使用
+					if (mJumpTimer < 0) {
+						mJump = true;
+					}
+					//瞬間移動の減速
+					if (mStep > 0) {
+						mSpeedZ = 0;
+						mPosition.mY += 0.001f;
+					}
+					//着地
+					if (mPosition.mY < 1.0f && mSpeedY < 0) {
+						mSpeedY += 0.009f;
+					}
+				}
+				CTransform::Update();
 		}
 
 		//ダメージブロック接触時
@@ -265,22 +272,38 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				}
 			}
 		}
+		break;
 
 	case CCollider::ELINE:
-		if (o->mType == CCollider::ETRIANGLE) {
-			if (o->mpParent != nullptr) {
+		if (o->mpParent != nullptr) {
+			if (o->mType == CCollider::ETRIANGLE) {
+				CVector adjust; //	調整用ベクトル
+			//三角形と線分の衝突判定
+				CCollider::CollisionTriangleLine(o, m, &adjust);
+				//位置の更新(mPosition + adjust)
+				mPosition = mPosition - adjust * -1;
+
 				if (o->mpParent->mTag == EBLOCK) {
-					if (m->mpParent->mPosition.mY > o->mpParent->mPosition.mY) {
-						mSpeedY += 0.0004f;
-						if (mJumpTimer < 0) {
-							mJump = true;
-						}
+					if (mSpeedY < 0) {
+						mSpeedY += 0.005f;
+					}
+
+					if (mJumpTimer < 0) {
+						mJump = true;
 					}
 
 				}
+				if (o->mpParent->mTag == EMOVEBLOCK) {
+					if (mSpeedY < 0) {
+						mSpeedY += 0.0005f;
+					}
+
+					if (mJumpTimer < 0) {
+						mJump = true;
+					}
+				}
 			}
 		}
-
 	}
 }
 
