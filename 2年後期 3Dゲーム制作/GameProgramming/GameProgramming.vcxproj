@@ -92,6 +92,7 @@
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CMoveBlock.cpp" />
     <ClCompile Include="CPillar.cpp" />
+    <ClCompile Include="CSceneResult.cpp" />
     <ClCompile Include="CSphere.cpp" />
     <ClCompile Include="CBillBoard.cpp" />
     <ClCompile Include="CBullet.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CMoveBlock.h" />
     <ClInclude Include="CPillar.h" />
+    <ClInclude Include="CSceneResult.h" />
     <ClInclude Include="CSphere.h" />
     <ClInclude Include="CBillBoard.h" />
     <ClInclude Include="CBullet.h" />

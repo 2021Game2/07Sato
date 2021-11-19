@@ -22,10 +22,6 @@ private:
 	int mReloadTime;	//銃のリロード時間
 	int mNotHit;	//ダメージ後無敵時間
 
-	float mSpeedX;	//左右加速度
-	float mSpeedY;	//上下加速度
-	float mSpeedZ;	//前後加速度
-
 	float mBeforMouseX;	//直前マウス位置
 	float mBeforMouseY;
 	float mMouseMoveX;	//マウス移動量
@@ -37,6 +33,11 @@ public:
 
 	static int mPlayerHp;	//体力
 
+	static float mSpeedX;	//左右加速度
+	static float mSpeedY;	//上下加速度
+	static float mSpeedZ;	//前後加速度
+
+
 	static int mScore;
 
 	static float mTime;
@@ -46,6 +47,8 @@ public:
 	CColliderLine mLine2; //線分コライダ
 	CColliderLine mLine3; //線分コライダ
 	CCollider mCollider; //本体用コライダ
+
+	CColliderLine mSearchLine; //瞬間移動 強制停止用
 
 	CPlayer();
 	//更新処理

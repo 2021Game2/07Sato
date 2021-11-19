@@ -15,6 +15,7 @@ public:
 	マウスカーソルのウィンドウ上の座標を引数に設定する
 	ウィンドウ上の座標の原点は左上*/
 	static void GetMousePos(float *px, float *py);
+
 };
 
 #endif

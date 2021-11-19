@@ -1,4 +1,5 @@
 #include "CBlock.h"
+#include"CEffect.h"
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
 
@@ -72,10 +73,8 @@ void CBlock::Update() {
 }
 
 void CBlock::Collision(CCollider* m, CCollider* o) {
-	if (o->mType == CCollider::ELINE) {
-		if (o->mpParent->mTag == EPLAYER) {
-		}
-	}
+
+
 }
 
 void CBlock::TaskCollision() {
@@ -100,10 +99,12 @@ void CBlock::TaskCollision() {
 	CCollisionManager::Get()->Collision(&mColliderZ2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderZ3, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderZ4, COLLISIONRANGE);
+
 	CCollisionManager::Get()->Collision(&mColliderX1, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderX2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderX3, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderX4, COLLISIONRANGE);
+
 	CCollisionManager::Get()->Collision(&mColliderY1, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderY2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mColliderY3, COLLISIONRANGE);

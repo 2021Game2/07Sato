@@ -30,6 +30,8 @@
 
 CVector mEye;
 
+int CSceneGame::mScore = 0;
+
 //CSound Bgm;
 //CSound Se;
 
@@ -60,7 +62,7 @@ void CSceneGame::Init() {
 	//プレイヤー
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
-	mPlayer.mPosition = CVector(0.0f, 5.0f, -200.0f) * mBackGroundMatrix;
+	mPlayer.mPosition = CVector(0.0f, 10.0f, -200.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 
@@ -102,10 +104,10 @@ void CSceneGame::Init() {
 		CVector(3.0f, 2.0f, 3.0f));
 
 	//動くブロック
-	//new CMoveBlock(&mBlock,
-	//	CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
-	//	CVector(0.0f, 0.0f, 0.0f),
-	//	CVector(3.0f, 3.0f, 3.0f));
+	new CMoveBlock(&mBlock,
+		CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
 
 	//ダメージを受けるブロック
 	new CDamageBlock(&mDamageBlock,
@@ -131,6 +133,8 @@ void CSceneGame::Init() {
 	mFcamX = 0.0f;
 	mFcamY = 7.0f;
 	mFcamZ = 50.0f;
+
+	mResultTimer = 180;
 
 }
 
@@ -170,6 +174,12 @@ void CSceneGame::Update() {
 
 	//タスクリストの削除
 	CTaskManager::Get()->Delete();
+
+	/*if (CGoal::mTouchGoal == true) {
+		mClearScore = mScore;
+		mClearTime = CPlayer::mTime;
+		mResultTimer--;
+	}*/
 
 	//描画
 	CTaskManager::Get()->Render();

@@ -31,6 +31,10 @@
 
 int CPlayer::mPlayerHp = PHP;
 
+float CPlayer::mSpeedX = NULL;
+float CPlayer::mSpeedY = NULL;
+float CPlayer::mSpeedZ = NULL;
+
 CText mText;
 
 int CPlayer::mScore;
@@ -42,12 +46,11 @@ CPlayer::CPlayer()
 , mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -6.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
+, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 500.0f))
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //タグの設定
-	mSpeedX = NULL;
-	mSpeedY = NULL;
-	mSpeedZ = NULL;
+	
 	mJumpTimer = 0;
 	mJump = true;
 
@@ -70,6 +73,8 @@ CPlayer::CPlayer()
 
 	mMouseSpeedX = MOUSESPEEDX;
 	mMouseSpeedY = MOUSESPEEDY;
+
+	mSearchLine.mTag = CCollider::ESEARCH;
 }
 
 //更新処理
@@ -161,8 +166,10 @@ void CPlayer::Update() {
 			mSpeedZ += STEPSPEED;
 		}
 		else if (mStep == 0) {
-			mSpeedZ = 1;
 			mStepRecharge = 60;
+		}
+		if (mStep <= 0 && mStep >= -5 && mSpeedZ > 0.2f) {
+			mSpeedZ -= 14.0f;
 		}
 		mStep--;
 		mStepRecharge--;
@@ -188,9 +195,8 @@ void CPlayer::Update() {
 		mBeforMouseX = mMousePosX;
 		mBeforMouseY = mMousePosY;
 
-
-
 		//ここまでマウスの操作
+
 	}
 
 	//位置の移動
@@ -234,33 +240,24 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 	case CCollider::ESPHERE:
 		//相手のコライダが三角コライダの時
 		if (o->mType == CCollider::ETRIANGLE) {
-			if (o->mpParent != nullptr) {
-				if (o->mpParent->mTag == EBLOCK) {
-					return;
+			CVector adjust;		//調整用ベクトル
+			//三角形と線分の衝突判定
+			CCollider::CollisionTriangleSphere(o, m, &adjust);
+			//位置の更新(mPosition + adjust)
+			mPosition = mPosition - adjust * -1;
+
+			if (mPosition.mY < 2.0f) {
+				//ジャンプ再使用
+				if (mJumpTimer < 0) {
+					mJump = true;
+				}
+				//瞬間移動の減速
+				//着地
+				if (mPosition.mY < 1.0f && mSpeedY < 0) {
+					mSpeedY += 0.009f;
 				}
 			}
-				CVector adjust; //	調整用ベクトル
-				//三角形と線分の衝突判定
-				CCollider::CollisionTriangleSphere(o, m, &adjust);
-				//位置の更新(mPosition + adjust)
-				mPosition = mPosition - adjust * -1;
-
-				if (mPosition.mY < 2.0f) {
-					//ジャンプ再使用
-					if (mJumpTimer < 0) {
-						mJump = true;
-					}
-					//瞬間移動の減速
-					if (mStep > 0) {
-						mSpeedZ = 0;
-						mPosition.mY += 0.001f;
-					}
-					//着地
-					if (mPosition.mY < 1.0f && mSpeedY < 0) {
-						mSpeedY += 0.009f;
-					}
-				}
-				CTransform::Update();
+			CTransform::Update();
 		}
 
 		//ダメージブロック接触時
@@ -277,33 +274,28 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 	case CCollider::ELINE:
 		if (o->mpParent != nullptr) {
 			if (o->mType == CCollider::ETRIANGLE) {
-				CVector adjust; //	調整用ベクトル
-			//三角形と線分の衝突判定
-				CCollider::CollisionTriangleLine(o, m, &adjust);
-				//位置の更新(mPosition + adjust)
-				mPosition = mPosition - adjust * -1;
 
 				if (o->mpParent->mTag == EBLOCK) {
-					if (mSpeedY < 0) {
+					if (mSpeedY < -4.0) {
 						mSpeedY += 0.005f;
 					}
-
 					if (mJumpTimer < 0) {
 						mJump = true;
 					}
-
 				}
+
 				if (o->mpParent->mTag == EMOVEBLOCK) {
-					if (mSpeedY < 0) {
-						mSpeedY += 0.0005f;
+					if (mSpeedY < -4.0) {
+						mSpeedY += 0.005f;
 					}
-
 					if (mJumpTimer < 0) {
 						mJump = true;
 					}
 				}
+
 			}
 		}
+
 	}
 }
 
@@ -367,7 +359,13 @@ void CPlayer::Render(){
 	//ゴール
 	else if (CGoal::mTouchGoal == true) {
 		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
-		sprintf(buf, "GOAL");
+		sprintf(buf, "CLEAR");
+		mText.DrawString(buf, -100, 0, 35, 35);
+	}
+
+	if (mPlayerHp == 0) {
+		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
+		sprintf(buf, "FAILED");
 		mText.DrawString(buf, -100, 0, 35, 35);
 	}
 
@@ -382,9 +380,11 @@ void CPlayer::TaskCollision(){
 	mLine2.ChangePriority();
 	mLine3.ChangePriority();
 	mCollider.ChangePriority();
+	mSearchLine.ChangePriority();
 	//衝突処理 実行
 	CCollisionManager::Get()->Collision(&mLine, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine3, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
+	CCollisionManager::Get()->Collision(&mSearchLine, COLLISIONRANGE);
 }

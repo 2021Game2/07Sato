@@ -21,6 +21,8 @@ private:
 	float mFcamY;
 	float mFcamZ;
 
+	int mResultTimer;	//ゴールからリザルト画面までの待ち時間
+
 public:
 	//モデルクラスのインスタンス作成
 	CModel mModel;
@@ -30,6 +32,9 @@ public:
 	CColliderMesh mColliderMesh;
 
 	static int mScore;
+
+	int mClearScore;
+	float mClearTime;
 
 
 	CModel mBackGround; //背景

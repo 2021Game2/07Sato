@@ -13,4 +13,3 @@ void CInput::GetMousePos(float *px, float *py){
 	*py = ypos;
 	return;
 }
-
