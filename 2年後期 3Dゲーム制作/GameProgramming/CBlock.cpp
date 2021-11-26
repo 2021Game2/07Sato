@@ -73,8 +73,26 @@ void CBlock::Update() {
 }
 
 void CBlock::Collision(CCollider* m, CCollider* o) {
+	CVector adjust;
+	if (o->mpParent != nullptr) {
+		switch (o->CCollider::mType) {
+		case CCollider::ELINE:
+			if (CCollider::CollisionTriangleLine(m, o, &adjust)) {
+				if (o->mpParent->mTag == EPLAYER) {
+					o->mPosition = mPosition - adjust * -1;
+				}
+				break;
+			}
+		case CCollider::ESPHERE:
+			if (CCollider::CollisionTriangleSphere(m, o, &adjust)) {
+				if (o->mpParent->mTag == EPLAYER) {
+					break;
+				}
+				
+			}
 
-
+		}
+	}
 }
 
 void CBlock::TaskCollision() {

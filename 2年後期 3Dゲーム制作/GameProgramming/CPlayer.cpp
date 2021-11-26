@@ -46,7 +46,7 @@ CPlayer::CPlayer()
 , mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -6.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
-, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 500.0f))
+, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 20.0f))
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //É^ÉOÇÃê›íË
@@ -95,11 +95,11 @@ void CPlayer::Update() {
 		}
 
 		//à⁄ìÆ
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.3f) {
+		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.7f) {
 			//Zé≤ÇÃ+à⁄ìÆ
 			mSpeedZ += VELOCITY + 0.2f;
 		}
-		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.18f) {
+		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.3f) {
 			//Zé≤ÇÃ-à⁄ìÆ
 			mSpeedZ -= VELOCITY;
 		}
@@ -135,6 +135,7 @@ void CPlayer::Update() {
 			mRotation.mX += 1;
 		}
 
+		//éãì_è„â∫äpêßå¿
 		if (mRotation.mX < -80)
 			mRotation.mX = -79;
 
@@ -161,12 +162,10 @@ void CPlayer::Update() {
 		//èuä‘à⁄ìÆ
 		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
 			mStep = STEPMOVE;
+			mStepRecharge = 60;
 		}
 		if (mStep > 0) {
 			mSpeedZ += STEPSPEED;
-		}
-		else if (mStep == 0) {
-			mStepRecharge = 60;
 		}
 		if (mStep <= 0 && mStep >= -5 && mSpeedZ > 0.2f) {
 			mSpeedZ -= 14.0f;
@@ -274,29 +273,30 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 	case CCollider::ELINE:
 		if (o->mpParent != nullptr) {
 			if (o->mType == CCollider::ETRIANGLE) {
-
-				if (o->mpParent->mTag == EBLOCK) {
-					if (mSpeedY < -4.0) {
-						mSpeedY += 0.005f;
-					}
-					if (mJumpTimer < 0) {
-						mJump = true;
-					}
-				}
-
-				if (o->mpParent->mTag == EMOVEBLOCK) {
-					if (mSpeedY < -4.0) {
-						mSpeedY += 0.005f;
-					}
-					if (mJumpTimer < 0) {
-						mJump = true;
+				CVector adjust;
+				CCollider::CollisionTriangleLine(m, o, &adjust);
+				if (m->mTag == CCollider::ESEARCH) {
+					if (mSpeedZ > 2 && mStep > 0) {
+						mSpeedZ = 10.0f;
+						CTransform::Update();
 					}
 				}
-
+					if (o->mpParent->mTag == EBLOCK || o->mpParent->mTag == EMOVEBLOCK) {
+						if (mSpeedY < -4.0) {
+							mSpeedY += 0.005f;
+						}
+						if (mJumpTimer < 0) {
+							mJump = true;
+						}
+						break;
+					}
 			}
+
 		}
 
 	}
+
+
 }
 
 //âÊñ è„2Dï`âÊ
@@ -359,14 +359,14 @@ void CPlayer::Render(){
 	//ÉSÅ[Éã
 	else if (CGoal::mTouchGoal == true) {
 		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
-		sprintf(buf, "CLEAR");
-		mText.DrawString(buf, -100, 0, 35, 35);
+		sprintf(buf, "GOAL");
+		mText.DrawString(buf, -120, 0, 35, 35);
 	}
 
 	if (mPlayerHp == 0) {
-		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
+		glColor4f(0.5f, 0.3f, 0.3f, 1.0f);
 		sprintf(buf, "FAILED");
-		mText.DrawString(buf, -100, 0, 35, 35);
+		mText.DrawString(buf, -150, 0, 35, 35);
 	}
 
 	//2Dï`âÊèIóπ

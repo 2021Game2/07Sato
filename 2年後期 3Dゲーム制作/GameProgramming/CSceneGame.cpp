@@ -39,7 +39,7 @@ void CSceneGame::Init() {
 
 	//モデルファイルの入力
 
-	mBackGround.Load("Load Base.obj", "Load Base.mtl");
+	mBackGround.Load("Load.obj", "Load.mtl");
 
 	mModel.Load("Character.obj", "Character.mtl");
 	mPillar.Load("Pillar.obj","Pillar.mtl");
@@ -62,7 +62,7 @@ void CSceneGame::Init() {
 	//プレイヤー
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
-	mPlayer.mPosition = CVector(0.0f, 10.0f, -200.0f) * mBackGroundMatrix;
+	mPlayer.mPosition = CVector(0.0f, 10.0f, -215.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 
@@ -112,6 +112,22 @@ void CSceneGame::Init() {
 	//ダメージを受けるブロック
 	new CDamageBlock(&mDamageBlock,
 		CVector(0.0f, 20.0f, -150.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(20.0f, 20.0f, -150.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(0.0f, 5.0f, -150.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(20.0f, 5.0f, -150.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(0.0f, 20.0f, -100.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 
@@ -179,6 +195,9 @@ void CSceneGame::Update() {
 		mClearScore = mScore;
 		mClearTime = CPlayer::mTime;
 		mResultTimer--;
+	}*/
+	/*if (mResultTimer < 0){
+		
 	}*/
 
 	//描画

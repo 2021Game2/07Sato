@@ -25,7 +25,7 @@ void CBullet::Update(){
 	if (mLife-- > 0){
 		CTransform::Update();
 		//位置更新
-		mPosition = CVector(0.0f, 0.0f, 15.0f) * mMatrix;
+		mPosition = CVector(0.0f, 0.0f, 19.0f) * mMatrix;
 		mRotation.mZ += 240;
 	}
 	else{
@@ -62,10 +62,10 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 			CVector adjust;		//調整用ベクトル
 			//三角形と線分の衝突判定
 			CCollider::CollisionTriangleSphere(o, m, &adjust);
-			//位置の更新(mPosition + adjust)
-			mPosition = mPosition - adjust * -1;
 			new CEffect(m->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
-			mEnabled = false;
+				mEnabled = false;
+				return;
+
 		}
 	}
 }
