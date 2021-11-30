@@ -1,6 +1,7 @@
 #include "CMoveBlock.h"
 #include"CTaskManager.h"
 #include"CCollisionManager.h"
+#include"CEffect.h"
 
 #define MOVE 140
 
@@ -88,7 +89,31 @@ void CMoveBlock::Update() {
 }
 
 void CMoveBlock::Collision(CCollider* m, CCollider* o) {
+	CVector adjust;
+	if (o->mpParent != nullptr) {
+		switch (o->CCollider::mType) {
+		case CCollider::ELINE:
+			if (CCollider::CollisionTriangleLine(m, o, &adjust)) {
+				if (o->mpParent->mTag == EPLAYER) {
+					o->mPosition = mPosition - adjust * -1;
+				}
+				break;
+			}
+		case CCollider::ESPHERE:
+			if (CCollider::CollisionTriangleSphere(m, o, &adjust)) {
+				if (o->mpParent->mTag == EPLAYER) {
+					break;
+				}
+				if (o->mpParent->mTag == EBULLET) {
+					CCollider::CollisionTriangleSphere(o, m, &adjust);
+					new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					o->mEnabled = false;
+				}
 
+			}
+
+		}
+	}
 }
 
 void CMoveBlock::TaskCollision() {

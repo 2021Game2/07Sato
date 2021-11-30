@@ -36,7 +36,7 @@ int CSceneGame::mScore = 0;
 //CSound Se;
 
 void CSceneGame::Init() {
-
+	mScene = EGAME;
 	//モデルファイルの入力
 
 	mBackGround.Load("Load.obj", "Load.mtl");
@@ -197,10 +197,21 @@ void CSceneGame::Update() {
 		mResultTimer--;
 	}*/
 	/*if (mResultTimer < 0){
-		
+		mScene = ERESULT;
 	}*/
+
+	if (CPlayer::mPlayerHp == 0) {
+		if (CKey::Once('R')) {
+			mScene = EGAME;
+		}
+	}
 
 	//描画
 	CTaskManager::Get()->Render();
 	CCollisionManager::Get()->Render();
+}
+
+//次のシーンの取得
+CScene::EScene CSceneGame::GetNextScene() {
+	return mScene;
 }

@@ -61,10 +61,7 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 		if (o->mpParent->mTag == EBLOCK || o->mpParent->mTag == EMOVEBLOCK) {
 			CVector adjust;		//調整用ベクトル
 			//三角形と線分の衝突判定
-			CCollider::CollisionTriangleSphere(o, m, &adjust);
-			new CEffect(m->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
-				mEnabled = false;
-				return;
+			return;
 
 		}
 	}

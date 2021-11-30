@@ -43,7 +43,7 @@ float CPlayer::mTime;
 
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
-, mLine2(this, &mMatrix, CVector(0.0f, 6.0f, 0.0f), CVector(0.0f, -6.0f, 0.0f))
+, mLine2(this, &mMatrix, CVector(0.0f, 8.0f, 0.0f), CVector(0.0f, -8.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 , mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 20.0f))
@@ -273,25 +273,16 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 	case CCollider::ELINE:
 		if (o->mpParent != nullptr) {
 			if (o->mType == CCollider::ETRIANGLE) {
-				CVector adjust;
-				CCollider::CollisionTriangleLine(m, o, &adjust);
-				if (m->mTag == CCollider::ESEARCH) {
-					if (mSpeedZ > 2 && mStep > 0) {
-						mSpeedZ = 10.0f;
-						CTransform::Update();
+				if (o->mpParent->mTag == EBLOCK || o->mpParent->mTag == EMOVEBLOCK) {
+					if (mSpeedY < -4.0) {
+						mSpeedY += 0.005f;
 					}
+					if (mJumpTimer < 0) {
+						mJump = true;
+					}
+					break;
 				}
-					if (o->mpParent->mTag == EBLOCK || o->mpParent->mTag == EMOVEBLOCK) {
-						if (mSpeedY < -4.0) {
-							mSpeedY += 0.005f;
-						}
-						if (mJumpTimer < 0) {
-							mJump = true;
-						}
-						break;
-					}
 			}
-
 		}
 
 	}
