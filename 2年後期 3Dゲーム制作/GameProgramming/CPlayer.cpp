@@ -89,13 +89,13 @@ void CPlayer::Update() {
 	if (mPlayerHp >= 0) {
 
 		//shiftキーでダッシュ
-		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 2.8f) {
+		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
 			if (CKey::Push('W'))
 				mSpeedZ += VELOCITY + 0.4f;
 		}
 
 		//移動
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 0.7f) {
+		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 1.1f) {
 			//Z軸の+移動
 			mSpeedZ += VELOCITY + 0.2f;
 		}
@@ -265,6 +265,8 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				if (mNotHit < 0) {
 					mPlayerHp--;
 					mNotHit = 5;
+					new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					o->mpParent->mEnabled = false;
 				}
 			}
 		}

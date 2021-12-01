@@ -35,7 +35,8 @@ int CSceneGame::mScore = 0;
 //CSound Bgm;
 //CSound Se;
 
-void CSceneGame::Init() {
+void CSceneGame::Init()
+{
 	mScene = EGAME;
 	//モデルファイルの入力
 
