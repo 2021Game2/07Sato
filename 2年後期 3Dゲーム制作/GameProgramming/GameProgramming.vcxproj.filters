@@ -234,6 +234,12 @@
     <ClCompile Include="CSceneResult.cpp">
       <Filter>ソース ファイル\シーン</Filter>
     </ClCompile>
+    <ClCompile Include="CSceneTitle.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerLeg.cpp">
+      <Filter>ソース ファイル\出現物\Player系</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCharacter.h">
@@ -361,6 +367,12 @@
     </ClInclude>
     <ClInclude Include="CSceneResult.h">
       <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneTitle.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerLeg.h">
+      <Filter>ヘッダー ファイル\出現物\Player系</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

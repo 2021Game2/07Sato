@@ -7,6 +7,9 @@
 
 #define SCORE 150
 
+extern CSound ScoreAdd;
+
+
 CTarget::CTarget(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
 ,mTri1(this,&mMatrix,
@@ -41,6 +44,7 @@ void CTarget::Collision(CCollider* m, CCollider* o){
 			if (o->mpParent->mTag == EBULLET) {
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 				CPlayer::mScore += SCORE;
+				ScoreAdd.Play();
 				mEnabled = false;
 			}
 		}

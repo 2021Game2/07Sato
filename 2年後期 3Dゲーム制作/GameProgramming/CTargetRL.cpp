@@ -8,6 +8,8 @@
 #define RLSCORE 300
 #define MOVE 60
 
+extern CSound ScoreAdd;
+
 CTargetRL::CTargetRL(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f) 
 , mTri1(this, &mMatrix,
@@ -55,6 +57,7 @@ void CTargetRL::Collision(CCollider* m, CCollider* o) {
 			if (o->mpParent->mTag == EBULLET) {
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 				CPlayer::mScore += RLSCORE;
+				ScoreAdd.Play();
 				mEnabled = false;
 			}
 		}

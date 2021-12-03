@@ -8,6 +8,8 @@
 #define UDSCORE 300
 #define MOVE 80
 
+extern CSound ScoreAdd;
+
 CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
 , mTri1(this, &mMatrix,
@@ -54,6 +56,7 @@ void CTargetUD::Collision(CCollider* m, CCollider* o) {
 			if (o->mpParent->mTag == EBULLET) {
 				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 				CPlayer::mScore += UDSCORE;
+				ScoreAdd.Play();
 				mEnabled = false;
 			}
 		}

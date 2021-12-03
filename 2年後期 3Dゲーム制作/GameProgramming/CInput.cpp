@@ -1,4 +1,5 @@
 #include "CInput.h"
+#include<windows.h>
 
 GLFWwindow* CInput::mpWindow = 0;
 

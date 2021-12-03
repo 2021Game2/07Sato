@@ -6,6 +6,7 @@
 CBullet::CBullet()
 :mLife(50)
 ,mCollider(this,&mMatrix,CVector(0.0f,0.0f,5.0f),1.0f)
+,mCollider2(this, &mMatrix, CVector(0.0f, 0.0f, -2.0f), 1.0f)
 {}
 
 //幅と奥行きの設定
@@ -46,6 +47,11 @@ void CBullet::Render(){
 //衝突処理
 //Collision(コライダ1,コライダ2)
 void CBullet::Collision(CCollider* m, CCollider* o) {
+	if (CCollider::Collision(m, o)) {
+		if (o->mpParent->mTag == EPLAYER) {
+			return;
+		}
+	}
 	//コライダのmとoが衝突しているか判定
 	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
@@ -71,6 +77,8 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 void CBullet::TaskCollision(){
 	//コライダの優先度変更
 	mCollider.ChangePriority();
+	mCollider2.ChangePriority();
 	//衝突処理 実行
 	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
+	CCollisionManager::Get()->Collision(&mCollider2, COLLISIONRANGE);
 }

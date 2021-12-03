@@ -7,6 +7,8 @@
 */
 class CSceneManager {
 public:
+	CScene::EScene mScene; //シーンの識別
+
 	CScene *mpScene; //シーンへのポインタ
 	//コンストラクタ
 	CSceneManager();

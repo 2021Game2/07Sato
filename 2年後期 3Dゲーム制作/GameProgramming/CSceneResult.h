@@ -15,5 +15,7 @@ public:
 	void Init();
 	//更新処理のオーバーライド
 	void Update();
+	//次のシーンの取得
+	EScene GetNextScene();
 };
 #endif

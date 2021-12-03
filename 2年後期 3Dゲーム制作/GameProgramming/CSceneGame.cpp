@@ -32,14 +32,45 @@ CVector mEye;
 
 int CSceneGame::mScore = 0;
 
-//CSound Bgm;
-//CSound Se;
+
+	//CSound Bgm;
+
+	CSound Fire;
+	CSound Bomb;
+	CSound Reloaded;
+	CSound ScoreAdd;
+	CSound Start;
+	CSound Noise;	//駆動音
+	CSound Jump;
+	CSound Step;
+	CSound Clear;
+	CSound Faild;
+	CSound Moving;
 
 void CSceneGame::Init()
 {
 	mScene = EGAME;
-	//モデルファイルの入力
 
+	//Bgm.Load("bgm.wav");
+	//Bgm.Repeat();
+
+	//SE
+	Fire.Load("Fire.wav");
+	Bomb.Load("Bomb.wav");
+	Reloaded.Load("Reloaded.wav");
+	ScoreAdd.Load("ScoreAdd.wav");
+	Start.Load("Start.wav");
+	Noise.Load("Noise.wav");
+	Jump.Load("Jump.wav");
+	Step.Load("Step.wav");
+	Clear.Load("Clear.wav");
+	Faild.Load("Faild.wav");
+	Moving.Load("Moving.wav");
+
+	Noise.Repeat();
+
+
+	//モデルファイルの入力
 	mBackGround.Load("Load.obj", "Load.mtl");
 
 	mModel.Load("Character.obj", "Character.mtl");
@@ -51,9 +82,6 @@ void CSceneGame::Init()
 	mGoal.Load("Goal.obj", "Goal.mtl");
 	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
 	//mGun.Load("Gun.obj", "Gun.mtl");
-
-	//wav読み込み
-	//Bgm.Load(".wav");
 
 	CMatrix matrix;
 	matrix.Print();
@@ -134,9 +162,9 @@ void CSceneGame::Init()
 
 	//ゴール
 	new CGoal(&mGoal,
-		CVector(0.0f, 1.0f, 350.0f) * mBackGroundMatrix,
+		CVector(45.0f, 1.0f, 900.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
-		CVector(10.0f, 10.0f, 10.0f));
+		CVector(20.0f, 20.0f, 20.0f));
 
 
 	mColliderMesh.Set(NULL, &mBackGroundMatrix, &mBackGround);
@@ -152,7 +180,6 @@ void CSceneGame::Init()
 	mFcamZ = 50.0f;
 
 	mResultTimer = 180;
-
 }
 
 void CSceneGame::Update() {
@@ -174,7 +201,6 @@ void CSceneGame::Update() {
 
 	//カメラのパラメータを作成する
 	CVector e, c, u;	//視点,注視点,上方向
-
 
 	//視点を求める
 	e = CVector(mCamX, mCamY, mCamZ) * mPlayer.mMatrix;
@@ -201,11 +227,12 @@ void CSceneGame::Update() {
 		mScene = ERESULT;
 	}*/
 
-	if (CPlayer::mPlayerHp == 0) {
-		if (CKey::Once('R')) {
-			mScene = EGAME;
-		}
-	}
+	//if (CPlayer::mPlayerHp == 0) {
+
+	//	if (CKey::Once('R')) {
+	//		mScene = ETITLE;
+	//	}
+	//}
 
 	//描画
 	CTaskManager::Get()->Render();

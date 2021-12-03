@@ -22,7 +22,7 @@
 #define SPEEDREMIT 0.9	//速度制限
 #define SUBERI 2	//滑り易さ
 
-#define RELOAD 80
+#define RELOAD -80
 
 #define PHP 5	//HP
 
@@ -41,12 +41,22 @@ int CPlayer::mScore;
 
 float CPlayer::mTime;
 
+//音声
+extern CSound Fire;
+extern CSound Reloaded;
+extern CSound Bomb;
+extern CSound Jump;
+extern CSound Step;
+extern CSound Faild;
+extern CSound Moving;
+
+
 CPlayer::CPlayer()
 : mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
 , mLine2(this, &mMatrix, CVector(0.0f, 8.0f, 0.0f), CVector(0.0f, -8.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
-, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 20.0f))
+, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 80.0f))
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //タグの設定
@@ -64,6 +74,8 @@ CPlayer::CPlayer()
 
 	mTime = 0;
 	mScore = 0;
+
+	mPlayCount = 0;
 
 
 	mBeforMouseX = 0;
@@ -86,30 +98,35 @@ void CPlayer::Update() {
 	//CTransformの更新
 	CTransform::Update();
 
-	if (mPlayerHp >= 0) {
+	if (mPlayerHp > 0) {
 
 		//shiftキーでダッシュ
 		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
 			if (CKey::Push('W'))
 				mSpeedZ += VELOCITY + 0.4f;
+			Moving.Play();
 		}
 
 		//移動
 		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 1.1f) {
 			//Z軸の+移動
 			mSpeedZ += VELOCITY + 0.2f;
+			Moving.Play();
 		}
 		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.3f) {
 			//Z軸の-移動
 			mSpeedZ -= VELOCITY;
+			Moving.Play();
 		}
 		if (CKey::Push('A') && mSpeedX < SPEEDREMIT) {
 			//X軸の+移動
 			mSpeedX += VELOCITY;
+			Moving.Play();
 		}
 		if (CKey::Push('D') && mSpeedX > -SPEEDREMIT) {
 			//X軸の-移動
 			mSpeedX -= VELOCITY;
+			Moving.Play();
 		}
 
 
@@ -117,6 +134,7 @@ void CPlayer::Update() {
 		if (CKey::Once(VK_SPACE) && mJump == true) {
 			mSpeedY = JUMPPOWER;
 			mJumpTimer = JUMPRECHARGE;
+			Jump.Play();
 			mJump = false;
 		}
 
@@ -146,22 +164,27 @@ void CPlayer::Update() {
 
 		//ここからマウスによる操作
 		//左クリックで弾を発射
-		if (CKey::Once(VK_LBUTTON) && mReloadTime < 0) {
+		if (CKey::Once(VK_LBUTTON) && mReloadTime > 0) {
 			CBullet* bullet = new CBullet();
 			bullet->mTag = CCharacter::EBULLET;
 			bullet->Set(1.5f, 14.0f);
 			bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
 			bullet->mRotation = mRotation;
 			bullet->Update();
+			Fire.Play();
 			mReloadTime = RELOAD;
 		}
-		if (mReloadTime > -1) {
-			mReloadTime--;
+		if (mReloadTime < 1) {
+			mReloadTime++;
+		}
+		if (mReloadTime == 0) {
+			Reloaded.Play();
 		}
 
 		//瞬間移動
 		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
 			mStep = STEPMOVE;
+			Step.Play();
 			mStepRecharge = 60;
 		}
 		if (mStep > 0) {
@@ -197,6 +220,12 @@ void CPlayer::Update() {
 		//ここまでマウスの操作
 
 	}
+	else {
+		if (mPlayCount == 0) {
+			Faild.Play();
+			mPlayCount++;
+		}
+	}
 
 	//位置の移動
 	mPosition = CVector(mSpeedX, 0.0f, mSpeedZ) * mMatrix;
@@ -225,7 +254,9 @@ void CPlayer::Update() {
 		mJumpTimer--;
 
 	//時間加算
-	mTime++;
+	if (CGoal::mTouchGoal == false) {
+		mTime++;
+	}
 
 	//無敵時間減算
 	mNotHit--;
@@ -266,6 +297,7 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					mPlayerHp--;
 					mNotHit = 5;
 					new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					Bomb.Play();
 					o->mpParent->mEnabled = false;
 				}
 			}
@@ -284,6 +316,13 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					}
 					break;
 				}
+			}
+			if (m->mTag == CCollider::ESEARCH) {
+					CVector adjust;		//調整用ベクトル
+					//三角形と線分の衝突判定
+					CCollider::CollisionTriangleSphere(o, m, &adjust);
+
+
 			}
 		}
 
@@ -330,7 +369,7 @@ void CPlayer::Render(){
 	//文字列の設定
 	sprintf(buf, "HP:%d", mPlayerHp);
 	//文字列の描画
-	mText.DrawString(buf, -100, 250, 20, 20);
+	mText.DrawString(buf, -300, -250, 20, 20);
 
 	//文字列の設定
 	sprintf(buf, "SCORE:%d",mScore);
@@ -348,6 +387,28 @@ void CPlayer::Render(){
 		sprintf(buf, "[+]");
 		//文字列の描画
 		mText.DrawString(buf, -30, 20, 15, 15);
+
+		//リロード状況
+		if (mReloadTime < 0) {
+			sprintf(buf, "RELOADING:");
+			mText.DrawString(buf, -150, -10, 10, 10);
+
+			if (mReloadTime > -60) {
+				sprintf(buf, "[]");
+				mText.DrawString(buf, 40, -10, 12, 12);
+
+				if (mReloadTime > -40) {
+					sprintf(buf, "[]");
+					mText.DrawString(buf, 80, -10, 12, 12);
+
+					if (mReloadTime > -20) {
+						sprintf(buf, "[]");
+						mText.DrawString(buf, 120, -10, 12, 12);
+					}
+				}
+			}
+		}
+
 	}
 	//ゴール
 	else if (CGoal::mTouchGoal == true) {
@@ -360,6 +421,8 @@ void CPlayer::Render(){
 		glColor4f(0.5f, 0.3f, 0.3f, 1.0f);
 		sprintf(buf, "FAILED");
 		mText.DrawString(buf, -150, 0, 35, 35);
+		//sprintf(buf, "RESTART TO R");
+		//mText.DrawString(buf, -190, -50, 20, 20);
 	}
 
 	//2D描画終了
