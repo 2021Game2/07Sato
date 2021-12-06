@@ -231,12 +231,6 @@
     <ClCompile Include="CMoveBlock.cpp">
       <Filter>ソース ファイル\出現物\障害物\ブロック</Filter>
     </ClCompile>
-    <ClCompile Include="CSceneResult.cpp">
-      <Filter>ソース ファイル\シーン</Filter>
-    </ClCompile>
-    <ClCompile Include="CSceneTitle.cpp">
-      <Filter>ソース ファイル\シーン</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerLeg.cpp">
       <Filter>ソース ファイル\出現物\Player系</Filter>
     </ClCompile>
@@ -364,12 +358,6 @@
     </ClInclude>
     <ClInclude Include="CMoveBlock.h">
       <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>
-    </ClInclude>
-    <ClInclude Include="CSceneResult.h">
-      <Filter>ヘッダー ファイル\シーン</Filter>
-    </ClInclude>
-    <ClInclude Include="CSceneTitle.h">
-      <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerLeg.h">
       <Filter>ヘッダー ファイル\出現物\Player系</Filter>

@@ -22,7 +22,7 @@ private:
 	int mReloadTime;	//銃のリロード時間
 	int mNotHit;	//ダメージ後無敵時間
 
-	int mPlayCount; //ゲームオーバー時音声再生制御
+	bool mFaildSound; //ゲームオーバー時音声再生制御
 
 	float mBeforMouseX;	//直前マウス位置
 	float mBeforMouseY;

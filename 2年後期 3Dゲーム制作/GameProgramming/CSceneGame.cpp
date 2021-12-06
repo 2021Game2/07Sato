@@ -32,6 +32,8 @@ CVector mEye;
 
 int CSceneGame::mScore = 0;
 
+bool CSceneGame::mStartFlag = true;
+
 
 	//CSound Bgm;
 
@@ -172,14 +174,13 @@ void CSceneGame::Init()
 
 	//カメラ位置
 	mCamX = 0.0f;
-	mCamY = 15.0f;
-	mCamZ = -20.0f;
+	mCamY = 13.0f;
+	mCamZ = -15.0f;
 	
 	mFcamX = 0.0f;
-	mFcamY = 7.0f;
+	mFcamY = 8.5f;
 	mFcamZ = 50.0f;
 
-	mResultTimer = 180;
 }
 
 void CSceneGame::Update() {
@@ -218,21 +219,33 @@ void CSceneGame::Update() {
 	//タスクリストの削除
 	CTaskManager::Get()->Delete();
 
+	//スタート時一時ストップ
+	if (mStartFlag == true) {
+		if (CKey::Once(VK_SPACE)) {
+			mStartFlag = false;
+		}
+	}
+
+	//ゴール時スコア表示
 	/*if (CGoal::mTouchGoal == true) {
 		mClearScore = mScore;
 		mClearTime = CPlayer::mTime;
 		mResultTimer--;
 	}*/
-	/*if (mResultTimer < 0){
-		mScene = ERESULT;
-	}*/
 
-	//if (CPlayer::mPlayerHp == 0) {
+	//ゲームオーバー時
+	if (CPlayer::mPlayerHp == 0) {
+		if (CKey::Once('R')) {
+			CPlayer::mPlayerHp = 5;
+			Init();
 
-	//	if (CKey::Once('R')) {
-	//		mScene = ETITLE;
-	//	}
-	//}
+			mStartFlag = true;
+		}
+		if (CKey::Once('T')) {
+			CPlayer::mPlayerHp = 5;
+			mStartFlag = true;
+		}
+	}
 
 	//描画
 	CTaskManager::Get()->Render();

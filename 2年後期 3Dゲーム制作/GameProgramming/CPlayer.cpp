@@ -9,6 +9,7 @@
 #include"CUtil.h"
 #include"CInput.h"
 #include"CSound.h"
+#include"CSceneGame.h"
 
 #define GLAVITY -0.07f //重力
 #define JUMPPOWER 3.0f	//ジャンプ力
@@ -75,7 +76,7 @@ CPlayer::CPlayer()
 	mTime = 0;
 	mScore = 0;
 
-	mPlayCount = 0;
+	mFaildSound = true;
 
 
 	mBeforMouseX = 0;
@@ -98,132 +99,137 @@ void CPlayer::Update() {
 	//CTransformの更新
 	CTransform::Update();
 
+
 	if (mPlayerHp > 0) {
+		if (CSceneGame::mStartFlag == false) {	//スタート前の行動制限
 
-		//shiftキーでダッシュ
-		if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
-			if (CKey::Push('W'))
-				mSpeedZ += VELOCITY + 0.4f;
-			Moving.Play();
+			//時間加算
+			if (CGoal::mTouchGoal == false) {
+				mTime++;
+			}
+
+			//shiftキーでダッシュ
+			if (CKey::Push(VK_SHIFT) && mSpeedZ < SPEEDREMIT + 3.0f) {
+				if (CKey::Push('W'))
+					mSpeedZ += VELOCITY + 0.4f;
+				Moving.Play();
+			}
+
+			//移動
+			if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 1.1f) {
+				//Z軸の+移動
+				mSpeedZ += VELOCITY + 0.2f;
+				Moving.Play();
+			}
+			if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.3f) {
+				//Z軸の-移動
+				mSpeedZ -= VELOCITY;
+				Moving.Play();
+			}
+			if (CKey::Push('A') && mSpeedX < SPEEDREMIT) {
+				//X軸の+移動
+				mSpeedX += VELOCITY;
+				Moving.Play();
+			}
+			if (CKey::Push('D') && mSpeedX > -SPEEDREMIT) {
+				//X軸の-移動
+				mSpeedX -= VELOCITY;
+				Moving.Play();
+			}
+
+
+			//スペースキーでジャンプ
+			if (CKey::Once(VK_SPACE) && mJump == true) {
+				mSpeedY = JUMPPOWER;
+				mJumpTimer = JUMPRECHARGE;
+				Jump.Play();
+				mJump = false;
+			}
+
+			////一時的旋回キー
+			//if (CKey::Push(VK_RIGHT)) {
+			//	mRotation.mY -= 1;
+			//}
+			//if (CKey::Push(VK_LEFT)) {
+			//	mRotation.mY += 1;
+			//}
+
+			//if (CKey::Push(VK_UP)) {
+			//	mRotation.mX -= 1;
+			//}
+			//if (CKey::Push(VK_DOWN)) {
+			//	mRotation.mX += 1;
+			//}
+
+			//ここからマウスによる操作
+			//左クリックで弾を発射
+			if (CKey::Once(VK_LBUTTON) && mReloadTime > 0) {
+				CBullet* bullet = new CBullet();
+				bullet->mTag = CCharacter::EBULLET;
+				bullet->Set(1.5f, 14.0f);
+				bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
+				bullet->mRotation = mRotation;
+				bullet->Update();
+				Fire.Play();
+				mReloadTime = RELOAD;
+			}
+			if (mReloadTime < 1) {
+				mReloadTime++;
+			}
+			if (mReloadTime == 0) {
+				Reloaded.Play();
+			}
+
+			//右クリックで瞬間移動
+			if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
+				mStep = STEPMOVE;
+				Step.Play();
+				mStepRecharge = 60;
+			}
+			if (mStep > 0) {
+				mSpeedZ += STEPSPEED;
+			}
+			if (mStep <= 0 && mStep >= -5 && mSpeedZ > 0.2f) {
+				mSpeedZ -= 14.0f;
+			}
+			mStep--;
+			mStepRecharge--;
+		}	//ここまでがスタート前の動作制限内
+
+			//視点上下角制限
+			if (mRotation.mX < -80)
+				mRotation.mX = -79;
+
+			if (mRotation.mX > 75)
+				mRotation.mX = 74;
+
+
+			//マウス設定
+			float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
+			//マウスカーソル座標の取得
+			CInput::GetMousePos(&mMousePosX, &mMousePosY);
+
+			//ゲーム画面中心からの座標へ変換
+			mMousePosX -= 400;
+			mMousePosY = 300 - mMousePosY;
+
+			//マウスの移動量
+			mMouseMoveX = mMousePosX - mBeforMouseX;
+			mMouseMoveY = mMousePosY - mBeforMouseY;
+
+			//視点操作
+			mRotation.mX -= mMouseMoveY / mMouseSpeedX;
+			mRotation.mY -= mMouseMoveX / mMouseSpeedY;
+
+			mBeforMouseX = mMousePosX;
+			mBeforMouseY = mMousePosY;
+
+			//ここまでマウスの操作
 		}
-
-		//移動
-		if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 1.1f) {
-			//Z軸の+移動
-			mSpeedZ += VELOCITY + 0.2f;
-			Moving.Play();
-		}
-		if (CKey::Push('S') && mSpeedZ > -SPEEDREMIT - 0.3f) {
-			//Z軸の-移動
-			mSpeedZ -= VELOCITY;
-			Moving.Play();
-		}
-		if (CKey::Push('A') && mSpeedX < SPEEDREMIT) {
-			//X軸の+移動
-			mSpeedX += VELOCITY;
-			Moving.Play();
-		}
-		if (CKey::Push('D') && mSpeedX > -SPEEDREMIT) {
-			//X軸の-移動
-			mSpeedX -= VELOCITY;
-			Moving.Play();
-		}
-
-
-		//スペースキーでジャンプ
-		if (CKey::Once(VK_SPACE) && mJump == true) {
-			mSpeedY = JUMPPOWER;
-			mJumpTimer = JUMPRECHARGE;
-			Jump.Play();
-			mJump = false;
-		}
-
-		//一時的旋回キー
-		if (CKey::Push(VK_RIGHT)) {
-			mRotation.mY -= 1;
-		}
-		if (CKey::Push(VK_LEFT)) {
-			mRotation.mY += 1;
-		}
-
-		if (CKey::Push(VK_UP)) {
-			mRotation.mX -= 1;
-		}
-		if (CKey::Push(VK_DOWN)) {
-			mRotation.mX += 1;
-		}
-
-		//視点上下角制限
-		if (mRotation.mX < -80)
-			mRotation.mX = -79;
-
-		if (mRotation.mX > 75)
-			mRotation.mX = 74;
-
-
-
-		//ここからマウスによる操作
-		//左クリックで弾を発射
-		if (CKey::Once(VK_LBUTTON) && mReloadTime > 0) {
-			CBullet* bullet = new CBullet();
-			bullet->mTag = CCharacter::EBULLET;
-			bullet->Set(1.5f, 14.0f);
-			bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
-			bullet->mRotation = mRotation;
-			bullet->Update();
-			Fire.Play();
-			mReloadTime = RELOAD;
-		}
-		if (mReloadTime < 1) {
-			mReloadTime++;
-		}
-		if (mReloadTime == 0) {
-			Reloaded.Play();
-		}
-
-		//瞬間移動
-		if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
-			mStep = STEPMOVE;
-			Step.Play();
-			mStepRecharge = 60;
-		}
-		if (mStep > 0) {
-			mSpeedZ += STEPSPEED;
-		}
-		if (mStep <= 0 && mStep >= -5 && mSpeedZ > 0.2f) {
-			mSpeedZ -= 14.0f;
-		}
-		mStep--;
-		mStepRecharge--;
-
-
-		//マウス設定
-		float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
-		//マウスカーソル座標の取得
-		CInput::GetMousePos(&mMousePosX, &mMousePosY);
-
-		//ゲーム画面中心からの座標へ変換
-		mMousePosX -= 400;
-		mMousePosY = 300 - mMousePosY;
-
-		//マウスの移動量
-		mMouseMoveX = mMousePosX - mBeforMouseX;
-		mMouseMoveY = mMousePosY - mBeforMouseY;
-
-		//視点操作
-		mRotation.mX -= mMouseMoveY / mMouseSpeedX;
-		mRotation.mY -= mMouseMoveX / mMouseSpeedY;
-
-		mBeforMouseX = mMousePosX;
-		mBeforMouseY = mMousePosY;
-
-		//ここまでマウスの操作
-
-	}
 	else {
-		if (mPlayCount == 0) {
+		if (mFaildSound == true) {
 			Faild.Play();
-			mPlayCount++;
+			mFaildSound = false;
 		}
 	}
 
@@ -253,11 +259,6 @@ void CPlayer::Update() {
 	if (mJumpTimer >= 0)
 		mJumpTimer--;
 
-	//時間加算
-	if (CGoal::mTouchGoal == false) {
-		mTime++;
-	}
-
 	//無敵時間減算
 	mNotHit--;
 
@@ -281,7 +282,6 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 				if (mJumpTimer < 0) {
 					mJump = true;
 				}
-				//瞬間移動の減速
 				//着地
 				if (mPosition.mY < 1.0f && mSpeedY < 0) {
 					mSpeedY += 0.009f;
@@ -295,11 +295,12 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 			if (o->mpParent->mTag == EDAMAGEBLOCK) {
 				if (mNotHit < 0) {
 					mPlayerHp--;
-					mNotHit = 5;
+				}
+					mNotHit = 30;
 					new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 					Bomb.Play();
 					o->mpParent->mEnabled = false;
-				}
+				
 			}
 		}
 		break;
@@ -366,49 +367,42 @@ void CPlayer::Render(){
 	mText.DrawString(buf, -300, 100, 8, 16);
 
 
-	//文字列の設定
-	sprintf(buf, "HP:%d", mPlayerHp);
-	//文字列の描画
-	mText.DrawString(buf, -300, -250, 20, 20);
 
-	//文字列の設定
+
+	//HP表示
+	sprintf(buf, "HP:", mPlayerHp);
+	mText.DrawString(buf, -350, -250, 20, 20);
+
+	for (int h = 0; mPlayerHp > h; h++) {
+		sprintf(buf, "I");
+		mText.DrawString(buf, (-250 + (h * 20)), -250, 20, 20);
+	}
+
+	//スコア
 	sprintf(buf, "SCORE:%d",mScore);
-	//文字列の描画
 	mText.DrawString(buf, 150, 250, 13, 13);
 
-	//文字列の設定
 	sprintf(buf, "TIME:%5.1f", mTime/60);
-	//文字列の描画
 	mText.DrawString(buf, 100, 210, 13, 13);
 
-	//照準(仮)
-	if (CGoal::mTouchGoal == false) {
-		//文字列の設定
-		sprintf(buf, "[+]");
-		//文字列の描画
-		mText.DrawString(buf, -30, 20, 15, 15);
 
-		//リロード状況
-		if (mReloadTime < 0) {
-			sprintf(buf, "RELOADING:");
-			mText.DrawString(buf, -150, -10, 10, 10);
+	//リロード状況
+	if (mReloadTime < 0) {
+		sprintf(buf, ":RELOADING");
+		mText.DrawString(buf, 150, -220, 10, 10);
 
-			if (mReloadTime > -60) {
-				sprintf(buf, "[]");
-				mText.DrawString(buf, 40, -10, 12, 12);
-
-				if (mReloadTime > -40) {
-					sprintf(buf, "[]");
-					mText.DrawString(buf, 80, -10, 12, 12);
-
-					if (mReloadTime > -20) {
-						sprintf(buf, "[]");
-						mText.DrawString(buf, 120, -10, 12, 12);
-					}
-				}
-			}
+		for (int r = -80; mReloadTime > r; r += 20) {
+			sprintf(buf, "[]");
+			mText.DrawString(buf, 40 - r, -220, 12, 12);
 		}
+	}
 
+	//スタート前
+	if (CSceneGame::mStartFlag == true) {
+		sprintf(buf, "READY");
+		mText.DrawString(buf, -130, 0, 35, 35);
+		sprintf(buf, "START TO SPACE");
+		mText.DrawString(buf, -220, -50, 18, 18);
 	}
 	//ゴール
 	else if (CGoal::mTouchGoal == true) {
@@ -416,13 +410,23 @@ void CPlayer::Render(){
 		sprintf(buf, "GOAL");
 		mText.DrawString(buf, -120, 0, 35, 35);
 	}
-
-	if (mPlayerHp == 0) {
+	//ゲームオーバー
+	else if (mPlayerHp == 0) {
 		glColor4f(0.5f, 0.3f, 0.3f, 1.0f);
 		sprintf(buf, "FAILED");
 		mText.DrawString(buf, -150, 0, 35, 35);
-		//sprintf(buf, "RESTART TO R");
-		//mText.DrawString(buf, -190, -50, 20, 20);
+		glColor4f(0.5f, 0.6f, 0.8f, 1.0f);
+		sprintf(buf, "RESTART TO R");
+		mText.DrawString(buf, -220, -50, 20, 20);
+		sprintf(buf, "CONTINUE TO T");
+		mText.DrawString(buf, -260, -100, 20, 20);
+	}
+	//照準(仮)
+	else if (CGoal::mTouchGoal != true) {
+		//文字列の設定
+		sprintf(buf, "[+]");
+		//文字列の描画
+		mText.DrawString(buf, -30, 20, 15, 15);
 	}
 
 	//2D描画終了

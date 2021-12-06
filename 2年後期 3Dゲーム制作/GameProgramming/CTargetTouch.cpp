@@ -36,15 +36,17 @@ void CTargetTouch::Update() {
 }
 
 void CTargetTouch::Collision(CCollider* m, CCollider* o) {
-	if(CCollider::Collision(m, o)){
-		if (o->mpParent->mTag == EBULLET) {
-			return;
+	if (CCollider::Collision(m, o)) {
+		if (o->mpParent->mTag != ESCOREBLOCK2) {
+			if (o->mpParent->mTag == EBULLET) {
+				return;
+			}
+			CPlayer::mScore += TOUCHSCORE;
+			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+			ScoreAdd.Play();
+			Bomb.Play();
+			mEnabled = false;
 		}
-		CPlayer::mScore += TOUCHSCORE;
-		new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-		ScoreAdd.Play();
-		Bomb.Play();
-		mEnabled = false;
 	}
 }
 
