@@ -1,4 +1,5 @@
 #include "CSceneGame.h"
+#include "CSceneManager.h"
 //OpenGL
 #include"glut.h"
 #include"CVector.h"
@@ -35,7 +36,7 @@ int CSceneGame::mScore = 0;
 bool CSceneGame::mStartFlag = true;
 
 
-	//CSound Bgm;
+	CSound Bgm;
 
 	CSound Fire;
 	CSound Bomb;
@@ -53,8 +54,8 @@ void CSceneGame::Init()
 {
 	mScene = EGAME;
 
-	//Bgm.Load("bgm.wav");
-	//Bgm.Repeat();
+	Bgm.Load("bgm.wav");
+	Bgm.Repeat();
 
 	//SE
 	Fire.Load("Fire.wav");
@@ -75,7 +76,9 @@ void CSceneGame::Init()
 	//モデルファイルの入力
 	mBackGround.Load("Load.obj", "Load.mtl");
 
-	mModel.Load("Character.obj", "Character.mtl");
+	mModel.Load("Player.obj", "Player.mtl");
+	mModel2.Load("Player.obj", "Player.mtl");
+
 	mPillar.Load("Pillar.obj","Pillar.mtl");
 	mBarricade.Load("barricade.obj", "barricade.mtl");
 	mBlock.Load("Block.obj", "Block.mtl");
@@ -93,7 +96,7 @@ void CSceneGame::Init()
 	//プレイヤー
 	mPlayer.mpModel = &mModel;
 	mPlayer.mScale = CVector(0.5f, 0.5f, 0.5f);
-	mPlayer.mPosition = CVector(0.0f, 10.0f, -215.0f) * mBackGroundMatrix;
+	mPlayer.mPosition = CVector(15.0f, 10.0f, -1100.0f) * mBackGroundMatrix;
 	mPlayer.mRotation = CVector(0.0f, 0.0f, 0.0f);
 
 
@@ -174,11 +177,11 @@ void CSceneGame::Init()
 
 	//カメラ位置
 	mCamX = 0.0f;
-	mCamY = 13.0f;
+	mCamY = 8.0f;
 	mCamZ = -15.0f;
 	
 	mFcamX = 0.0f;
-	mFcamY = 8.5f;
+	mFcamY = 5.0f;
 	mFcamZ = 50.0f;
 
 }
@@ -222,6 +225,7 @@ void CSceneGame::Update() {
 	//スタート時一時ストップ
 	if (mStartFlag == true) {
 		if (CKey::Once(VK_SPACE)) {
+			Start.Play();
 			mStartFlag = false;
 		}
 	}
@@ -237,16 +241,15 @@ void CSceneGame::Update() {
 	if (CPlayer::mPlayerHp == 0) {
 		if (CKey::Once('R')) {
 			CPlayer::mPlayerHp = 5;
-			Init();
 
 			mStartFlag = true;
 		}
 		if (CKey::Once('T')) {
-			CPlayer::mPlayerHp = 5;
+			CPlayer::mPlayerHp = 3;
 			mStartFlag = true;
 		}
 	}
-
+	
 	//描画
 	CTaskManager::Get()->Render();
 	CCollisionManager::Get()->Render();

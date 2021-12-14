@@ -16,6 +16,9 @@ public:
 	ウィンドウ上の座標の原点は左上*/
 	static void GetMousePos(float *px, float *py);
 
+	static void SetMousePos(float setx, float sety);
+
+
 };
 
 #endif

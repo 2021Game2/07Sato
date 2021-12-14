@@ -27,8 +27,8 @@
 
 #define PHP 5	//HP
 
-#define MOUSESPEEDX 1.2f	//マウス横感度
-#define MOUSESPEEDY 1.2f	//マウス縦感度
+#define MOUSESPEEDX 10.2f	//マウス横感度
+#define MOUSESPEEDY 10.2f	//マウス縦感度
 
 int CPlayer::mPlayerHp = PHP;
 
@@ -53,11 +53,11 @@ extern CSound Moving;
 
 
 CPlayer::CPlayer()
-: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -6.0f), CVector(0.0f, 0.0f, 6.0f))
+: mLine(this, &mMatrix, CVector(0.0f, 0.0f, -8.0f), CVector(0.0f, 0.0f, 8.0f))
 , mLine2(this, &mMatrix, CVector(0.0f, 8.0f, 0.0f), CVector(0.0f, -8.0f, 0.0f))
-, mLine3(this, &mMatrix, CVector(6.0f, 0.0f, 0.0f), CVector(-6.0f, 0.0f, 0.0f))
+, mLine3(this, &mMatrix, CVector(8.0f, 0.0f, 0.0f), CVector(-8.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
-, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 80.0f))
+, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 80.0f), CVector(0.0f, 0.0f, -80.0f))
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //タグの設定
@@ -84,10 +84,8 @@ CPlayer::CPlayer()
 	mMouseMoveX = 0;
 	mMouseMoveY = 0;
 
-	mMouseSpeedX = MOUSESPEEDX;
-	mMouseSpeedY = MOUSESPEEDY;
+	mFreeCursor = false;
 
-	mSearchLine.mTag = CCollider::ESEARCH;
 }
 
 //更新処理
@@ -98,7 +96,6 @@ void CPlayer::Update() {
 
 	//CTransformの更新
 	CTransform::Update();
-
 
 	if (mPlayerHp > 0) {
 		if (CSceneGame::mStartFlag == false) {	//スタート前の行動制限
@@ -114,7 +111,6 @@ void CPlayer::Update() {
 					mSpeedZ += VELOCITY + 0.4f;
 				Moving.Play();
 			}
-
 			//移動
 			if (CKey::Push('W') && mSpeedZ < SPEEDREMIT + 1.1f) {
 				//Z軸の+移動
@@ -136,7 +132,6 @@ void CPlayer::Update() {
 				mSpeedX -= VELOCITY;
 				Moving.Play();
 			}
-
 
 			//スペースキーでジャンプ
 			if (CKey::Once(VK_SPACE) && mJump == true) {
@@ -168,6 +163,7 @@ void CPlayer::Update() {
 				bullet->mTag = CCharacter::EBULLET;
 				bullet->Set(1.5f, 14.0f);
 				bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
+				new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 				bullet->mRotation = mRotation;
 				bullet->Update();
 				Fire.Play();
@@ -204,28 +200,53 @@ void CPlayer::Update() {
 				mRotation.mX = 74;
 
 
+
 			//マウス設定
 			float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
 			//マウスカーソル座標の取得
 			CInput::GetMousePos(&mMousePosX, &mMousePosY);
 
-			//ゲーム画面中心からの座標へ変換
-			mMousePosX -= 400;
-			mMousePosY = 300 - mMousePosY;
+			float mMouseSetX, mMouseSetY;
+			mMouseSetX = 600;
+			mMouseSetY = 400;
 
-			//マウスの移動量
+			//ゲーム画面中心からの座標へ変換
+			mMousePosX -= 600;
+			mMousePosY = 400 - mMousePosY;
+
+			//マウスの現在の座標を取得する
+			//マウスの位置を固定
+			if (mFreeCursor == false) {
+				CInput::SetMousePos(mMouseSetX,mMouseSetY);
+			}
+
+			printf("%f,%f\n", mMousePosX, mMousePosY);
+
+			//視点操作
 			mMouseMoveX = mMousePosX - mBeforMouseX;
 			mMouseMoveY = mMousePosY - mBeforMouseY;
 
-			//視点操作
-			mRotation.mX -= mMouseMoveY / mMouseSpeedX;
-			mRotation.mY -= mMouseMoveX / mMouseSpeedY;
+			mRotation.mX -= mMouseMoveY / MOUSESPEEDX;
+			mRotation.mY -= mMouseMoveX / MOUSESPEEDY;
 
 			mBeforMouseX = mMousePosX;
 			mBeforMouseY = mMousePosY;
 
+			if (CKey::Push('F')) {
+				mFreeCursor = true;
+				ShowCursor(true);
+			}
+			else {
+				mFreeCursor = false;
+				ShowCursor(false);
+			}
 			//ここまでマウスの操作
-		}
+
+		}	//ここまでがif(mPlayerHp > 0)
+
+
+
+
 	else {
 		if (mFaildSound == true) {
 			Faild.Play();
@@ -318,14 +339,8 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					break;
 				}
 			}
-			if (m->mTag == CCollider::ESEARCH) {
-					CVector adjust;		//調整用ベクトル
-					//三角形と線分の衝突判定
-					CCollider::CollisionTriangleSphere(o, m, &adjust);
-
-
-			}
 		}
+
 
 	}
 
@@ -365,8 +380,6 @@ void CPlayer::Render(){
 	sprintf(buf, "VZ:%f", mSpeedZ);
 	//文字列の描画
 	mText.DrawString(buf, -300, 100, 8, 16);
-
-
 
 
 	//HP表示
@@ -412,6 +425,7 @@ void CPlayer::Render(){
 	}
 	//ゲームオーバー
 	else if (mPlayerHp == 0) {
+		mScore = 0;
 		glColor4f(0.5f, 0.3f, 0.3f, 1.0f);
 		sprintf(buf, "FAILED");
 		mText.DrawString(buf, -150, 0, 35, 35);

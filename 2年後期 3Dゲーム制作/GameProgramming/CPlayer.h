@@ -24,12 +24,12 @@ private:
 
 	bool mFaildSound; //ゲームオーバー時音声再生制御
 
-	float mBeforMouseX;	//直前マウス位置
-	float mBeforMouseY;
-	float mMouseMoveX;	//マウス移動量
-	float mMouseMoveY;
-	float mMouseSpeedX;	//マウス感度
-	float mMouseSpeedY;
+	int mBeforMouseX;	//直前マウス位置
+	int mBeforMouseY;
+	int mMouseMoveX;	//マウス移動量
+	int mMouseMoveY;
+
+	bool mFreeCursor;	//カーソル自由移動
 
 public:
 

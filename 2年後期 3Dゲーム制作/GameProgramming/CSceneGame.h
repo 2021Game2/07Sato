@@ -24,6 +24,7 @@ private:
 public:
 	//モデルクラスのインスタンス作成
 	CModel mModel;
+	CModel mModel2;
 
 	CMatrix mBackGroundMatrix;
 	//モデルからコライダを生成

@@ -6,7 +6,7 @@
 #include "CInput.h"
 
 #define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 900
+#define WINDOW_HEIGHT 800
 
 bool InitFlg = true;
 
