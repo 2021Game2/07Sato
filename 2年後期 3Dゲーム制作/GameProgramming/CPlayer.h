@@ -29,6 +29,9 @@ private:
 	int mMouseMoveX;	//マウス移動量
 	int mMouseMoveY;
 
+	float mBeforRotX;
+	float mBeforRotY;
+
 	bool mFreeCursor;	//カーソル自由移動
 
 public:

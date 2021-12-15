@@ -27,8 +27,8 @@
 
 #define PHP 5	//HP
 
-#define MOUSESPEEDX 10.2f	//マウス横感度
-#define MOUSESPEEDY 10.2f	//マウス縦感度
+#define MOUSESPEEDX 5.0f	//マウス横感度
+#define MOUSESPEEDY 5.0f	//マウス縦感度
 
 int CPlayer::mPlayerHp = PHP;
 
@@ -216,22 +216,23 @@ void CPlayer::Update() {
 
 			//マウスの現在の座標を取得する
 			//マウスの位置を固定
-			if (mFreeCursor == false) {
-				CInput::SetMousePos(mMouseSetX,mMouseSetY);
+			if (mMousePosX > 600||mMousePosX < -600 ||
+				mMousePosY > 400 || mMousePosY < -400) {
+				mBeforMouseX = 0;
+				mBeforMouseY = 0;
+				CInput::SetMousePos(mMouseSetX, mMouseSetY);
 			}
+			else {
+				//視点操作
+				mMouseMoveX = mMousePosX - mBeforMouseX;
+				mMouseMoveY = mMousePosY - mBeforMouseY;
 
-			printf("%f,%f\n", mMousePosX, mMousePosY);
+				mRotation.mX -= mMouseMoveY / MOUSESPEEDX;
+				mRotation.mY -= mMouseMoveX / MOUSESPEEDY;
 
-			//視点操作
-			mMouseMoveX = mMousePosX - mBeforMouseX;
-			mMouseMoveY = mMousePosY - mBeforMouseY;
-
-			mRotation.mX -= mMouseMoveY / MOUSESPEEDX;
-			mRotation.mY -= mMouseMoveX / MOUSESPEEDY;
-
-			mBeforMouseX = mMousePosX;
-			mBeforMouseY = mMousePosY;
-
+				mBeforMouseX = mMousePosX;
+				mBeforMouseY = mMousePosY;
+			}
 			if (CKey::Push('F')) {
 				mFreeCursor = true;
 				ShowCursor(true);
