@@ -34,6 +34,7 @@ CTargetRL::CTargetRL(CModel* model, CVector position, CVector rotation, CVector 
 	CTaskManager::Get()->Remove(this);
 	CTaskManager::Get()->Add(this);
 
+	mHp = 7;
 }
 
 void CTargetRL::Update() {
@@ -55,10 +56,14 @@ void CTargetRL::Collision(CCollider* m, CCollider* o) {
 	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
-				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-				CPlayer::mScore += RLSCORE;
-				ScoreAdd.Play();
-				mEnabled = false;
+				mHp -= CBullet::mDamage;
+				new CEffect(o->mpParent->mPosition, 3.0f, 3.0f, "exp.tga", 4, 4, 2);
+				if (mHp <= 0) {
+					CPlayer::mScore += RLSCORE;
+					ScoreAdd.Play();
+					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					mEnabled = false;
+				}
 			}
 		}
 	}

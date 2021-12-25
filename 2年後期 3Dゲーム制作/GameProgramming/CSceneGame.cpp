@@ -103,17 +103,53 @@ void CSceneGame::Init()
 
 	//的
 	new CTarget(&mTarget,
+		CVector(15.0f, 5.0f, -1000.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTarget(&mTarget,
+		CVector(35.0f, 25.0f, -920.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTarget(&mTarget,
+		CVector(-22.0f, 30.0f, -580.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTarget(&mTarget,
 		CVector(5.0f, 5.0f, -50.0f) * mBackGroundMatrix,
 		CVector(0.0f,90.0f,0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
 	//左右に動く的
 	new CTargetRL(&mTarget,
+		CVector(-20.0f, 50.0f, -340.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTargetRL(&mTarget,
+		CVector(20.0f, 20.0f, -640.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTargetRL(&mTarget,
 		CVector(-20.0f, 50.0f, 30.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTargetRL(&mTarget,
+		CVector(-70.0f, 5.0f, 85.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTargetRL(&mTarget,
+		CVector(-70.0f, 20.0f, 180.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
 		CVector(1.0f, 1.0f, 1.0f));
 
 	//上下に動く的
+	new CTargetUD(&mTarget,
+		CVector(5.0f, 30.0f, -820.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
+	new CTargetUD(&mTarget,
+		CVector(35.0f, 30.0f, -550.0f) * mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(1.0f, 1.0f, 1.0f));
 	new CTargetUD(&mTarget,
 		CVector(-30.0f, 50.0f, -90.0f) * mBackGroundMatrix,
 		CVector(0.0f, 90.0f, 0.0f),
@@ -121,23 +157,61 @@ void CSceneGame::Init()
 
 	//接触型
 	new CTargetTouch(&mTargetTouch,
+		CVector(5.0f, 18.0f, -900.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+	new CTargetTouch(&mTargetTouch,
+		CVector(-20.0f, 30.0f, -700.0f)* mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+	new CTargetTouch(&mTargetTouch,
 		CVector(0.0f, 7.0f, 50.0f) * mBackGroundMatrix,
 		CVector(0.0f,0.0f,0.0f),
 		CVector(3.0f, 3.0f, 3.0f));
-
-	//ブロック
-	new CBlock(&mBlock, 
-		CVector(0.0f, 30.0f, 0.0f) * mBackGroundMatrix,
+	new CTargetTouch(&mTargetTouch,
+		CVector(15.0f, 13.0f, 150.0f)* mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+	new CTargetTouch(&mTargetTouch,
+		CVector(-25.0f, 25.0f, 260.0f)* mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(3.0f, 3.0f, 3.0f));
 
 	//ブロック
 	new CBlock(&mBlock,
-		CVector(40.0f, 0.0f, 60.0f) * mBackGroundMatrix,
+		CVector(-2.0f, 0.0f, -890.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(5.0f, 3.0f, 7.0f));
+	new CBlock(&mBlock,
+		CVector(-60.0f, 12.0f, -240.0f)* mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(5.0f, 2.0f, 8.0f));
+	new CBlock(&mBlock,
+		CVector(-80.0f, 12.0f, -200.0f)* mBackGroundMatrix,
+		CVector(0.0f, -30.0f, 0.0f),
+		CVector(5.0f, 2.0f, 8.0f));
+	new CBlock(&mBlock,
+		CVector(40.0f, 35.0f, -140.0f)* mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(5.0f, 2.0f, 8.0f));
+	new CBlock(&mBlock, 
+		CVector(0.0f, 20.0f, 3.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
+	new CBlock(&mBlock,
+		CVector(-70.0f, 0.0f, 60.0f) * mBackGroundMatrix,
 		CVector(-60.0f, 0.0f, 0.0f),
-		CVector(3.0f, 2.0f, 3.0f));
+		CVector(5.0f, 3.0f, 6.0f));
 
 	//動くブロック
+	new CMoveBlock(&mBlock,
+		CVector(-50.0f, 20.0f, -750.0f)* mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));	
+	new CMoveBlock(&mBlock,
+		CVector(-20.0f, 40.0f, -750.0f)* mBackGroundMatrix,
+		CVector(0.0f, 90.0f, 0.0f),
+		CVector(3.0f, 3.0f, 3.0f));
 	new CMoveBlock(&mBlock,
 		CVector(-50.0f, 40.0f, -40.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
@@ -145,23 +219,23 @@ void CSceneGame::Init()
 
 	//ダメージを受けるブロック
 	new CDamageBlock(&mDamageBlock,
-		CVector(0.0f, 20.0f, -150.0f) * mBackGroundMatrix,
+		CVector(-25.0f, 10.0f, -750.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
-		CVector(20.0f, 20.0f, -150.0f) * mBackGroundMatrix,
+		CVector(10.0f, 20.0f, -580.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
-		CVector(0.0f, 5.0f, -150.0f) * mBackGroundMatrix,
+		CVector(-25.0f, 15.0f, 50.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
-		CVector(20.0f, 5.0f, -150.0f) * mBackGroundMatrix,
+		CVector(-5.0f, 5.0f, -150.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
-		CVector(0.0f, 20.0f, -100.0f) * mBackGroundMatrix,
+		CVector(-10.0f, 20.0f, 130.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 
@@ -231,19 +305,23 @@ void CSceneGame::Update() {
 	}
 
 	//ゴール時スコア表示
-	/*if (CGoal::mTouchGoal == true) {
+	if (CGoal::mTouchGoal == true) {
 		mClearScore = mScore;
 		mClearTime = CPlayer::mTime;
-		mResultTimer--;
-	}*/
+	}
 
 	//ゲームオーバー時
-	if (CPlayer::mPlayerHp == 0) {
-		if (CKey::Once('R')) {
-			CPlayer::mPlayerHp = 5;
+	if (CPlayer::mPlayerHp == 0){
+		if (CGoal::mTouchGoal == true) {
+			if (CKey::Once('R')) {
+				CPlayer::mPlayerHp = 5;
+				CPlayer::mScore = 0;
 
-			mStartFlag = true;
+				CGoal::mTouchGoal == false;
+				mStartFlag = true;
+			}
 		}
+
 		if (CKey::Once('T')) {
 			CPlayer::mPlayerHp = 3;
 			mStartFlag = true;

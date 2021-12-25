@@ -11,6 +11,8 @@
 class CTarget : public CCharacter{
 public:
 
+	int mHp;
+
 	//コライダ
 	CCollider mCollider;
 	CColliderTriangle mTri1;	//プレイヤー移動阻害用

@@ -2,12 +2,16 @@
 #include"CCollisionManager.h"
 #include"CEffect.h"
 
+int CBullet::mDamage;
+
 //デフォルトコンストラクタ
 CBullet::CBullet()
 :mLife(50)
 ,mCollider(this,&mMatrix,CVector(0.0f,0.0f,5.0f),1.0f)
 ,mCollider2(this, &mMatrix, CVector(0.0f, 0.0f, -2.0f), 1.0f)
-{}
+{
+	mTag = CCharacter::EBULLET;
+}
 
 //幅と奥行きの設定
 //Set(幅,奥行き)
@@ -18,6 +22,11 @@ void CBullet::Set(float w, float d){
 	mT.SetVertex(CVector(-w, 0.0, 0.0),CVector(w, 0.0, 0.0),CVector(0.0, 0.0, d));
 	//三角形の法線設定
 	mT.SetNormal(CVector(0.0f, 1.0f, 0.0f));
+}
+
+//攻撃力
+void CBullet::Damage(int damage) {
+	mDamage = damage;
 }
 
 //更新

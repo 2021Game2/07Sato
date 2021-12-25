@@ -13,6 +13,7 @@ class CTargetRL : public CCharacter {
 private:
 	int mMoveCount;
 
+	int mHp;
 public:
 
 	//ƒRƒ‰ƒCƒ_

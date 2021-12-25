@@ -29,10 +29,13 @@ private:
 	int mMouseMoveX;	//マウス移動量
 	int mMouseMoveY;
 
-	float mBeforRotX;
-	float mBeforRotY;
+	float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
+	float mMouseSetX, mMouseSetY;
 
 	bool mFreeCursor;	//カーソル自由移動
+
+	bool mMachineGun;
+	float mRand;
 
 public:
 
@@ -53,7 +56,7 @@ public:
 	CColliderLine mLine3; //線分コライダ
 	CCollider mCollider; //本体用コライダ
 
-	CColliderLine mSearchLine; //瞬間移動 強制停止用
+	//CColliderLine mSearchLine; //瞬間移動 強制停止用
 
 	CPlayer();
 	//更新処理

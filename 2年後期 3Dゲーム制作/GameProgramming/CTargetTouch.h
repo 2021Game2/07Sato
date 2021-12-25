@@ -11,7 +11,6 @@
 //プレイヤーの接触で破壊され、スコアを加算する
 class CTargetTouch : public CCharacter {
 public:
-
 	//三角コライダ
 	CCollider mSphere;
 

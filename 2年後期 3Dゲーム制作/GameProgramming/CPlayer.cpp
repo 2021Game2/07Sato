@@ -10,6 +10,7 @@
 #include"CInput.h"
 #include"CSound.h"
 #include"CSceneGame.h"
+#include"stdlib.h"
 
 #define GLAVITY -0.07f //重力
 #define JUMPPOWER 3.0f	//ジャンプ力
@@ -27,8 +28,8 @@
 
 #define PHP 5	//HP
 
-#define MOUSESPEEDX 5.0f	//マウス横感度
-#define MOUSESPEEDY 5.0f	//マウス縦感度
+#define MOUSESPEEDX 4.0f	//マウス横感度
+#define MOUSESPEEDY 4.0f	//マウス縦感度
 
 int CPlayer::mPlayerHp = PHP;
 
@@ -57,7 +58,7 @@ CPlayer::CPlayer()
 , mLine2(this, &mMatrix, CVector(0.0f, 8.0f, 0.0f), CVector(0.0f, -8.0f, 0.0f))
 , mLine3(this, &mMatrix, CVector(8.0f, 0.0f, 0.0f), CVector(-8.0f, 0.0f, 0.0f))
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
-, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 80.0f), CVector(0.0f, 0.0f, -80.0f))
+//, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 80.0f), CVector(0.0f, 0.0f, -80.0f))
 {
 	mText.LoadTexture("FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //タグの設定
@@ -78,6 +79,10 @@ CPlayer::CPlayer()
 
 	mFaildSound = true;
 
+	mMachineGun = false;
+
+	mMouseSetX = 600;
+	mMouseSetY = 400;
 
 	mBeforMouseX = 0;
 	mBeforMouseY = 0;
@@ -85,6 +90,7 @@ CPlayer::CPlayer()
 	mMouseMoveY = 0;
 
 	mFreeCursor = false;
+	CInput::SetMousePos(mMouseSetX, mMouseSetY);
 
 }
 
@@ -96,6 +102,8 @@ void CPlayer::Update() {
 
 	//CTransformの更新
 	CTransform::Update();
+
+	mRand = rand() % 2;
 
 	if (mPlayerHp > 0) {
 		if (CSceneGame::mStartFlag == false) {	//スタート前の行動制限
@@ -158,24 +166,41 @@ void CPlayer::Update() {
 
 			//ここからマウスによる操作
 			//左クリックで弾を発射
-			if (CKey::Once(VK_LBUTTON) && mReloadTime > 0) {
-				CBullet* bullet = new CBullet();
-				bullet->mTag = CCharacter::EBULLET;
-				bullet->Set(1.5f, 14.0f);
-				bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
-				new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
-				bullet->mRotation = mRotation;
-				bullet->Update();
-				Fire.Play();
-				mReloadTime = RELOAD;
+			if (mMachineGun == false) {
+				if (CKey::Once(VK_LBUTTON) && mReloadTime > 0) {
+					CBullet* bullet = new CBullet();
+					bullet->Set(1.5f, 14.0f);
+					bullet->Damage(15);
+					bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
+					new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					bullet->mRotation = mRotation;
+					bullet->Update();
+					Fire.Play();
+					mReloadTime = RELOAD;
+				}
+				if (mReloadTime < 1) {
+					mReloadTime++;
+				}
+				if (mReloadTime == 0) {
+					Reloaded.Play();
+				}
 			}
-			if (mReloadTime < 1) {
-				mReloadTime++;
+			else {
+				if (CKey::Push(VK_LBUTTON) && mReloadTime > 0) {
+					CBullet* bullet = new CBullet();
+					bullet->Set(1.5f, 14.0f);
+					bullet->Damage(1);
+					bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
+					new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					bullet->mRotation = mRotation;
+					bullet->Update();
+					Fire.Play();
+					mReloadTime = -6;
+				}
+				if (mReloadTime < 1) {
+					mReloadTime++;
+				}
 			}
-			if (mReloadTime == 0) {
-				Reloaded.Play();
-			}
-
 			//右クリックで瞬間移動
 			if (CKey::Once(VK_RBUTTON) && mStepRecharge < 0) {
 				mStep = STEPMOVE;
@@ -202,13 +227,8 @@ void CPlayer::Update() {
 
 
 			//マウス設定
-			float mMousePosX, mMousePosY;	//マウスカーソル座標取得用
 			//マウスカーソル座標の取得
 			CInput::GetMousePos(&mMousePosX, &mMousePosY);
-
-			float mMouseSetX, mMouseSetY;
-			mMouseSetX = 600;
-			mMouseSetY = 400;
 
 			//ゲーム画面中心からの座標へ変換
 			mMousePosX -= 600;
@@ -216,11 +236,13 @@ void CPlayer::Update() {
 
 			//マウスの現在の座標を取得する
 			//マウスの位置を固定
-			if (mMousePosX > 600||mMousePosX < -600 ||
+			if (mMousePosX > 600 || mMousePosX < -600 ||
 				mMousePosY > 400 || mMousePosY < -400) {
-				mBeforMouseX = 0;
-				mBeforMouseY = 0;
-				CInput::SetMousePos(mMouseSetX, mMouseSetY);
+				if (mFreeCursor == false) {
+					mBeforMouseX = 0;
+					mBeforMouseY = 0;
+					CInput::SetMousePos(mMouseSetX, mMouseSetY);
+				}
 			}
 			else {
 				//視点操作
@@ -284,6 +306,16 @@ void CPlayer::Update() {
 	//無敵時間減算
 	mNotHit--;
 
+	//マシンガンモード
+	if (CKey::Once('M')) {
+		if (mMachineGun == true) {
+			mMachineGun = false;
+		}
+		else {
+			mMachineGun = true;
+		}
+	}
+
 }
 
 //接触判定
@@ -331,8 +363,13 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 		if (o->mpParent != nullptr) {
 			if (o->mType == CCollider::ETRIANGLE) {
 				if (o->mpParent->mTag == EBLOCK || o->mpParent->mTag == EMOVEBLOCK) {
+					CVector adjust;		//調整用ベクトル
+					//三角形と線分の衝突判定
+					CCollider::CollisionTriangleLine(o, m, &adjust);
+					//位置の更新(mPosition + adjust)
+					mPosition = mPosition - adjust * -1;
 					if (mSpeedY < -4.0) {
-						mSpeedY += 0.005f;
+						mSpeedY += 0.006f;
 					}
 					if (mJumpTimer < 0) {
 						mJump = true;
@@ -362,9 +399,9 @@ void CPlayer::Render(){
 
 	//速度表示
 	//文字列の設定
-	sprintf(buf, "PY:%5f", mPosition.mY);
+	//sprintf(buf, "PY:%5f", mPosition.mY);
 	//文字列の描画
-	mText.DrawString(buf, -300, 200, 8, 16);
+	//mText.DrawString(buf, -300, 200, 8, 16);
 
 	//速度表示
 	//文字列の設定
@@ -373,14 +410,14 @@ void CPlayer::Render(){
 	//mText.DrawString(buf, -300, 200, 8, 16);
 
 	//文字列の設定
-	sprintf(buf, "VY:%f", mSpeedY);
+	//sprintf(buf, "VY:%f", mSpeedY);
 	//文字列の描画
-	mText.DrawString(buf, -300, 150, 8, 16);
+	//mText.DrawString(buf, -300, 150, 8, 16);
 
 	//文字列の設定
-	sprintf(buf, "VZ:%f", mSpeedZ);
+	//sprintf(buf, "VZ:%f", mSpeedZ);
 	//文字列の描画
-	mText.DrawString(buf, -300, 100, 8, 16);
+	//mText.DrawString(buf, -300, 100, 8, 16);
 
 
 	//HP表示
@@ -400,14 +437,25 @@ void CPlayer::Render(){
 	mText.DrawString(buf, 100, 210, 13, 13);
 
 
-	//リロード状況
-	if (mReloadTime < 0) {
-		sprintf(buf, ":RELOADING");
-		mText.DrawString(buf, 150, -220, 10, 10);
+	if (mMachineGun == true) {
+		sprintf(buf, "M:MACHINE GUN");
+		mText.DrawString(buf, -300, 280, 12, 12);
+	}
+	else {
+		sprintf(buf, "M:RIFLE");
+		mText.DrawString(buf, -300, 280, 12, 12);
+	}
 
-		for (int r = -80; mReloadTime > r; r += 20) {
-			sprintf(buf, "[]");
-			mText.DrawString(buf, 40 - r, -220, 12, 12);
+	//リロード状況
+	if (mMachineGun == false) {
+		if (mReloadTime < 0) {
+			sprintf(buf, ":RELOADING");
+			mText.DrawString(buf, 150, -220, 10, 10);
+
+			for (int r = -80; mReloadTime > r; r += 20) {
+				sprintf(buf, "[]");
+				mText.DrawString(buf, 40 - r, -220, 12, 12);
+			}
 		}
 	}
 
@@ -423,6 +471,11 @@ void CPlayer::Render(){
 		glColor4f(0.1f, 0.3f, 0.8f, 1.0f);
 		sprintf(buf, "GOAL");
 		mText.DrawString(buf, -120, 0, 35, 35);
+		glColor4f(0.5f, 0.6f, 0.8f, 1.0f);
+		sprintf(buf, "RESTART TO R");
+		mText.DrawString(buf, -220, -50, 20, 20);
+		sprintf(buf, "CONTINUE TO T");
+		mText.DrawString(buf, -260, -100, 20, 20);
 	}
 	//ゲームオーバー
 	else if (mPlayerHp == 0) {
@@ -455,11 +508,11 @@ void CPlayer::TaskCollision(){
 	mLine2.ChangePriority();
 	mLine3.ChangePriority();
 	mCollider.ChangePriority();
-	mSearchLine.ChangePriority();
+	//mSearchLine.ChangePriority();
 	//衝突処理 実行
 	CCollisionManager::Get()->Collision(&mLine, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine2, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mLine3, COLLISIONRANGE);
 	CCollisionManager::Get()->Collision(&mCollider, COLLISIONRANGE);
-	CCollisionManager::Get()->Collision(&mSearchLine, COLLISIONRANGE);
+	//CCollisionManager::Get()->Collision(&mSearchLine, COLLISIONRANGE);
 }

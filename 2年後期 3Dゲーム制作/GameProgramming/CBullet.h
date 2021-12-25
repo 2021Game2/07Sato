@@ -16,6 +16,7 @@ public:
 
 	//生存時間
 	int mLife;
+	static int mDamage;
 
 	CBullet();
 
@@ -25,6 +26,8 @@ public:
 	//幅と奥行きの設定
 	//Set(幅,奥行き)
 	void Set(float w, float d);
+	//攻撃力
+	void Damage(int damage);
 	//更新
 	void Update();
 	//描画

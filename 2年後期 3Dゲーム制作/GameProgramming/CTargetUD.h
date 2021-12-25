@@ -14,6 +14,7 @@ class CTargetUD : public CCharacter {
 private:
 	int mMoveCount;
 
+	int mHp;
 public:
 
 	//ƒRƒ‰ƒCƒ_

@@ -31,6 +31,8 @@ CTarget::CTarget(CModel* model, CVector position, CVector rotation, CVector scal
 	mPriority = 1; //—Dæ“x1
 	CTaskManager::Get()->Remove(this);
 	CTaskManager::Get()->Add(this);
+
+	mHp = 9;
 }
 	
 
@@ -42,10 +44,15 @@ void CTarget::Collision(CCollider* m, CCollider* o){
 	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
-				new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-				CPlayer::mScore += SCORE;
-				ScoreAdd.Play();
-				mEnabled = false;
+				mHp -= CBullet::mDamage;
+				new CEffect(o->mpParent->mPosition, 2.0f, 2.0f, "exp.tga", 4, 4, 2);
+				if (mHp <= 0) {
+					CPlayer::mScore += SCORE;
+					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					ScoreAdd.Play();
+					mEnabled = false;
+				}
+
 			}
 		}
 	}
