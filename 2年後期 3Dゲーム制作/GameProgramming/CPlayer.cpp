@@ -215,7 +215,18 @@ void CPlayer::Update() {
 			}
 			mStep--;
 			mStepRecharge--;
-		}	//ここまでがスタート前の動作制限内
+		}	//ここまでがスタート前の動作制限
+		else {	//スタート前限定操作
+		//マシンガンモード
+			if (CKey::Once('M')) {
+				if (mMachineGun == true) {
+					mMachineGun = false;
+				}
+				else {
+					mMachineGun = true;
+				}
+			}
+		}
 
 			//視点上下角制限
 			if (mRotation.mX < -80)
@@ -305,16 +316,6 @@ void CPlayer::Update() {
 
 	//無敵時間減算
 	mNotHit--;
-
-	//マシンガンモード
-	if (CKey::Once('M')) {
-		if (mMachineGun == true) {
-			mMachineGun = false;
-		}
-		else {
-			mMachineGun = true;
-		}
-	}
 
 }
 
@@ -474,8 +475,6 @@ void CPlayer::Render(){
 		glColor4f(0.5f, 0.6f, 0.8f, 1.0f);
 		sprintf(buf, "RESTART TO R");
 		mText.DrawString(buf, -220, -50, 20, 20);
-		sprintf(buf, "CONTINUE TO T");
-		mText.DrawString(buf, -260, -100, 20, 20);
 	}
 	//ゲームオーバー
 	else if (mPlayerHp == 0) {

@@ -197,7 +197,7 @@ void CSceneGame::Init()
 	new CBlock(&mBlock, 
 		CVector(0.0f, 20.0f, 3.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
-		CVector(3.0f, 3.0f, 3.0f));
+		CVector(3.5f, 2.0f, 3.5f));
 	new CBlock(&mBlock,
 		CVector(-70.0f, 0.0f, 60.0f) * mBackGroundMatrix,
 		CVector(-60.0f, 0.0f, 0.0f),
@@ -219,7 +219,11 @@ void CSceneGame::Init()
 
 	//ダメージを受けるブロック
 	new CDamageBlock(&mDamageBlock,
-		CVector(-25.0f, 10.0f, -750.0f) * mBackGroundMatrix,
+		CVector(-25.0f, 15.0f, -750.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(-10.0f, 5.0f, -700.0f)* mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
@@ -227,7 +231,15 @@ void CSceneGame::Init()
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
+		CVector(25.0f, 5.0f, -600.0f)* mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
 		CVector(-25.0f, 15.0f, 50.0f) * mBackGroundMatrix,
+		CVector(0.0f, 0.0f, 0.0f),
+		CVector(2.0f, 2.0f, 2.0f));
+	new CDamageBlock(&mDamageBlock,
+		CVector(15.0f, 5.0f, 56.0f) * mBackGroundMatrix,
 		CVector(0.0f, 0.0f, 0.0f),
 		CVector(2.0f, 2.0f, 2.0f));
 	new CDamageBlock(&mDamageBlock,
@@ -309,15 +321,20 @@ void CSceneGame::Update() {
 		mClearScore = mScore;
 		mClearTime = CPlayer::mTime;
 	}
+	if (CGoal::mTouchGoal == true) {
+		if (CKey::Once('R')) {
+			CPlayer::mPlayerHp = 5;
+			CPlayer::mScore = 0;
 
+			CGoal::mTouchGoal == false;
+			mStartFlag = true;
+		}
 	//ゲームオーバー時
 	if (CPlayer::mPlayerHp == 0){
-		if (CGoal::mTouchGoal == true) {
 			if (CKey::Once('R')) {
 				CPlayer::mPlayerHp = 5;
 				CPlayer::mScore = 0;
 
-				CGoal::mTouchGoal == false;
 				mStartFlag = true;
 			}
 		}
