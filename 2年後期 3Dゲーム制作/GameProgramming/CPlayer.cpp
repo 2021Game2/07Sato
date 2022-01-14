@@ -51,6 +51,10 @@ extern CSound Jump;
 extern CSound Step;
 extern CSound Faild;
 extern CSound Moving;
+extern CSound FireMg;
+extern CSound ChangeMode;
+extern CSound ChangeMode2;
+
 
 
 CPlayer::CPlayer()
@@ -194,7 +198,7 @@ void CPlayer::Update() {
 					new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 					bullet->mRotation = mRotation;
 					bullet->Update();
-					Fire.Play();
+					FireMg.Play();
 					mReloadTime = -6;
 				}
 				if (mReloadTime < 1) {
@@ -225,6 +229,8 @@ void CPlayer::Update() {
 				else {
 					mMachineGun = true;
 				}
+				ChangeMode.Play();
+				ChangeMode2.Play();
 			}
 		}
 

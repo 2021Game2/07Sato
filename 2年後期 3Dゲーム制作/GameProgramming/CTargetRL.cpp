@@ -9,6 +9,8 @@
 #define MOVE 60
 
 extern CSound ScoreAdd;
+extern CSound Bomb;
+extern CSound Hit;
 
 CTargetRL::CTargetRL(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f) 
@@ -57,10 +59,12 @@ void CTargetRL::Collision(CCollider* m, CCollider* o) {
 		if (o->mType == CCollider::ESPHERE) {
 			if (o->mpParent->mTag == EBULLET) {
 				mHp -= CBullet::mDamage;
+				Hit.Play();
 				new CEffect(o->mpParent->mPosition, 3.0f, 3.0f, "exp.tga", 4, 4, 2);
 				if (mHp <= 0) {
 					CPlayer::mScore += RLSCORE;
 					ScoreAdd.Play();
+					Bomb.Play();
 					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
 					mEnabled = false;
 				}

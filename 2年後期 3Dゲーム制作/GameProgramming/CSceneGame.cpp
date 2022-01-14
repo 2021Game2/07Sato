@@ -39,6 +39,7 @@ bool CSceneGame::mStartFlag = true;
 	CSound Bgm;
 
 	CSound Fire;
+	CSound FireMg;
 	CSound Bomb;
 	CSound Reloaded;
 	CSound ScoreAdd;
@@ -49,6 +50,10 @@ bool CSceneGame::mStartFlag = true;
 	CSound Clear;
 	CSound Faild;
 	CSound Moving;
+	CSound ChangeMode;
+	CSound ChangeMode2;
+	CSound Hit;
+
 
 void CSceneGame::Init()
 {
@@ -59,6 +64,7 @@ void CSceneGame::Init()
 
 	//SE
 	Fire.Load("Fire.wav");
+	FireMg.Load("Fire-Mg.wav");
 	Bomb.Load("Bomb.wav");
 	Reloaded.Load("Reloaded.wav");
 	ScoreAdd.Load("ScoreAdd.wav");
@@ -69,6 +75,11 @@ void CSceneGame::Init()
 	Clear.Load("Clear.wav");
 	Faild.Load("Faild.wav");
 	Moving.Load("Moving.wav");
+	ChangeMode.Load("ChangeMode.wav");
+	ChangeMode2.Load("ChangeMode2.wav");
+	Hit.Load("hit.wav");
+
+
 
 	Noise.Repeat();
 
@@ -86,7 +97,6 @@ void CSceneGame::Init()
 	mTarget.Load("Target.obj", "Target.mtl");
 	mGoal.Load("Goal.obj", "Goal.mtl");
 	mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
-	//mGun.Load("Gun.obj", "Gun.mtl");
 
 	CMatrix matrix;
 	matrix.Print();
@@ -326,7 +336,7 @@ void CSceneGame::Update() {
 			CPlayer::mPlayerHp = 5;
 			CPlayer::mScore = 0;
 
-			CGoal::mTouchGoal == false;
+			CGoal::mTouchGoal = false;
 			mStartFlag = true;
 		}
 	//ゲームオーバー時
@@ -335,6 +345,7 @@ void CSceneGame::Update() {
 				CPlayer::mPlayerHp = 5;
 				CPlayer::mScore = 0;
 
+				CGoal::mTouchGoal = false;
 				mStartFlag = true;
 			}
 		}
