@@ -106,7 +106,7 @@ void CMoveBlock::Collision(CCollider* m, CCollider* o) {
 				}
 				if (o->mpParent->mTag == EBULLET) {
 					CCollider::CollisionTriangleSphere(o, m, &adjust);
-					new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					new CEffect(o->mpParent->mPosition, 1.0f, 1.0f, "tga/exp.tga", 4, 4, 2);
 					o->mEnabled = false;
 				}
 

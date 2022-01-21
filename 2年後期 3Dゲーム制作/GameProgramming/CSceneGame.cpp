@@ -54,9 +54,9 @@ bool CSceneGame::mStartFlag = true;
 
 
 	void CSceneGame::SetStage() {
-		mDamageBlock.Load("DamageBlock.obj", "DamageBlock.mtl");
-		mTarget.Load("Target.obj", "Target.mtl");
-		mTargetTouch.Load("ScoreBlock.obj", "ScoreBlock.mtl");
+		mDamageBlock.Load("obj,mtl/DamageBlock.obj", "obj,mtl/DamageBlock.mtl");
+		mTarget.Load("obj,mtl/Target.obj", "obj,mtl/Target.mtl");
+		mTargetTouch.Load("obj,mtl/ScoreBlock.obj", "obj,mtl/ScoreBlock.mtl");
 
 		//的
 		new CTarget(&mTarget,
@@ -218,33 +218,33 @@ bool CSceneGame::mStartFlag = true;
 	{
 		mScene = EGAME;
 
-		Bgm.Load("bgm.wav");
+		Bgm.Load("wav/bgm.wav");
 		Bgm.Repeat();
 
 		//SE
-		Fire.Load("Fire.wav");
-		FireMg.Load("Fire-Mg.wav");
-		Bomb.Load("Bomb.wav");
-		Reloaded.Load("Reloaded.wav");
-		ScoreAdd.Load("ScoreAdd.wav");
-		Start.Load("Start.wav");
-		Noise.Load("Noise.wav");
-		Jump.Load("Jump.wav");
-		Step.Load("Step.wav");
-		Clear.Load("Clear.wav");
-		Faild.Load("Faild.wav");
-		Moving.Load("Moving.wav");
-		ChangeMode.Load("ChangeMode.wav");
-		ChangeMode2.Load("ChangeMode2.wav");
-		Hit.Load("hit.wav");
+		Fire.Load("wav/Fire.wav");
+		FireMg.Load("wav/Fire-Mg.wav");
+		Bomb.Load("wav/Bomb.wav");
+		Reloaded.Load("wav/Reloaded.wav");
+		ScoreAdd.Load("wav/ScoreAdd.wav");
+		Start.Load("wav/Start.wav");
+		Noise.Load("wav/Noise.wav");
+		Jump.Load("wav/Jump.wav");
+		Step.Load("wav/Step.wav");
+		Clear.Load("wav/Clear.wav");
+		Faild.Load("wav/Faild.wav");
+		Moving.Load("wav/Moving.wav");
+		ChangeMode.Load("wav/ChangeMode.wav");
+		ChangeMode2.Load("wav/ChangeMode2.wav");
+		Hit.Load("wav/hit.wav");
 
 		Noise.Repeat();
 
 		//モデルファイルの入力
-		mBackGround.Load("Load.obj", "Load.mtl");
-		mModel.Load("Player.obj", "Player.mtl");
-		mBlock.Load("Block.obj", "Block.mtl");
-		mGoal.Load("Goal.obj", "Goal.mtl");
+		mBackGround.Load("obj,mtl/Load.obj", "obj,mtl/Load.mtl");
+		mModel.Load("obj,mtl/Player.obj", "obj,mtl/Player.mtl");
+		mBlock.Load("obj,mtl/Block.obj", "obj,mtl/Block.mtl");
+		mGoal.Load("obj,mtl/Goal.obj", "obj,mtl/Goal.mtl");
 
 		CMatrix matrix;
 		matrix.Print();

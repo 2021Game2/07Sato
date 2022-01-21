@@ -35,7 +35,7 @@ void CDamageBlock::Update() {
 void CDamageBlock::Collision(CCollider* m, CCollider* o) {
 	if (CCollider::Collision(m, o)) {
 		if (o->mpParent->mTag == EBULLET) {
-			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+			new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "tga/exp.tga", 4, 4, 2);
 			Bomb.Play();
 			mEnabled = false;
 		}

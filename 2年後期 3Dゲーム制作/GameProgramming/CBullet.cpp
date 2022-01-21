@@ -64,7 +64,7 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 	//コライダのmとoが衝突しているか判定
 	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
-			new CEffect(m->mpParent->mPosition, 2.0f, 2.0f, "exp.tga", 4, 4, 2);
+			new CEffect(m->mpParent->mPosition, 2.0f, 2.0f, "tga/exp.tga", 4, 4, 2);
 			//相手がゴールの時は戻る
 			if (o->mpParent->mTag == EGOAL) {
 				return;

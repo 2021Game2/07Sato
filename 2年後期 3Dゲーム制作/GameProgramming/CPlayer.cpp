@@ -64,7 +64,7 @@ CPlayer::CPlayer()
 , mCollider(this, &mMatrix, CVector(0.0f,0.0f,0.0f),3.5f)
 //, mSearchLine(this, &mMatrix, CVector(0.0f, 0.0f, 80.0f), CVector(0.0f, 0.0f, -80.0f))
 {
-	mText.LoadTexture("FontWhite.tga", 1, 64);
+	mText.LoadTexture("tga/FontWhite.tga", 1, 64);
 	CCharacter::mTag = EPLAYER; //ƒ^ƒO‚Ìİ’è
 	
 	mJumpTimer = 0;
@@ -159,7 +159,7 @@ void CPlayer::Update() {
 					bullet->Set(1.5f, 14.0f);
 					bullet->Damage(15);
 					bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
-					new CEffect(bullet->mPosition, 2.0f, 2.0f, "flash.tga", 1,1, 2);
+					new CEffect(bullet->mPosition, 2.0f, 2.0f, "tga/flash.tga", 1,1, 2);
 					bullet->mRotation = mRotation;
 					bullet->Update();
 					Fire.Play();
@@ -178,7 +178,7 @@ void CPlayer::Update() {
 					bullet->Set(1.5f, 14.0f);
 					bullet->Damage(1);
 					bullet->mPosition = CVector(-3.0f, 4.0f, 4.0f) * mMatrix;
-					new CEffect(bullet->mPosition, 1.2f, 1.2f, "flash.tga", 1, 1, 2);
+					new CEffect(bullet->mPosition, 1.2f, 1.2f, "tga/flash.tga", 1, 1, 2);
 					bullet->mRotation = mRotation;
 					bullet->Update();
 					FireMg.Play();
@@ -346,7 +346,7 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 					mPlayerHp--;
 				}
 				mNotHit = 30;
-				new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "tga/exp.tga", 4, 4, 2);
 				Bomb.Play();
 				o->mpParent->mEnabled = false;
 			}

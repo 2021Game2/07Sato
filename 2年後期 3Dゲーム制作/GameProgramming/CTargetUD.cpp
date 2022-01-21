@@ -63,7 +63,7 @@ void CTargetUD::Collision(CCollider* m, CCollider* o) {
 				Hit.Play();
 				if (mHp <= 0) {
 					CPlayer::mScore += UDSCORE;
-					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "tga/exp.tga", 4, 4, 2);
 					ScoreAdd.Play();
 					Bomb.Play();
 					mEnabled = false;

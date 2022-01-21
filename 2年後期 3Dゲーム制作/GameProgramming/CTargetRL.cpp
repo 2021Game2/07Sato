@@ -64,7 +64,7 @@ void CTargetRL::Collision(CCollider* m, CCollider* o) {
 					CPlayer::mScore += RLSCORE;
 					ScoreAdd.Play();
 					Bomb.Play();
-					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "tga/exp.tga", 4, 4, 2);
 					mEnabled = false;
 				}
 			}
