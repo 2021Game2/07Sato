@@ -7,8 +7,8 @@ int CBullet::mDamage;
 //デフォルトコンストラクタ
 CBullet::CBullet()
 :mLife(50)
-,mCollider(this,&mMatrix,CVector(0.0f,0.0f,5.0f),1.0f)
-,mCollider2(this, &mMatrix, CVector(0.0f, 0.0f, -2.0f), 1.0f)
+,mCollider(this,&mMatrix,CVector(0.0f,0.0f,5.0f),1.5f)
+,mCollider2(this, &mMatrix, CVector(0.0f, 0.0f, -2.0f), 1.5f)
 {
 	mTag = CCharacter::EBULLET;
 }
@@ -64,11 +64,11 @@ void CBullet::Collision(CCollider* m, CCollider* o) {
 	//コライダのmとoが衝突しているか判定
 	if (CCollider::Collision(m, o)) {
 		if (o->mType == CCollider::ESPHERE) {
+			new CEffect(m->mpParent->mPosition, 2.0f, 2.0f, "exp.tga", 4, 4, 2);
 			//相手がゴールの時は戻る
 			if (o->mpParent->mTag == EGOAL) {
 				return;
 			}
-			new CEffect(m->mpParent->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
 			mEnabled = false;
 		}
 	}

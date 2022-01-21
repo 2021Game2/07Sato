@@ -153,12 +153,6 @@
     <ClCompile Include="CSphere.cpp">
       <Filter>ソース ファイル\出現物\障害物</Filter>
     </ClCompile>
-    <ClCompile Include="CPillar.cpp">
-      <Filter>ソース ファイル\出現物\障害物</Filter>
-    </ClCompile>
-    <ClCompile Include="CBarricade.cpp">
-      <Filter>ソース ファイル\出現物\障害物</Filter>
-    </ClCompile>
     <ClCompile Include="CVector.cpp">
       <Filter>ソース ファイル\Setting\Vector</Filter>
     </ClCompile>
@@ -254,9 +248,6 @@
     <ClInclude Include="CSphere.h">
       <Filter>ヘッダー ファイル\出現物\障害物</Filter>
     </ClInclude>
-    <ClInclude Include="CBarricade.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
-    </ClInclude>
     <ClInclude Include="CBullet.h">
       <Filter>ヘッダー ファイル\出現物\Player系</Filter>
     </ClInclude>
@@ -343,9 +334,6 @@
     </ClInclude>
     <ClInclude Include="CTargetUD.h">
       <Filter>ヘッダー ファイル\出現物\Targets</Filter>
-    </ClInclude>
-    <ClInclude Include="CPillar.h">
-      <Filter>ヘッダー ファイル\出現物\障害物</Filter>
     </ClInclude>
     <ClInclude Include="CBlock.h">
       <Filter>ヘッダー ファイル\出現物\障害物\ブロック</Filter>

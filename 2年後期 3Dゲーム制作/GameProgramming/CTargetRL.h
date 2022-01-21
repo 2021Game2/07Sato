@@ -6,6 +6,7 @@
 #include"CCollider.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
+#include"CSceneGame.h"
 
 //的,射撃で破壊され、スコアを加算する
 //左右移動

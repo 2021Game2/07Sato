@@ -41,6 +41,7 @@ CTargetUD::CTargetUD(CModel* model, CVector position, CVector rotation, CVector 
 
 void CTargetUD::Update() {
 	CTransform::Update();
+
 	mMoveCount++;
 	if (mMoveCount > MOVE) {
 		mMoveCount = -MOVE;
@@ -60,7 +61,6 @@ void CTargetUD::Collision(CCollider* m, CCollider* o) {
 			if (o->mpParent->mTag == EBULLET) {
 				mHp -= CBullet::mDamage;
 				Hit.Play();
-				new CEffect(o->mpParent->mPosition, 3.0f, 3.0f, "exp.tga", 4, 4, 2);
 				if (mHp <= 0) {
 					CPlayer::mScore += UDSCORE;
 					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);

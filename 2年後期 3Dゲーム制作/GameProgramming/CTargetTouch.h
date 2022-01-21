@@ -6,6 +6,7 @@
 #include"CCollider.h"
 #include"CColliderTriangle.h"
 #include"CEffect.h"
+#include"CSceneGame.h"
 
 
 //プレイヤーの接触で破壊され、スコアを加算する

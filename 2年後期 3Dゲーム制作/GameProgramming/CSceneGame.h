@@ -52,6 +52,9 @@ public:
 
 	//初期化処理のオーバーライド
 	void Init();
+
+	void SetStage();
+
 	//更新処理のオーバーライド
 	void Update();
 

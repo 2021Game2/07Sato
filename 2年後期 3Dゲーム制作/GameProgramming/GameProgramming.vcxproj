@@ -85,13 +85,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAim.cpp" />
-    <ClCompile Include="CBarricade.cpp" />
     <ClCompile Include="CBlock.cpp" />
     <ClCompile Include="CDamageBlock.cpp" />
     <ClCompile Include="CGoal.cpp" />
     <ClCompile Include="CInput.cpp" />
     <ClCompile Include="CMoveBlock.cpp" />
-    <ClCompile Include="CPillar.cpp" />
     <ClCompile Include="CSphere.cpp" />
     <ClCompile Include="CBillBoard.cpp" />
     <ClCompile Include="CBullet.cpp" />
@@ -127,13 +125,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAim.h" />
-    <ClInclude Include="CBarricade.h" />
     <ClInclude Include="CBlock.h" />
     <ClInclude Include="CDamageBlock.h" />
     <ClInclude Include="CGoal.h" />
     <ClInclude Include="CInput.h" />
     <ClInclude Include="CMoveBlock.h" />
-    <ClInclude Include="CPillar.h" />
     <ClInclude Include="CSphere.h" />
     <ClInclude Include="CBillBoard.h" />
     <ClInclude Include="CBullet.h" />

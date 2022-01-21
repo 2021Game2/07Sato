@@ -3,6 +3,7 @@
 
 #include "CCharacter.h"
 #include "CCollider.h"
+#include"CSceneGame.h"
 
 //接触するとダメージを受けるブロック
 class CDamageBlock : public CCharacter {

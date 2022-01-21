@@ -27,6 +27,9 @@ CDamageBlock::CDamageBlock(CModel* model, CVector position, CVector rotation, CV
 
 void CDamageBlock::Update() {
 	CTransform::Update();
+	if (CSceneGame::mStartFlag == true && mEnabled == false) {
+		mEnabled = true;
+	}
 }
 
 void CDamageBlock::Collision(CCollider* m, CCollider* o) {

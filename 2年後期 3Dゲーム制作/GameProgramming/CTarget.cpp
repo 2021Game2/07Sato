@@ -6,11 +6,11 @@
 #include"CPlayer.h"
 
 #define SCORE 150
+#define HP 9
 
 extern CSound ScoreAdd;
 extern CSound Bomb;
 extern CSound Hit;
-
 
 CTarget::CTarget(CModel* model, CVector position, CVector rotation, CVector scale)
 :mCollider(this, &mMatrix, CVector(0.0f, 0.0f, 0.0f), 5.0f)
@@ -34,12 +34,13 @@ CTarget::CTarget(CModel* model, CVector position, CVector rotation, CVector scal
 	CTaskManager::Get()->Remove(this);
 	CTaskManager::Get()->Add(this);
 
-	mHp = 9;
+	mHp = HP;
 }
 	
 
 void CTarget::Update() {
 	CTransform::Update();
+
 }
 
 void CTarget::Collision(CCollider* m, CCollider* o){
@@ -48,7 +49,6 @@ void CTarget::Collision(CCollider* m, CCollider* o){
 			if (o->mpParent->mTag == EBULLET) {
 				mHp -= CBullet::mDamage;
 				Hit.Play();
-				new CEffect(o->mpParent->mPosition, 2.0f, 2.0f, "exp.tga", 4, 4, 2);
 				if (mHp <= 0) {
 					CPlayer::mScore += SCORE;
 					new CEffect(m->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);

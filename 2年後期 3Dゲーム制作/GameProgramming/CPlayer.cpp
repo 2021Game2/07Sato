@@ -24,9 +24,9 @@
 #define SPEEDREMIT 0.9	//速度制限
 #define SUBERI 2	//滑り易さ
 
-#define RELOAD -80
+#define RELOAD -50
 
-#define PHP 5	//HP
+#define PHP 3	//HP
 
 #define MOUSESPEEDX 4.0f	//マウス横感度
 #define MOUSESPEEDY 4.0f	//マウス縦感度
@@ -107,8 +107,6 @@ void CPlayer::Update() {
 	//CTransformの更新
 	CTransform::Update();
 
-	mRand = rand() % 2;
-
 	if (mPlayerHp > 0) {
 		if (CSceneGame::mStartFlag == false) {	//スタート前の行動制限
 
@@ -153,21 +151,6 @@ void CPlayer::Update() {
 				mJump = false;
 			}
 
-			////一時的旋回キー
-			//if (CKey::Push(VK_RIGHT)) {
-			//	mRotation.mY -= 1;
-			//}
-			//if (CKey::Push(VK_LEFT)) {
-			//	mRotation.mY += 1;
-			//}
-
-			//if (CKey::Push(VK_UP)) {
-			//	mRotation.mX -= 1;
-			//}
-			//if (CKey::Push(VK_DOWN)) {
-			//	mRotation.mX += 1;
-			//}
-
 			//ここからマウスによる操作
 			//左クリックで弾を発射
 			if (mMachineGun == false) {
@@ -176,7 +159,7 @@ void CPlayer::Update() {
 					bullet->Set(1.5f, 14.0f);
 					bullet->Damage(15);
 					bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
-					new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					new CEffect(bullet->mPosition, 2.0f, 2.0f, "flash.tga", 1,1, 2);
 					bullet->mRotation = mRotation;
 					bullet->Update();
 					Fire.Play();
@@ -194,8 +177,8 @@ void CPlayer::Update() {
 					CBullet* bullet = new CBullet();
 					bullet->Set(1.5f, 14.0f);
 					bullet->Damage(1);
-					bullet->mPosition = CVector(-3.0f, 3.0f, 10.0f) * mMatrix;
-					new CEffect(bullet->mPosition, 1.0f, 1.0f, "exp.tga", 4, 4, 2);
+					bullet->mPosition = CVector(-3.0f, 4.0f, 4.0f) * mMatrix;
+					new CEffect(bullet->mPosition, 1.2f, 1.2f, "flash.tga", 1, 1, 2);
 					bullet->mRotation = mRotation;
 					bullet->Update();
 					FireMg.Play();
@@ -323,6 +306,10 @@ void CPlayer::Update() {
 	//無敵時間減算
 	mNotHit--;
 
+	if (mPosition.mZ > 920.0f) {
+		mPosition.mZ = 920.0f;
+	}
+
 }
 
 //接触判定
@@ -350,18 +337,19 @@ void CPlayer::Collision(CCollider *m, CCollider *o){
 			}
 			CTransform::Update();
 		}
-
+		
 		//ダメージブロック接触時
+		if(o->mpParent != nullptr){
 		if(CCollider::Collision(m,o)){
 			if (o->mpParent->mTag == EDAMAGEBLOCK) {
 				if (mNotHit < 0) {
 					mPlayerHp--;
 				}
-					mNotHit = 30;
-					new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
-					Bomb.Play();
-					o->mpParent->mEnabled = false;
-				
+				mNotHit = 30;
+				new CEffect(o->mpParent->mPosition, 10.0f, 10.0f, "exp.tga", 4, 4, 2);
+				Bomb.Play();
+				o->mpParent->mEnabled = false;
+			}
 			}
 		}
 		break;
@@ -406,7 +394,7 @@ void CPlayer::Render(){
 
 	//速度表示
 	//文字列の設定
-	//sprintf(buf, "PY:%5f", mPosition.mY);
+	//sprintf(buf, "PY:%5f", mPosition.mZ);
 	//文字列の描画
 	//mText.DrawString(buf, -300, 200, 8, 16);
 

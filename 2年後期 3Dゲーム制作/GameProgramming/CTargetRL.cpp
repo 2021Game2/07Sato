@@ -60,7 +60,6 @@ void CTargetRL::Collision(CCollider* m, CCollider* o) {
 			if (o->mpParent->mTag == EBULLET) {
 				mHp -= CBullet::mDamage;
 				Hit.Play();
-				new CEffect(o->mpParent->mPosition, 3.0f, 3.0f, "exp.tga", 4, 4, 2);
 				if (mHp <= 0) {
 					CPlayer::mScore += RLSCORE;
 					ScoreAdd.Play();
