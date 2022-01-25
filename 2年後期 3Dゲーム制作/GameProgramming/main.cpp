@@ -10,6 +10,7 @@
 
 bool InitFlg = true;
 
+
 /* displayŠÖ”
 1•bŠÔ‚É60‰ñÀs‚³‚ê‚é
 */
